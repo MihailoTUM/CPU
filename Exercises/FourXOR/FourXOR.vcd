@@ -1,0 +1,33 @@
+$date
+	Wed Feb 25 18:42:53 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module FourXOR_tb $end
+$var wire 1 ! y $end
+$var reg 4 " a [3:0] $end
+$scope module dut $end
+$var wire 4 # a [3:0] $end
+$var wire 1 ! y $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 #
+b0 "
+0!
+$end
+#1
+1!
+b1 "
+b1 #
+#2
+0!
+b1111 "
+b1111 #
+#3
