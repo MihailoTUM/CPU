@@ -1,6 +1,6 @@
 
 
-module CarryLookAhead4(
+module ADD4(
     input logic [3:0] a,
     input logic [3:0] b,
     input logic blockCin,
