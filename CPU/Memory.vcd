@@ -1,0 +1,41 @@
+$date
+	Sat Mar 07 17:54:20 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module Memory_tb $end
+$var wire 16 ! instruction [15:0] $end
+$var reg 16 " address [15:0] $end
+$scope module dut $end
+$var wire 16 # address [15:0] $end
+$var reg 16 $ instruction [15:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 $
+b0 #
+b0 "
+b0 !
+$end
+#2
+b1 !
+b1 $
+b10 "
+b10 #
+#4
+b0 !
+b0 $
+b111 "
+b111 #
+#6
+b101 !
+b101 $
+b1010 "
+b1010 #
+#8

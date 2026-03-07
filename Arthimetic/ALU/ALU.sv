@@ -1,7 +1,7 @@
 
 
 module ALU(
-    input logic [2:0] opcode,
+    input logic [3:0] opcode,
     input logic [15:0] a,
     input logic [15:0] b,
     output logic [15:0] out,
@@ -24,7 +24,7 @@ module ALU(
     OR16 or16(a, b, out4);
     SRU sru16(a, b[3:0], out5);
     SLU slu16(a, b[3:0], out6);
-    CONST16 const16(a);
+    CONST16 const16(8'h01, out7);
 
     // 0000 -> AND
     // 0001 -> OR
@@ -48,7 +48,7 @@ module ALU(
             4'b0011: out = out4;
             4'b0100: out = out5;
             4'b0101: out = out6;
-            4'b1000: out = out9;
+            4'b1000: out = out7;
             default: out = 16'h0000;
         endcase
     end
