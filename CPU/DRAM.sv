@@ -6,19 +6,20 @@
 
 module DRAM(
     input logic clk,
-    input logic write_enable,
-    input logic reset,
-    input logic [15:0] address,
-    input logic [15:0] inputData,
-    output logic [15:0] outputData
+    input logic writeEnable,
+    input logic [15:0] instructionAddress,
+    input logic [15:0] dataAddress,
+    input logic [15:0] dataInput,
+    output logic [15:0] dataOuput,
+    output logic [15:0] instructionOutput
 );
     logic [15:0] storage [0: (2**16 - 1)];
 
     always_ff @(posedge clk) 
     begin
-        if(write_enable) storage[address] <= inputData;
+        if(writeEnable) storage[dataAddress] <= dataInput;
     end
 
-    assign outputData = storage[address];
-
+    assign dataOuput = storage[dataAddress];
+    assign instructionOuput = storage[instructionAddress];
 endmodule

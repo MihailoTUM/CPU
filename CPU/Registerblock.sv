@@ -6,13 +6,13 @@
 module Registerblock(
     input logic clk,
     input logic reset,
-    input logic we,
-    input logic [3:0] dst,
+    input logic writeEnable,
+    input logic [3:0] destination,
     input logic [3:0] source1,
     input logic [3:0] source2, 
-    input logic [15:0] dataIn,
-    output logic [15:0] out1,
-    output logic [15:0] out2
+    input logic [15:0] dataInput,
+    output logic [15:0] rOutput1,
+    output logic [15:0] rOutput2
 );
     // 16 Registers
     logic [15:0] r0;
@@ -56,8 +56,8 @@ module Registerblock(
         else if(we)
         begin
             case(dst)
-            4'b0000: r0 <= dataIn;
-            4'b0001: r1 <= dataIn;
+            4'b0000: r0 <= dataInput;
+            4'b0001: r1 <= dataInput;
             4'b0010: r2 <= dataIn;
             4'b0011: r3 <= dataIn;
             4'b0100: r4 <= dataIn;

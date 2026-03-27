@@ -1,63 +1,77 @@
 
 
 module ALU(
-    input logic [3:0] opcode,
-    input logic [15:0] a,
-    input logic [15:0] b,
-    output logic [15:0] out,
+    input logic [3:0] instruction
+    input logic [15:0] inputALU1,
+    input logic [15:0] inputALU2,
+    output logic [15:0] outputALU
     output logic [3:0] flag
 );
-    logic [15:0] out1;
-    logic [15:0] out2;
-    logic [15:0] out3;
-    logic [15:0] out4;
-    logic [15:0] out5;
-    logic [15:0] out6;
-    logic [15:0] out7;
-    logic [15:0] out8;
-    logic [15:0] out9;
-    logic [1:0] cout;
+    // arithmetic logic operations
+    logic [15:0] outputALU0;
+    logic [15:0] outputALU1;
+    logic [15:0] outputALU2;
+    logic [15:0] outputALU3;
+    logic [15:0] outputALU4;
+    logic [15:0] outputALU5;
+    logic [15:0] outputALU6;
+    logic [15:0] outputALU7;
+    logic [15:0] outputALU8;
+    logic [15:0] outputALU0;
+    logic [15:0] outputALU10;
+    logic [15:0] outputALU11;
+    logic [15:0] outputALU12;
+    logic [15:0] outputALU13;
+    logic [15:0] outputALU14;
+    logic [15:0] outputALU15;
 
-    ADD16 add16(a, b, 1'b0, out1, cout[0]);
-    SUB16 sub16(a, b, out2, cout[1]);
-    AND16 and16(a, b, out3);
-    OR16 or16(a, b, out4);
-    SRU sru16(a, b[3:0], out5);
-    SLU slu16(a, b[3:0], out6);
-    CONST16 const16(8'h01, out7);
+    logic cout;
 
-    // 0000 -> AND
-    // 0001 -> OR
-    // 0010 -> ADD
-    // 0011 -> SUB
-    // 0100 -> SRU
-    // 0101 -> SLU
-    // 0110 -> MUL
-    // 0111 -> DIV
-    // 1000 -> CONST
-    // 1001 -> LOAD
-    // 1010 -> STORE
+    CONST16 const16(8'h01, outputALU0);
 
+    // arithmetic
+    ADD16 add16(inputALU1, inputALU2, 1'b0, outputALU1, cout);
+    ADD16 sub16(inputALU1, ~inputALU2, 1'b1, outputALU2, cout);
+
+    // logic
+    AND16 and16(inputALU1, inputALU2, outputALU3);
+    OR16 or16(inputALU1, inputALU2, outputALU4);
+
+    SRU sru16(inputALU1, inputALU2[3:0], outputALU5);
+    SLU slu16(inputALU1, inputALU2[3:0], outputALU6);
+
+    /*
+    0x0000 -> CONST
+    0x1000 -> ADD
+    0x2000 -> SUB
+    0x3000 -> AND
+    0x4000 -> OR
+    0x5000 -> SRU
+    0x6000 -> SRU 
+
+    */
 
     always_comb
     begin
-        case(opcode)
-            4'b0000: out = out3;
-            4'b0001: out = out2;
-            4'b0010: out = out1;
-            4'b0011: out = out4;
-            4'b0100: out = out5;
-            4'b0101: out = out6;
-            4'b1000: out = out7;
-            default: out = 16'h0000;
+        case(instruction)
+            4'h0: outputALU = outputALU0;
+            4'h1: outputALU = outputALU1;
+            4'h2: outputALU = outputALU2;
+            4'h3: outputALU = outputALU3;
+            4'h4: outputALU = outputALU4;
+            4'h5: outputALU = outputALU5;
+            4'h6: outputALU = outputALU6;
+
         endcase
     end
 
 
-    // flag
-    assign flag[3] = out[15]; // Negative
-    assign flag[2] = &(~out); // Zero
-    assign flag[1] = opcode[0] ? cout[0] : cout[1]; // Carry
-    assign flag[0] = (a[15] & b[15] & ~out[15]) | (~a[15] & ~b[15] & out[15]); // Overflow
+    // // flag
+    // assign flag[3] = out[15]; // Negative
+    // assign flag[2] = &(~out); // Zero
+    // assign flag[1] = opcode[0] ? cout[0] : cout[1]; // Carry
+    // assign flag[0] = (a[15] & b[15] & ~out[15]) | (~a[15] & ~b[15] & out[15]); // Overflow
+
+    assign flag = 4'h0;
 
 endmodule

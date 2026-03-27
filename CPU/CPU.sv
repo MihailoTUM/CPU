@@ -4,20 +4,27 @@ module CPU(
     input logic clk,
     input logic reset
 );
-    logic [2:0] opcode;
-    logic [15:0] a;
-    logic [15:0] b;
-    logic [15:0] out;
-    logic [3:0] flag;
+    logic [15:0] instructionAddress;
+    logic [15:0] dataAddress;
+
     logic [15:0] instruction;
-    logic we;
+    logic [15:0] dataOutput;
 
     Control Control(
         .clk(clk),
-        .reset(reset)
+        .reset(reset),
+        .instructionAddress(instructionAddress)
     );
 
-    // Registers
+    DRAM dram(
+        .clk(clk),
+        .writeEnable(1'b1),
+        .instructionAddress(instructionAddress),
+        .dataAddress(dataAddress),
+        .dataOuput(dataOutput)
+        .instructionOutput(instruction)
+    );
+
     Registerblock Registerblock(
         .clk(clk),
         .reset(reset),
@@ -30,19 +37,12 @@ module CPU(
         .out2(b)
     );
 
-    // ALU
     ALU ALU(
-        .opcode(instruction[15:12]),
-        .a(a),
-        .b(b),
-        .out(out),
+        .instruction(),
+        .inputALU1(),
+        .inputALU2(),
+        .outputALU(),
         .flag(flag)
-    );
-
-    DRAM dram(
-        .clk(clk),
-        .write_enable(1'b1),
-        .
     );
 
 endmodule
