@@ -28,7 +28,7 @@ module ALU(
 
     // 0000 -> AND
     // 0001 -> OR
-    // 0010 -> AND
+    // 0010 -> ADD
     // 0011 -> SUB
     // 0100 -> SRU
     // 0101 -> SLU
@@ -42,9 +42,9 @@ module ALU(
     always_comb
     begin
         case(opcode)
-            4'b0000: out = out1;
+            4'b0000: out = out3;
             4'b0001: out = out2;
-            4'b0010: out = out3;
+            4'b0010: out = out1;
             4'b0011: out = out4;
             4'b0100: out = out5;
             4'b0101: out = out6;
