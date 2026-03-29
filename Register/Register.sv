@@ -3,7 +3,7 @@
 // 2 for source
 // 1 for destination    
 
-module Registerblock(
+module Register(
     input logic clk,
     input logic reset,
     input logic writeEnable,

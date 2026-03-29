@@ -1,1 +1,1 @@
-This project is about building (designing) a custom CPU from scratch in SystemVerilog.
+This project is about building a simple single-cycle CPU with SystemVerilog (HDL) that can be uploaded onto a FPGA.

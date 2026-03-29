@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module Registerblock_tb();
+module Register();
     logic clk;
     logic reset;
     logic we;
@@ -11,7 +11,7 @@ module Registerblock_tb();
     logic [15:0] out1;
     logic [15:0] out2;
 
-    Registerblock dut(
+    Register dut(
         .clk(clk),
         .reset(reset),
         .we(we),

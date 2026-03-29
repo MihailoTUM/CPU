@@ -1,1 +1,0 @@
-iverilog -g2012 -o out Control.sv CPU.sv Memory.sv Registerblock.sv ../Arthimetic/ADD/CLA/ADD4.sv ../Arthimetic/ADD/CLA/ADD16.sv ../Arthimetic/SUB/SUB16.sv ../Arthimetic/ALU/ALU.sv ../Arthimetic/Logic/AND/AND16.sv ../Arthimetic/Logic/OR/OR16.sv ../Arthimetic/SHIFT/SLU.sv ../Arthimetic/SHIFT/SRU.sv ../Arthimetic/CONST/CONST16.sv ../Arthimetic/Logic/MUX/MUX16.sv
