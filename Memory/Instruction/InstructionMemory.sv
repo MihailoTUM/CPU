@@ -2,11 +2,11 @@
 
 
 module InstructionMemory(
-    input logic [15:0] address,
+    input logic [15:0] instructionAddress,
     output logic [15:0] instruction
 );
-    logic [15:0] storage [0: (2**8 - 1)];
+    logic [7:0] storage [0: (2**8 - 1)];
 
-    assign storage[address];
+    assign storage[instructionAddress];
 
 endmodule
