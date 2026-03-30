@@ -1,0 +1,87 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000012e6de75e90 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000012e6de76020 .scope module, "FETCH_tb" "FETCH_tb" 3 3;
+ .timescale -9 -9;
+v0000012e6de733b0_0 .var "clk", 0 0;
+v0000012e6de73450_0 .net "instruction", 15 0, L_0000012e6de26b10;  1 drivers
+v0000012e6de734f0_0 .var "reset", 0 0;
+S_0000012e6de761b0 .scope module, "dut" "FETCH" 3 8, 4 3 0, S_0000012e6de76020;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "reset";
+    .port_info 2 /OUTPUT 16 "instruction";
+v0000012e6de2dba0_0 .var "address", 15 0;
+v0000012e6de2dc40_0 .net "clk", 0 0, v0000012e6de733b0_0;  1 drivers
+v0000012e6de2dce0_0 .net "instruction", 15 0, L_0000012e6de26b10;  alias, 1 drivers
+v0000012e6de2dd80_0 .net "reset", 0 0, v0000012e6de734f0_0;  1 drivers
+E_0000012e6de297c0 .event posedge, v0000012e6de2dc40_0;
+S_0000012e6de2d970 .scope module, "instructMemory" "InstructMemory" 4 16, 5 2 0, S_0000012e6de761b0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 16 "address";
+    .port_info 1 /OUTPUT 16 "instruction";
+L_0000012e6de26b10 .functor BUFZ 16, L_0000012e6de73590, C4<0000000000000000>, C4<0000000000000000>, C4<0000000000000000>;
+v0000012e6de26da0_0 .net *"_ivl_0", 15 0, L_0000012e6de73590;  1 drivers
+v0000012e6de267f0_0 .net "address", 15 0, v0000012e6de2dba0_0;  1 drivers
+v0000012e6de65070_0 .net "instruction", 15 0, L_0000012e6de26b10;  alias, 1 drivers
+v0000012e6de2db00 .array "memory", 255 0, 15 0;
+L_0000012e6de73590 .array/port v0000012e6de2db00, v0000012e6de2dba0_0;
+    .scope S_0000012e6de761b0;
+T_0 ;
+    %wait E_0000012e6de297c0;
+    %load/vec4 v0000012e6de2dd80_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 16;
+    %assign/vec4 v0000012e6de2dba0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0000012e6de2dba0_0;
+    %addi 2, 0, 16;
+    %assign/vec4 v0000012e6de2dba0_0, 0;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0000012e6de76020;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000012e6de733b0_0, 0, 1;
+    %end;
+    .thread T_1;
+    .scope S_0000012e6de76020;
+T_2 ;
+    %delay 2, 0;
+    %load/vec4 v0000012e6de733b0_0;
+    %inv;
+    %store/vec4 v0000012e6de733b0_0, 0, 1;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0000012e6de76020;
+T_3 ;
+    %vpi_call/w 3 18 "$dumpfile", "FETCH.vcd" {0 0 0};
+    %vpi_call/w 3 19 "$dumpvars", 32'sb00000000000000000000000000000000, S_0000012e6de76020 {0 0 0};
+    %delay 2, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000012e6de734f0_0, 0, 1;
+    %delay 4, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000012e6de734f0_0, 0, 1;
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 6;
+    "N/A";
+    "<interactive>";
+    "-";
+    "./Tests/FETCH_tb.sv";
+    "FETCH.sv";
+    "InstructMemory.sv";
