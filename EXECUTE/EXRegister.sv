@@ -3,11 +3,13 @@
 module EXRegister(
     input logic clk,
     input logic [3:0] dst,
+    input logic [7:0] directOperand,
     input logic [15:0] srcA,
     input logic [15:0] srcB,
     output logic [15:0] ALU1,
     output logic [15:0] ALU2,
-    output logic [3:0] writeBackDst
+    output logic [3:0] writeBackDst,
+    output logic [7:0] immediateOperand
 );
 
     always_ff @(posedge clk)
@@ -15,5 +17,6 @@ module EXRegister(
         ALU1 <= srcA;
         ALU2 <= srcB;
         writeBackDst <= dst;
+        immediateOperand <= directOperand;
     end
 endmodule

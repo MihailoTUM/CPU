@@ -4,6 +4,7 @@ module Decode(
     input logic clk,
     input logic [15:0] instruction,
     input logic [15:0] data,
+    input logic [3:0] destination,
     output logic [15:0] a,
     output logic [15:0] b
 );
@@ -24,7 +25,7 @@ module Decode(
     RegisterBlock registerBlock(
         .clk(clk),  
         .data(data),
-        .dst(dst),
+        .dst(destination),
         .src1(src1),
         .src2(src2),
         .a(a),
