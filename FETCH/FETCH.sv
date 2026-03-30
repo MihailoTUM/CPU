@@ -20,13 +20,13 @@ module FETCH(
 
     InstructionMemory instructionMemory(
         .clk(clk),
-        .address(address)
+        .address(address),
         .instruction(localInstruction)
     );
 
     PCR pcr(
         .clk(clk),
         .instructionToStore(localInstruction),
-        .instructionToShare(instruction);
+        .instructionToShare(instruction)
     );
 endmodule
