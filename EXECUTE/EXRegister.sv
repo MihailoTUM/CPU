@@ -2,21 +2,21 @@
 
 module EXRegister(
     input logic clk,
-    input logic [3:0] dst,
-    input logic [7:0] directOperand,
-    input logic [15:0] srcA,
-    input logic [15:0] srcB,
-    output logic [15:0] ALU1,
-    output logic [15:0] ALU2,
-    output logic [3:0] writeBackDst,
-    output logic [7:0] immediateOperand
+    input logic [3:0] dstEXRegister,
+    input logic [7:0] directOperandEXRegister,
+    input logic [15:0] srcAEXRegister,
+    input logic [15:0] srcBEXRegister,
+    output logic [15:0] ALU1EXRegister,
+    output logic [15:0] ALU2EXRegister,
+    output logic [3:0] writeBackDstEXRegister,
+    output logic [7:0] immediateOperandEXRegister
 );
 
     always_ff @(posedge clk)
     begin 
-        ALU1 <= srcA;
-        ALU2 <= srcB;
-        writeBackDst <= dst;
-        immediateOperand <= directOperand;
+        ALU1EXRegister <= srcAEXRegister;
+        ALU2EXRegister <= srcBEXRegister;
+        writeBackDstEXRegister <= dstEXRegister;
+        immediateOperandEXRegister <= directOperandEXRegister;
     end
 endmodule

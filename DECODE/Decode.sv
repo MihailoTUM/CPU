@@ -3,32 +3,46 @@
 module Decode(
     input logic clk,
     input logic [15:0] instruction,
-    input logic [15:0] data,
-    input logic [3:0] destination,
-    output logic [15:0] a,
-    output logic [15:0] b
+    input logic [15:0] dataToStore,
+    input logic [3:0] writeBackDst,
+    output logic [3:0] operation,
+    output logic [3:0] dstAddress,
+    output logic [15:0] src1Data,
+    output logic [15:0] src2Data,
+    output logic [7:0] immediateOperandOutput
 );
-    logic [3:0] opcode;
-    logic [3:0] dst;
-    logic [3:0] src1;
-    logic [3:0] src2;
+    // local signals
+    logic [3:0] localOperation;  
+    logic [3:0] localDstAddress;
+    logic [3:0] localSrc1Address;
+    logic [3:0] localSrc2Address;
+    logic [3:0] localImmediateOperand;  
 
-    DERegister register(
+
+    PipelineRegister pipelineRegister(
         .clk(clk),
         .instruction(instruction),
-        .opcode(opcode),
-        .dst(dst),
-        .src1(src1),
-        .src2(src2)
+        // outputs
+        .operation(localOperation),
+        .dstAddress(localDstAddress),
+        .src1Address(localSrc1Address),
+        .src2Address(localSrc2Address),
+        .immediateOperand(localImmediateOperand)
     );
 
+
     RegisterBlock registerBlock(
-        .clk(clk),  
-        .data(data),
-        .dst(destination),
-        .src1(src1),
-        .src2(src2),
-        .a(a),
-        .b(b)
+        .clk(clk),
+        .dataToStore(dataToStore),
+        .writeBackDst(writeBackDst),
+        .src1Address(localSrc1Address),
+        .src2Address(localSrc2Address),
+        .immediateOperandInput(localImmediateOperand),
+        // outputs
+        .src1Data(src1Data),
+        .src2Data(src2Data),
+        .immediateOperandOutput(immediateOperandOutput)
     );
+
+
 endmodule

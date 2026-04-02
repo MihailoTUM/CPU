@@ -22,16 +22,28 @@ module Execute_tb();
         .writeBackDst(writeBackDst)
     );
 
-    initial clk = 0;
+    initial clk = 1;
     always #2 clk = ~clk;
 
     initial begin
         $dumpfile("Execute.vcd");
         $dumpvars(0, Execute_tb);
 
-        opcode = 4'h0; dst = 4'h0; iOperand = 8'h01; 
 
-        #100;
+        // instruction CONST 1
+        opcode = 4'h0; dst = 4'h0; iOperand = 8'h04; 
+        // waiting for one cycle
+        #4;
+
+        // instruction CONST 2
+        opcode = 4'h0; dst = 4'h1; iOperand = 8'h05;
+        // waiting for one cycle
+        #4;
+
+        // instruction ADD
+        opcode = 4'h1; dst = 4'h2; srcA = 16'h000A; srcB = 16'h0001;
+        //waiting for one cycle
+        #4;
 
         $finish;
     end

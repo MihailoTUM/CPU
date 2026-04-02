@@ -1,0 +1,4 @@
+
+iverilog -g2012 -o out Execute.sv ./Tests/Execute_tb.sv EXRegister.sv ./ALU/ALU.sv ./ALU/Arithmetic/CONST/CONST16.sv ./ALU/Arithmetic/ADD/CLA/ADD16.sv ./ALU/Arithmetic/ADD/CLA/ADD4.sv
+
+verilog -g2012 -o out ../CPU.sv ../../DECODE/Decode.sv ../../Decode/DERegister.sv ../../Decode/RegisterBlock.sv ../../EXECUTE/Execute.sv ../../EXECUTE/EXRegister.sv ../../EXECUTE/ALU/ALU.sv ../../EXECUTE/ALU/Arithmetic/ADD/CLA/ADD4.sv ../../EXECUTE/ALU/Arithmetic/ADD/CLA/ADD16.sv ../../EXECUTE/ALU/Arithmetic/CONST/CONST16.sv CPU_tb.sv

@@ -1,0 +1,62 @@
+$date
+	Thu Apr 02 18:37:26 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module PipelineRegister_tb $end
+$var wire 4 ! src2Address [3:0] $end
+$var wire 4 " src1Address [3:0] $end
+$var wire 4 # operation [3:0] $end
+$var wire 8 $ immediateOperand [7:0] $end
+$var wire 4 % dstAddress [3:0] $end
+$var reg 1 & clk $end
+$var reg 16 ' instruction [15:0] $end
+$scope module dut $end
+$var wire 1 & clk $end
+$var wire 16 ( instruction [15:0] $end
+$var reg 4 ) dstAddress [3:0] $end
+$var reg 8 * immediateOperand [7:0] $end
+$var reg 4 + operation [3:0] $end
+$var reg 4 , src1Address [3:0] $end
+$var reg 4 - src2Address [3:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 -
+b1 ,
+b0 +
+b10000 *
+b10 )
+b1000010000 (
+b1000010000 '
+1&
+b10 %
+b10000 $
+b0 #
+b1 "
+b0 !
+$end
+#2
+0&
+#4
+b100001 $
+b100001 *
+b1 !
+b1 -
+b10 "
+b10 ,
+b11 %
+b11 )
+1&
+b1100100001 '
+b1100100001 (
+#6
+0&
+#8
+1&
