@@ -13,8 +13,10 @@ module FETCH(
             else address <= address + 2;
         end
 
-    InstructMemory instructMemory(
+    InstructionMemory instructionMemory(
+        // inputs
         .address(address),
+        // outputs
         .instruction(instruction)
     );
 

@@ -1,0 +1,350 @@
+$date
+	Wed Apr 08 19:06:42 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module Execute_tb $end
+$var reg 1 ! clk $end
+$var reg 4 " dstAddress [3:0] $end
+$var reg 8 # immediateOperandOutput [7:0] $end
+$var reg 4 $ operation [3:0] $end
+$var reg 16 % src1Data [15:0] $end
+$var reg 16 & src2Data [15:0] $end
+$scope module dut $end
+$var wire 1 ! clk $end
+$var wire 4 ' dstAddressIn [3:0] $end
+$var wire 8 ( immediateOperandOutputIn [7:0] $end
+$var wire 4 ) operationIn [3:0] $end
+$var wire 16 * src1DataIn [15:0] $end
+$var wire 16 + src2DataIn [15:0] $end
+$var wire 4 , writeBackDst [3:0] $end
+$var wire 16 - result [15:0] $end
+$var wire 16 . localSrc2Data [15:0] $end
+$var wire 16 / localSrc1Data [15:0] $end
+$var wire 4 0 localOperation [3:0] $end
+$var wire 8 1 localImmediateOperandOutput [7:0] $end
+$var wire 4 2 localDstAddress [3:0] $end
+$scope module alu $end
+$var wire 4 3 operation [3:0] $end
+$var wire 8 4 immediateOperand [7:0] $end
+$var wire 16 5 data2 [15:0] $end
+$var wire 16 6 data1 [15:0] $end
+$var wire 1 7 cout $end
+$var wire 16 8 constOut [15:0] $end
+$var wire 16 9 addOut [15:0] $end
+$var reg 16 : result [15:0] $end
+$scope module add16 $end
+$var wire 1 ; cin $end
+$var wire 16 < s [15:0] $end
+$var wire 1 7 cout $end
+$var wire 16 = b [15:0] $end
+$var wire 16 > a [15:0] $end
+$scope module b0 $end
+$var wire 4 ? a [3:0] $end
+$var wire 4 @ b [3:0] $end
+$var wire 1 ; blockCin $end
+$var wire 1 A blockCout $end
+$var wire 1 B c1 $end
+$var wire 1 C c2 $end
+$var wire 1 D c3 $end
+$var wire 1 E g0 $end
+$var wire 1 F g1 $end
+$var wire 1 G g2 $end
+$var wire 1 H g3 $end
+$var wire 1 I p0 $end
+$var wire 1 J p1 $end
+$var wire 1 K p2 $end
+$var wire 1 L p3 $end
+$var wire 4 M s [3:0] $end
+$upscope $end
+$scope module b1 $end
+$var wire 4 N a [3:0] $end
+$var wire 4 O b [3:0] $end
+$var wire 1 A blockCin $end
+$var wire 1 P blockCout $end
+$var wire 1 Q c1 $end
+$var wire 1 R c2 $end
+$var wire 1 S c3 $end
+$var wire 1 T g0 $end
+$var wire 1 U g1 $end
+$var wire 1 V g2 $end
+$var wire 1 W g3 $end
+$var wire 1 X p0 $end
+$var wire 1 Y p1 $end
+$var wire 1 Z p2 $end
+$var wire 1 [ p3 $end
+$var wire 4 \ s [3:0] $end
+$upscope $end
+$scope module b2 $end
+$var wire 4 ] a [3:0] $end
+$var wire 4 ^ b [3:0] $end
+$var wire 1 P blockCin $end
+$var wire 1 _ blockCout $end
+$var wire 1 ` c1 $end
+$var wire 1 a c2 $end
+$var wire 1 b c3 $end
+$var wire 1 c g0 $end
+$var wire 1 d g1 $end
+$var wire 1 e g2 $end
+$var wire 1 f g3 $end
+$var wire 1 g p0 $end
+$var wire 1 h p1 $end
+$var wire 1 i p2 $end
+$var wire 1 j p3 $end
+$var wire 4 k s [3:0] $end
+$upscope $end
+$scope module b3 $end
+$var wire 4 l a [3:0] $end
+$var wire 4 m b [3:0] $end
+$var wire 1 _ blockCin $end
+$var wire 1 7 blockCout $end
+$var wire 1 n c1 $end
+$var wire 1 o c2 $end
+$var wire 1 p c3 $end
+$var wire 1 q g0 $end
+$var wire 1 r g1 $end
+$var wire 1 s g2 $end
+$var wire 1 t g3 $end
+$var wire 1 u p0 $end
+$var wire 1 v p1 $end
+$var wire 1 w p2 $end
+$var wire 1 x p3 $end
+$var wire 4 y s [3:0] $end
+$upscope $end
+$upscope $end
+$scope module const16 $end
+$var wire 16 z out [15:0] $end
+$var wire 8 { a [7:0] $end
+$upscope $end
+$upscope $end
+$scope module register $end
+$var wire 1 ! clk $end
+$var wire 4 | dstAddressIn [3:0] $end
+$var wire 8 } immediateOperandOutputIn [7:0] $end
+$var wire 4 ~ operationIn [3:0] $end
+$var wire 16 !" src1DataIn [15:0] $end
+$var wire 16 "" src2DataIn [15:0] $end
+$var reg 4 #" dstAddress [3:0] $end
+$var reg 8 $" immediateOperandOutput [7:0] $end
+$var reg 4 %" operation [3:0] $end
+$var reg 16 &" src1Data [15:0] $end
+$var reg 16 '" src2Data [15:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b11 '"
+b1 &"
+b1 %"
+bx $"
+b0 #"
+b11 ""
+b1 !"
+b1 ~
+bx }
+b0 |
+bx {
+bx z
+b0 y
+0x
+0w
+0v
+0u
+0t
+0s
+0r
+0q
+0p
+0o
+0n
+b0 m
+b0 l
+b0 k
+0j
+0i
+0h
+0g
+0f
+0e
+0d
+0c
+0b
+0a
+0`
+0_
+b0 ^
+b0 ]
+b0 \
+0[
+0Z
+0Y
+0X
+0W
+0V
+0U
+0T
+0S
+0R
+0Q
+0P
+b0 O
+b0 N
+b100 M
+0L
+0K
+1J
+0I
+0H
+0G
+0F
+1E
+0D
+1C
+1B
+0A
+b11 @
+b1 ?
+b1 >
+b11 =
+b100 <
+0;
+b100 :
+b100 9
+bx 8
+07
+b1 6
+b11 5
+bx 4
+b1 3
+b0 2
+bx 1
+b1 0
+b1 /
+b11 .
+b100 -
+b0 ,
+b11 +
+b1 *
+b1 )
+bx (
+b0 '
+b11 &
+b1 %
+b1 $
+bx #
+b0 "
+1!
+$end
+#2
+0!
+#4
+x7
+xp
+x_
+xb
+xP
+xS
+xA
+xC
+xD
+xo
+xa
+xR
+xn
+bx y
+x`
+bx k
+xQ
+bx \
+xB
+bx 9
+bx <
+bx M
+xu
+xq
+xv
+xr
+xw
+xs
+xx
+xt
+xg
+xc
+xh
+xd
+xi
+xe
+xj
+xf
+xX
+xT
+xY
+xU
+xZ
+xV
+x[
+xW
+xI
+xE
+xJ
+xF
+xK
+xG
+xL
+xH
+bx m
+bx ^
+bx O
+bx @
+bx l
+bx ]
+bx N
+bx ?
+b1100 -
+b1100 :
+b1100 8
+b1100 z
+b1100 1
+b1100 4
+b1100 {
+b1100 $"
+bx .
+bx 5
+bx =
+bx '"
+bx /
+bx 6
+bx >
+bx &"
+b1010 2
+b1010 #"
+b0 0
+b0 3
+b0 %"
+1!
+b1100 #
+b1100 (
+b1100 }
+bx &
+bx +
+bx ""
+bx %
+bx *
+bx !"
+b1010 ,
+b1010 "
+b1010 '
+b1010 |
+b0 $
+b0 )
+b0 ~
+#6
+0!
+#8
+1!

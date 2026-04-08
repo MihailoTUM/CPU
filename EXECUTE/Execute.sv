@@ -2,42 +2,47 @@
 
 module Execute(
     input logic clk,
-    input logic [3:0] opcodeExecute,
-    input logic [3:0] dstExecute,
-    input logic [15:0] srcAExecute,
-    input logic [15:0] srcBExecute,
-    input logic [7:0] iOperandExecute,
-    output logic [15:0] dataExecute,
-    output logic [3:0] writeBackDstExecute
+    input logic [3:0] operationIn,
+    input logic [3:0] dstAddressIn,
+    input logic [15:0] src1DataIn,
+    input logic [15:0] src2DataIn,
+    input logic [7:0] immediateOperandOutputIn,
+    output logic [15:0] result,
+    output logic [3:0] writeBackDst
 );
 
-    logic [15:0] ALU1;
-    logic [15:0] ALU2;
+    logic [3:0] localOperation;
+    logic [3:0] localDstAddress;
+    logic [15:0] localSrc1Data;
+    logic [15:0] localSrc2Data;
+    logic [7:0] localImmediateOperandOutput;
 
-    logic [7:0] localImmediateOperand;
-    logic [3:0] localWriteBackDst;
-
-    EXRegister exregister(
+    PipelineRegister register(
+        // inputs
         .clk(clk),
-        .dstEXRegister(dstExecute),
-        .directOperandEXRegister(iOperandExecute),
-        .srcAEXRegister(srcAExecute),
-        .srcBEXRegister(srcBExecute),
-        .ALU1EXRegister(ALU1),
-        .ALU2EXRegister(ALU2),
-        .writeBackDstEXRegister(localWriteBackDst),
-        .immediateOperandEXRegister(localImmediateOperand)
+        .operationIn(operationIn),
+        .dstAddressIn(dstAddressIn),
+        .src1DataIn(src1DataIn),
+        .src2DataIn(src2DataIn),
+        .immediateOperandOutputIn(immediateOperandOutputIn),
+        // outputs
+        .operation(localOperation),
+        .dstAddress(localDstAddress),
+        .src1Data(localSrc1Data),
+        .src2Data(localSrc2Data),
+        .immediateOperandOutput(localImmediateOperandOutput)
     );
 
-    // ALU
-    ALU alu(    
-        .opcode(opcodeExecute),
-        .a(ALU1),
-        .b(ALU2),
-        .immediateOperand(localImmediateOperand),
-        .result(dataExecute)  
+    ALU alu(
+        // inputs
+        .operation(localOperation),
+        .data1(localSrc1Data),
+        .data2(localSrc2Data),
+        .immediateOperand(localImmediateOperandOutput),
+        // outputs
+        .result(result)
     );
 
-    assign writeBackDstExecute = localWriteBackDst;
+    assign writeBackDst = dstAddressIn;
 
 endmodule

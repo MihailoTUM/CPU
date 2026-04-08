@@ -2,8 +2,11 @@
 
 module Decode(
     input logic clk,
+    // instruction at cycle t
     input logic [15:0] instruction,
+    // data to store from cycle t-1
     input logic [15:0] dataToStore,
+    // address to store from cycle t-1
     input logic [3:0] writeBackDst,
     output logic [3:0] operation,
     output logic [3:0] dstAddress,
@@ -16,7 +19,7 @@ module Decode(
     logic [3:0] localDstAddress;
     logic [3:0] localSrc1Address;
     logic [3:0] localSrc2Address;
-    logic [3:0] localImmediateOperand;  
+    logic [7:0] localImmediateOperand;  
 
 
     PipelineRegister pipelineRegister(
@@ -29,6 +32,9 @@ module Decode(
         .src2Address(localSrc2Address),
         .immediateOperand(localImmediateOperand)
     );
+
+    assign operation = localOperation;
+    assign dstAddress = localDstAddress;
 
 
     RegisterBlock registerBlock(

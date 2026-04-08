@@ -1,0 +1,210 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000023727120c10 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000023727120da0 .scope module, "Decode_tb" "Decode_tb" 3 4;
+ .timescale 0 0;
+v0000023727174980_0 .var "clk", 0 0;
+v0000023727174480_0 .var "dataToStore", 15 0;
+v00000237271747a0_0 .net "dstAddress", 3 0, L_0000023727122a00;  1 drivers
+v00000237271734e0_0 .net "immediateOperandOutput", 7 0, v00000237271727f0_0;  1 drivers
+v00000237271731c0_0 .var "instruction", 15 0;
+v0000023727173800_0 .net "operation", 3 0, L_0000023727122610;  1 drivers
+v0000023727173580_0 .net "src1Data", 15 0, v0000023727172b10_0;  1 drivers
+v0000023727173f80_0 .net "src2Data", 15 0, v0000023727172cf0_0;  1 drivers
+v0000023727173080_0 .var "writeBackDst", 3 0;
+S_0000023727120f30 .scope module, "dut" "Decode" 3 15, 4 3 0, S_0000023727120da0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 16 "instruction";
+    .port_info 2 /INPUT 16 "dataToStore";
+    .port_info 3 /INPUT 4 "writeBackDst";
+    .port_info 4 /OUTPUT 4 "operation";
+    .port_info 5 /OUTPUT 4 "dstAddress";
+    .port_info 6 /OUTPUT 16 "src1Data";
+    .port_info 7 /OUTPUT 16 "src2Data";
+    .port_info 8 /OUTPUT 8 "immediateOperandOutput";
+L_0000023727122610 .functor BUFZ 4, v000002372711f6f0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0000023727122a00 .functor BUFZ 4, v00000237271176f0_0, C4<0000>, C4<0000>, C4<0000>;
+v00000237271726b0_0 .net "clk", 0 0, v0000023727174980_0;  1 drivers
+v00000237271724d0_0 .net "dataToStore", 15 0, v0000023727174480_0;  1 drivers
+v0000023727172890_0 .net "dstAddress", 3 0, L_0000023727122a00;  alias, 1 drivers
+v0000023727172570_0 .net "immediateOperandOutput", 7 0, v00000237271727f0_0;  alias, 1 drivers
+v0000023727172bb0_0 .net "instruction", 15 0, v00000237271731c0_0;  1 drivers
+v0000023727172c50_0 .net "localDstAddress", 3 0, v00000237271176f0_0;  1 drivers
+v0000023727172e30_0 .net "localImmediateOperand", 7 0, v000002372711f5b0_0;  1 drivers
+v0000023727172930_0 .net "localOperation", 3 0, v000002372711f6f0_0;  1 drivers
+v0000023727172ed0_0 .net "localSrc1Address", 3 0, v000002372711f790_0;  1 drivers
+v0000023727172f70_0 .net "localSrc2Address", 3 0, v00000237271142e0_0;  1 drivers
+v0000023727172070_0 .net "operation", 3 0, L_0000023727122610;  alias, 1 drivers
+v00000237271721b0_0 .net "src1Data", 15 0, v0000023727172b10_0;  alias, 1 drivers
+v00000237271722f0_0 .net "src2Data", 15 0, v0000023727172cf0_0;  alias, 1 drivers
+v0000023727172390_0 .net "writeBackDst", 3 0, v0000023727173080_0;  1 drivers
+S_000002372711f380 .scope module, "pipelineRegister" "PipelineRegister" 4 25, 5 3 0, S_0000023727120f30;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 16 "instruction";
+    .port_info 2 /OUTPUT 4 "operation";
+    .port_info 3 /OUTPUT 4 "dstAddress";
+    .port_info 4 /OUTPUT 4 "src1Address";
+    .port_info 5 /OUTPUT 4 "src2Address";
+    .port_info 6 /OUTPUT 8 "immediateOperand";
+v000002372711f510_0 .net "clk", 0 0, v0000023727174980_0;  alias, 1 drivers
+v00000237271176f0_0 .var "dstAddress", 3 0;
+v000002372711f5b0_0 .var "immediateOperand", 7 0;
+v000002372711f650_0 .net "instruction", 15 0, v00000237271731c0_0;  alias, 1 drivers
+v000002372711f6f0_0 .var "operation", 3 0;
+v000002372711f790_0 .var "src1Address", 3 0;
+v00000237271142e0_0 .var "src2Address", 3 0;
+E_000002372710ac20 .event posedge, v000002372711f510_0;
+S_0000023727114380 .scope module, "registerBlock" "RegisterBlock" 4 40, 6 3 0, S_0000023727120f30;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 16 "dataToStore";
+    .port_info 2 /INPUT 4 "writeBackDst";
+    .port_info 3 /INPUT 4 "src1Address";
+    .port_info 4 /INPUT 4 "src2Address";
+    .port_info 5 /INPUT 8 "immediateOperandInput";
+    .port_info 6 /OUTPUT 16 "src1Data";
+    .port_info 7 /OUTPUT 16 "src2Data";
+    .port_info 8 /OUTPUT 8 "immediateOperandOutput";
+v0000023727172610_0 .net "clk", 0 0, v0000023727174980_0;  alias, 1 drivers
+v0000023727172750_0 .net "dataToStore", 15 0, v0000023727174480_0;  alias, 1 drivers
+v0000023727172110_0 .net "immediateOperandInput", 7 0, v000002372711f5b0_0;  alias, 1 drivers
+v00000237271727f0_0 .var "immediateOperandOutput", 7 0;
+v00000237271729d0 .array "registers", 0 15, 15 0;
+v0000023727172a70_0 .net "src1Address", 3 0, v000002372711f790_0;  alias, 1 drivers
+v0000023727172b10_0 .var "src1Data", 15 0;
+v0000023727172d90_0 .net "src2Address", 3 0, v00000237271142e0_0;  alias, 1 drivers
+v0000023727172cf0_0 .var "src2Data", 15 0;
+v0000023727172430_0 .net "writeBackDst", 3 0, v0000023727173080_0;  alias, 1 drivers
+v00000237271729d0_0 .array/port v00000237271729d0, 0;
+v00000237271729d0_1 .array/port v00000237271729d0, 1;
+v00000237271729d0_2 .array/port v00000237271729d0, 2;
+E_000002372710ae20/0 .event anyedge, v000002372711f790_0, v00000237271729d0_0, v00000237271729d0_1, v00000237271729d0_2;
+v00000237271729d0_3 .array/port v00000237271729d0, 3;
+v00000237271729d0_4 .array/port v00000237271729d0, 4;
+v00000237271729d0_5 .array/port v00000237271729d0, 5;
+v00000237271729d0_6 .array/port v00000237271729d0, 6;
+E_000002372710ae20/1 .event anyedge, v00000237271729d0_3, v00000237271729d0_4, v00000237271729d0_5, v00000237271729d0_6;
+v00000237271729d0_7 .array/port v00000237271729d0, 7;
+v00000237271729d0_8 .array/port v00000237271729d0, 8;
+v00000237271729d0_9 .array/port v00000237271729d0, 9;
+v00000237271729d0_10 .array/port v00000237271729d0, 10;
+E_000002372710ae20/2 .event anyedge, v00000237271729d0_7, v00000237271729d0_8, v00000237271729d0_9, v00000237271729d0_10;
+v00000237271729d0_11 .array/port v00000237271729d0, 11;
+v00000237271729d0_12 .array/port v00000237271729d0, 12;
+v00000237271729d0_13 .array/port v00000237271729d0, 13;
+v00000237271729d0_14 .array/port v00000237271729d0, 14;
+E_000002372710ae20/3 .event anyedge, v00000237271729d0_11, v00000237271729d0_12, v00000237271729d0_13, v00000237271729d0_14;
+v00000237271729d0_15 .array/port v00000237271729d0, 15;
+E_000002372710ae20/4 .event anyedge, v00000237271729d0_15, v00000237271142e0_0, v000002372711f5b0_0;
+E_000002372710ae20 .event/or E_000002372710ae20/0, E_000002372710ae20/1, E_000002372710ae20/2, E_000002372710ae20/3, E_000002372710ae20/4;
+    .scope S_000002372711f380;
+T_0 ;
+    %wait E_000002372710ac20;
+    %load/vec4 v000002372711f650_0;
+    %parti/s 4, 12, 5;
+    %assign/vec4 v000002372711f6f0_0, 0;
+    %load/vec4 v000002372711f650_0;
+    %parti/s 4, 8, 5;
+    %assign/vec4 v00000237271176f0_0, 0;
+    %load/vec4 v000002372711f650_0;
+    %parti/s 4, 4, 4;
+    %assign/vec4 v000002372711f790_0, 0;
+    %load/vec4 v000002372711f650_0;
+    %parti/s 4, 0, 2;
+    %assign/vec4 v00000237271142e0_0, 0;
+    %load/vec4 v000002372711f650_0;
+    %parti/s 8, 0, 2;
+    %assign/vec4 v000002372711f5b0_0, 0;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0000023727114380;
+T_1 ;
+    %wait E_000002372710ac20;
+    %load/vec4 v0000023727172750_0;
+    %load/vec4 v0000023727172430_0;
+    %pad/u 6;
+    %ix/vec4 3;
+    %ix/load 4, 0, 0; Constant delay
+    %assign/vec4/a/d v00000237271729d0, 0, 4;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0000023727114380;
+T_2 ;
+Ewait_0 .event/or E_000002372710ae20, E_0x0;
+    %wait Ewait_0;
+    %load/vec4 v0000023727172a70_0;
+    %pad/u 6;
+    %ix/vec4 4;
+    %load/vec4a v00000237271729d0, 4;
+    %store/vec4 v0000023727172b10_0, 0, 16;
+    %load/vec4 v0000023727172d90_0;
+    %pad/u 6;
+    %ix/vec4 4;
+    %load/vec4a v00000237271729d0, 4;
+    %store/vec4 v0000023727172cf0_0, 0, 16;
+    %load/vec4 v0000023727172110_0;
+    %store/vec4 v00000237271727f0_0, 0, 8;
+    %jmp T_2;
+    .thread T_2, $push;
+    .scope S_0000023727120da0;
+T_3 ;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000023727174980_0, 0, 1;
+    %end;
+    .thread T_3;
+    .scope S_0000023727120da0;
+T_4 ;
+    %delay 2, 0;
+    %load/vec4 v0000023727174980_0;
+    %inv;
+    %store/vec4 v0000023727174980_0, 0, 1;
+    %jmp T_4;
+    .thread T_4;
+    .scope S_0000023727120da0;
+T_5 ;
+    %vpi_call/w 3 35 "$dumpfile", "Decode.vcd" {0 0 0};
+    %vpi_call/w 3 36 "$dumpvars", 32'sb00000000000000000000000000000000, S_0000023727120da0 {0 0 0};
+    %pushi/vec4 65535, 65535, 16;
+    %store/vec4 v00000237271731c0_0, 0, 16;
+    %pushi/vec4 65535, 0, 16;
+    %store/vec4 v0000023727174480_0, 0, 16;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v0000023727173080_0, 0, 4;
+    %delay 4, 0;
+    %pushi/vec4 65535, 65535, 16;
+    %store/vec4 v00000237271731c0_0, 0, 16;
+    %pushi/vec4 43690, 0, 16;
+    %store/vec4 v0000023727174480_0, 0, 16;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0000023727173080_0, 0, 4;
+    %delay 4, 0;
+    %pushi/vec4 513, 0, 16;
+    %store/vec4 v00000237271731c0_0, 0, 16;
+    %pushi/vec4 48059, 0, 16;
+    %store/vec4 v0000023727174480_0, 0, 16;
+    %pushi/vec4 8, 0, 4;
+    %store/vec4 v0000023727173080_0, 0, 4;
+    %delay 4, 0;
+    %vpi_call/w 3 50 "$finish" {0 0 0};
+    %end;
+    .thread T_5;
+# The file index is used to find the file name in the following table.
+:file_names 7;
+    "N/A";
+    "<interactive>";
+    "-";
+    "Decode_tb.sv";
+    "../Decode.sv";
+    "../Pipelineregister.sv";
+    "../RegisterBlock.sv";

@@ -1,62 +1,74 @@
 $date
-	Tue Mar 31 19:04:03 2026
+	Wed Apr 08 18:20:41 2026
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	1ns
+	1s
 $end
 $scope module Decode_tb $end
-$var wire 4 ! writeBackDstDecode [3:0] $end
-$var wire 4 " opcodeDecode [3:0] $end
-$var wire 16 # bDecode [15:0] $end
-$var wire 16 $ aDecode [15:0] $end
-$var reg 1 % clk $end
-$var reg 16 & dataDecode [15:0] $end
-$var reg 4 ' dstDecode [3:0] $end
-$var reg 16 ( instructionDecode [15:0] $end
+$var wire 16 ! src2Data [15:0] $end
+$var wire 16 " src1Data [15:0] $end
+$var wire 4 # operation [3:0] $end
+$var wire 8 $ immediateOperandOutput [7:0] $end
+$var wire 4 % dstAddress [3:0] $end
+$var reg 1 & clk $end
+$var reg 16 ' dataToStore [15:0] $end
+$var reg 16 ( instruction [15:0] $end
+$var reg 4 ) writeBackDst [3:0] $end
 $scope module dut $end
-$var wire 1 % clk $end
-$var wire 16 ) dataDecode [15:0] $end
-$var wire 4 * dstDecode [3:0] $end
-$var wire 16 + instructionDecode [15:0] $end
-$var wire 4 , writeBackDstDecode [3:0] $end
-$var wire 4 - opcodeDecode [3:0] $end
-$var wire 4 . localSrc2Decode [3:0] $end
-$var wire 4 / localSrc1Decode [3:0] $end
-$var wire 4 0 localOpcodeDecode [3:0] $end
-$var wire 4 1 localDstDecode [3:0] $end
-$var wire 16 2 bDecode [15:0] $end
-$var wire 16 3 aDecode [15:0] $end
-$scope module register $end
-$var wire 1 % clk $end
-$var wire 16 4 instructionDERegister [15:0] $end
-$var reg 4 5 dstDERegister [3:0] $end
-$var reg 4 6 opcodeDERegister [3:0] $end
-$var reg 4 7 src1DERegister [3:0] $end
-$var reg 4 8 src2DERegister [3:0] $end
+$var wire 1 & clk $end
+$var wire 16 * dataToStore [15:0] $end
+$var wire 4 + dstAddress [3:0] $end
+$var wire 16 , instruction [15:0] $end
+$var wire 4 - operation [3:0] $end
+$var wire 4 . writeBackDst [3:0] $end
+$var wire 16 / src2Data [15:0] $end
+$var wire 16 0 src1Data [15:0] $end
+$var wire 4 1 localSrc2Address [3:0] $end
+$var wire 4 2 localSrc1Address [3:0] $end
+$var wire 4 3 localOperation [3:0] $end
+$var wire 8 4 localImmediateOperand [7:0] $end
+$var wire 4 5 localDstAddress [3:0] $end
+$var wire 8 6 immediateOperandOutput [7:0] $end
+$scope module pipelineRegister $end
+$var wire 1 & clk $end
+$var wire 16 7 instruction [15:0] $end
+$var reg 4 8 dstAddress [3:0] $end
+$var reg 8 9 immediateOperand [7:0] $end
+$var reg 4 : operation [3:0] $end
+$var reg 4 ; src1Address [3:0] $end
+$var reg 4 < src2Address [3:0] $end
 $upscope $end
 $scope module registerBlock $end
-$var wire 1 % clk $end
-$var wire 16 9 dataRegisterBlock [15:0] $end
-$var wire 4 : src1RegisterBlock [3:0] $end
-$var wire 4 ; src2RegisterBlock [3:0] $end
-$var wire 4 < writeBackDstRegisterBlock [3:0] $end
-$var reg 16 = aRegisterBlock [15:0] $end
-$var reg 16 > bRegisterBlock [15:0] $end
+$var wire 1 & clk $end
+$var wire 16 = dataToStore [15:0] $end
+$var wire 8 > immediateOperandInput [7:0] $end
+$var wire 4 ? src1Address [3:0] $end
+$var wire 4 @ src2Address [3:0] $end
+$var wire 4 A writeBackDst [3:0] $end
+$var reg 8 B immediateOperandOutput [7:0] $end
+$var reg 16 C src1Data [15:0] $end
+$var reg 16 D src2Data [15:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
+bx D
+bx C
+bx B
+b0 A
+bx @
+bx ?
 bx >
-bx =
-b0 <
+b1111111111111111 =
+bx <
 bx ;
 bx :
-b1111111111111111 9
+bx 9
 bx 8
 bx 7
 bx 6
@@ -67,52 +79,71 @@ bx 2
 bx 1
 bx 0
 bx /
-bx .
+b0 .
 bx -
 bx ,
 bx +
-b0 *
-b1111111111111111 )
+b1111111111111111 *
+b0 )
 bx (
-b0 '
-b1111111111111111 &
-1%
+b1111111111111111 '
+1&
+bx %
 bx $
 bx #
 bx "
 bx !
 $end
 #2
-0%
+0&
 #4
-b1111111111111111 $
-b1111111111111111 3
-b1111111111111111 =
+1&
+b1 )
 b1 .
-b1 8
-b1 ;
-b0 /
-b0 7
-b0 :
-b10 1
-b10 5
-b0 0
-b0 6
-b0 "
-b0 -
-b10 !
-b10 ,
-1%
-b1010 '
-b1010 *
-b1010 <
-b1010101010101010 &
-b1010101010101010 )
-b1010101010101010 9
-b1000000001 (
-b1000000001 +
-b1000000001 4
+b1 A
+b1010101010101010 '
+b1010101010101010 *
+b1010101010101010 =
 #6
-0%
+0&
 #8
-1%
+b1 $
+b1 6
+b1 B
+b1010101010101010 !
+b1010101010101010 /
+b1010101010101010 D
+b1111111111111111 "
+b1111111111111111 0
+b1111111111111111 C
+b1 4
+b1 9
+b1 >
+b1 1
+b1 <
+b1 @
+b0 2
+b0 ;
+b0 ?
+b10 %
+b10 +
+b10 5
+b10 8
+b0 #
+b0 -
+b0 3
+b0 :
+1&
+b1000 )
+b1000 .
+b1000 A
+b1011101110111011 '
+b1011101110111011 *
+b1011101110111011 =
+b1000000001 (
+b1000000001 ,
+b1000000001 7
+#10
+0&
+#12
+1&

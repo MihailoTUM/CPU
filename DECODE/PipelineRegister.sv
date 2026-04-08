@@ -11,7 +11,6 @@ module PipelineRegister(
 );
    always_ff @(posedge clk)
    begin
-
         operation <= instruction[15:12];
         dstAddress <= instruction[11:8];
         src1Address <= instruction[7:4];

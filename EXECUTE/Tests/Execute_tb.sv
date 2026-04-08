@@ -1,50 +1,39 @@
 `timescale 1ns/1ns
 
 module Execute_tb();
-    // signals
     logic clk;
-    logic [3:0] opcode;
-    logic [3:0] dst;
-    logic [15:0] srcA;
-    logic [15:0] srcB;
-    logic [7:0] iOperand;
-    logic [15:0] data;
-    logic [3:0] writeBackDst;
+    logic [3:0] operation;
+    logic [3:0] dstAddress;
+    logic [15:0] src1Data;
+    logic [15:0] src2Data;
+    logic [7:0] immediateOperandOutput;
 
     Execute dut(
         .clk(clk),
-        .opcode(opcode),
-        .dst(dst),
-        .srcA(srcA),
-        .srcB(srcB),
-        .iOperand(iOperand),
-        .data(data),
-        .writeBackDst(writeBackDst)
+        .operationIn(operation),
+        .dstAddressIn(dstAddress),
+        .src1DataIn(src1Data),
+        .src2DataIn(src2Data),
+        .immediateOperandOutputIn(immediateOperandOutput)
     );
 
     initial clk = 1;
     always #2 clk = ~clk;
 
-    initial begin
+    initial
+    begin
         $dumpfile("Execute.vcd");
         $dumpvars(0, Execute_tb);
 
-
-        // instruction CONST 1
-        opcode = 4'h0; dst = 4'h0; iOperand = 8'h04; 
-        // waiting for one cycle
+        // add
+        operation = 4'h1; dstAddress = 4'h0; src1Data = 16'h0001; src2Data = 16'h0003; immediateOperandOutput = 8'hXX;
         #4;
 
-        // instruction CONST 2
-        opcode = 4'h0; dst = 4'h1; iOperand = 8'h05;
-        // waiting for one cycle
+        operation = 4'h0; dstAddress = 4'hA; src1Data = 16'hXXXX; src2Data = 16'hXXXX; immediateOperandOutput = 8'h0C;
         #4;
 
-        // instruction ADD
-        opcode = 4'h1; dst = 4'h2; srcA = 16'h000A; srcB = 16'h0001;
-        //waiting for one cycle
-        #4;
 
         $finish;
     end
+
 endmodule

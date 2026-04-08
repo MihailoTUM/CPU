@@ -11,16 +11,24 @@ module FETCH_tb();
         .instruction(instruction)
     );
 
-    initial clk = 0;
+    initial clk = 1;
     always #2 clk = ~clk;
 
     initial begin
         $dumpfile("FETCH.vcd");
         $dumpvars(0, FETCH_tb);
 
-        #2;
-        reset = 1; #4;
+        // wait one cycle
+        #4;
+
+        // reset the program counter
+        reset = 1;
+        #4;
 
         reset = 0;
+
+        #12;
+
+        $finish;
     end
 endmodule

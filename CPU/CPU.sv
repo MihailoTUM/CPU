@@ -2,42 +2,37 @@
 
 module CPU(
     input logic clk,
-    input logic [15:0] instruction
+    input logic [15:0] instruction,
 );
-    logic [15:0] localData;
-    logic [3:0] localDestination;
-    logic [3:0] localOpcode;
+    // local inputs for decode
+    logic [15:0] localDataToStore;
     logic [3:0] localWriteBackDst;
 
-    logic [7:0] localImmediateOperand;
+    // local outputs for decode
+    logic [3:0] operation;
+    logic [3:0] dstAddress;
+    logic [15:0] src1Data;
+    logic [15:0] src2Data;
+    logic [7:0] immediateOperandOutput;
 
-    logic [15:0] localA;
-    logic [15:0] localB;
 
-    Decode decode(
+    // DECODE-stage
+    DECODE decode(
+        // inputs
         .clk(clk),
-        .instructionDecode(instruction),
-        .dataDecode(localData),
-        .dstDecode(localDestination),
+        .instruction(instruction),
+        .dataToStore(localDataToStore),
+        .writeBackDst(localWriteBackDst),
         // outputs
-        .aDecode(localA),
-        .bDecode(localB),
-        .opcodeDecode(localOpcode),
-        .writeBackDstDecode(localWriteBackDst),
-        .immediateOperandDecode(localImmediateOperand)
+        .operation(operation),
+        .dstAddress(dstAddress),
+        .src1Data(src1Data),
+        .src2Data(src2Data),
+        .immediateOperandOutput(immediateOperandOutput)
     );
 
-    Execute execute(
-        .clk(clk),
-        .opcodeExecute(localOpcode),
-        .dstExecute(localWriteBackDst),
-        .srcAExecute(localA),
-        .srcBExecute(localB),
-        .iOperandExecute(localImmediateOperand),
-        // outputs
-        .dataExecute(localData),
-        .writeBackDstExecute(localDestination)
-    );
+    // EXECUTE-stage
+    EXECUTE execute();
 
 
 endmodule
