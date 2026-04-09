@@ -12,7 +12,19 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 
 
 # Instruction Set
-0000 -> CONST
-0001 -> ADD
-
-// inmplement STALL
+- 0000 (0) -> CONST
+- 0001 (1) -> ADD
+- 0010 (2) -> SUB
+- 0011 (3) -> MUL
+- 0100 (4) -> DIV
+- 0101 (5) -> AND
+- 0110 (6) -> OR
+- 0111 (7) -> XOR
+- 1000 (8) ->
+- 1001 (9) ->
+- 1010 (10) ->
+- 1011 (11) ->
+- 1100 (12) ->
+- 1101 (13) ->
+- 1110 (14) ->
+- 1111 (F) -> NOP 
