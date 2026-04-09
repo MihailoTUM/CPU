@@ -8,7 +8,8 @@ module Execute(
     input logic [15:0] src2DataIn,
     input logic [7:0] immediateOperandOutputIn,
     output logic [15:0] result,
-    output logic [3:0] writeBackDst
+    output logic [3:0] writeBackDst,
+    output logic enableWrite
 );
 
     logic [3:0] localOperation;
@@ -17,7 +18,7 @@ module Execute(
     logic [15:0] localSrc2Data;
     logic [7:0] localImmediateOperandOutput;
 
-    PipelineRegister register(
+    PipelineRegisterEX register(
         // inputs
         .clk(clk),
         .operationIn(operationIn),
@@ -30,7 +31,8 @@ module Execute(
         .dstAddress(localDstAddress),
         .src1Data(localSrc1Data),
         .src2Data(localSrc2Data),
-        .immediateOperandOutput(localImmediateOperandOutput)
+        .immediateOperandOutput(localImmediateOperandOutput),
+        .writeBackDst(writeBackDst)
     );
 
     ALU alu(
@@ -40,9 +42,8 @@ module Execute(
         .data2(localSrc2Data),
         .immediateOperand(localImmediateOperandOutput),
         // outputs
-        .result(result)
+        .result(result),
+        .enableWrite(enableWrite)
     );
-
-    assign writeBackDst = dstAddressIn;
 
 endmodule

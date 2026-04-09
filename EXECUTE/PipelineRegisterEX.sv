@@ -1,6 +1,6 @@
 
 
-module PipelineRegister(
+module PipelineRegisterEX(
     input logic clk,
     input logic [3:0] operationIn,
     input logic [3:0] dstAddressIn,
@@ -11,7 +11,8 @@ module PipelineRegister(
     output logic [3:0] dstAddress,
     output logic [15:0] src1Data,
     output logic [15:0] src2Data,
-    output logic [7:0] immediateOperandOutput
+    output logic [7:0] immediateOperandOutput,
+    output logic [3:0] writeBackDst
 );
 
     always_ff @(posedge clk)
@@ -21,6 +22,7 @@ module PipelineRegister(
         src1Data <= src1DataIn;
         src2Data <= src2DataIn;
         immediateOperandOutput <= immediateOperandOutputIn;
+        writeBackDst <= dstAddressIn;
     end
 
 endmodule

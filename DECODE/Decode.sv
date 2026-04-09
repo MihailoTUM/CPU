@@ -8,6 +8,8 @@ module Decode(
     input logic [15:0] dataToStore,
     // address to store from cycle t-1
     input logic [3:0] writeBackDst,
+    // necessary for (stalls) NOP
+    input logic enableWrite,
     output logic [3:0] operation,
     output logic [3:0] dstAddress,
     output logic [15:0] src1Data,
@@ -21,8 +23,7 @@ module Decode(
     logic [3:0] localSrc2Address;
     logic [7:0] localImmediateOperand;  
 
-
-    PipelineRegister pipelineRegister(
+    PipelineRegisterDE pipelineRegister(
         .clk(clk),
         .instruction(instruction),
         // outputs
@@ -44,6 +45,7 @@ module Decode(
         .src1Address(localSrc1Address),
         .src2Address(localSrc2Address),
         .immediateOperandInput(localImmediateOperand),
+        .enableWrite(enableWrite),
         // outputs
         .src1Data(src1Data),
         .src2Data(src2Data),

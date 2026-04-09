@@ -1,6 +1,6 @@
 // pipeline register
 
-module PipelineRegister(
+module PipelineRegisterDE(
     input logic clk,
     input logic [15:0] instruction,
     output logic [3:0] operation,

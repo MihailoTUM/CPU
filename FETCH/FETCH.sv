@@ -1,6 +1,6 @@
 
 
-module FETCH(
+module Fetch(
     input logic clk,
     input logic reset,
     output logic [15:0] instruction

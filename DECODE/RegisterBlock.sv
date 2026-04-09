@@ -7,6 +7,7 @@ module RegisterBlock(
     input logic [3:0] src1Address,
     input logic [3:0] src2Address,
     input logic [7:0] immediateOperandInput,
+    input logic enableWrite,
     output logic [15:0] src1Data,
     output logic [15:0] src2Data,
     output logic [7:0] immediateOperandOutput
@@ -16,7 +17,7 @@ module RegisterBlock(
 
     always_ff @(posedge clk)
     begin
-        registers[writeBackDst] <= dataToStore;
+        if(enableWrite) registers[writeBackDst] <= dataToStore;
     end
 
     always_comb 
