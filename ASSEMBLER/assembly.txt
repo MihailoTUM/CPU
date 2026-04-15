@@ -1,0 +1,3 @@
+CONST r0,0x01;
+CONST r1,0x02;
+ADD r2,r0,r1;
