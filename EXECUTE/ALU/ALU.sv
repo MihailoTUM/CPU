@@ -1,4 +1,7 @@
+/*
+    - forwarding path: return ALU result to EXECUTE stage, check if one of the sources operands is the dst operand of the previous execution
 
+*/
 
 module ALU(
     input logic [3:0] operation,
@@ -6,7 +9,9 @@ module ALU(
     input logic [15:0] data2,
     input logic [7:0] immediateOperand,
     output logic [15:0] result,
-    output logic enableWrite
+    output logic enableWrite,
+    output logic [15:0] forwardPathData,
+    output logic [15:0] operationOutput
 );
     // const function
     logic [15:0] constOut;
@@ -60,5 +65,6 @@ module ALU(
     end
 
     assign enableWrite = ~(operation[3] & operation[2] & operation[1] & operation[0]);
+    assign operationOutput = operation;
 
 endmodule

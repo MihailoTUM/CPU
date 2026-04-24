@@ -1,5 +1,0 @@
-- test DECODE stage
-- test DECODE-EXECUTE cycle
-- implement delays (specific to FPGA clock of 50MHz)
-- implement MUL & DIV instructions
-- bring simple functionalities to FPGA

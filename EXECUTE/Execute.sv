@@ -9,7 +9,8 @@ module Execute(
     input logic [7:0] immediateOperandOutputIn,
     output logic [15:0] result,
     output logic [3:0] writeBackDst,
-    output logic enableWrite
+    output logic enableWrite,
+    output logic [3:0] operation
 );
 
     logic [3:0] localOperation;
@@ -43,7 +44,8 @@ module Execute(
         .immediateOperand(localImmediateOperandOutput),
         // outputs
         .result(result),
-        .enableWrite(enableWrite)
+        .enableWrite(enableWrite),
+        .operationOutput(operation)
     );
 
 endmodule

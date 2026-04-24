@@ -20,11 +20,11 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 0101 (5) -> AND
 - 0110 (6) -> OR
 - 0111 (7) -> XOR
-- 1000 (8) ->
-- 1001 (9) ->
-- 1010 (10) ->
+- 1000 (8) -> JMP
+- 1001 (9) -> BRANCH
+- 1010 (10) -> 
 - 1011 (11) ->
 - 1100 (12) ->
-- 1101 (13) ->
-- 1110 (14) ->
+- 1101 (13) -> LOAD
+- 1110 (14) -> STORE
 - 1111 (F) -> NOP 

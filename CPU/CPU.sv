@@ -19,6 +19,10 @@ module CPU(
     logic [7:0] localImmediateOperandOutput;
     logic localEnableWrite;
 
+    logic [15:0] writeToRegisterData;
+    logic [3:0] writeToRegisterDst;
+    logic enableRegisterWrite;
+
     // FETCH-stage
     Fetch fetch(
         .clk(clk),
@@ -31,9 +35,9 @@ module CPU(
         // inputs
         .clk(clk),
         .instruction(instruction),
-        .dataToStore(localDataToStore),
-        .writeBackDst(localWriteBackDst),
-        .enableWrite(localEnableWrite),
+        .dataToStore(writeToRegisterData),
+        .writeBackDst(writeToRegisterDst),
+        .enableWrite(enableRegisterWrite),
         // outputs
         .operation(localOperation),
         .dstAddress(localDstAddress),
@@ -42,7 +46,7 @@ module CPU(
         .immediateOperandOutput(localImmediateOperandOutput)
     );
 
-    // EXECUTE-stage + WRITE_BACK-stage
+    // EXECUTE-stage
     Execute execute(
         // inputs
         .clk(clk),
@@ -55,6 +59,17 @@ module CPU(
         .result(localDataToStore),
         .writeBackDst(localWriteBackDst),
         .enableWrite(localEnableWrite)
+    );
+
+    // WRITE_BACK-stage (technically does nothing except for passing data through)
+    WriteBack writeBack(
+        .result(localDataToStore),
+        .writeBackDst(localWriteBackDst),
+        .enableWrite(localEnableWrite),
+        // outputs
+        .writeToRegisterData(writeToRegisterData),
+        .writeToRegisterDst(writeToRegisterDst),
+        .enableRegisterWrite(enableRegisterWrite)
     );
 
 
