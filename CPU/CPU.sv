@@ -23,6 +23,15 @@ module CPU(
     logic [3:0] writeToRegisterDst;
     logic enableRegisterWrite;
 
+    // control outputs
+    logic [1:0] controlSignals;
+
+    // Control-unit
+    Control control(
+        .clk(clk),
+        .controlSignals(controlSignals)
+    );
+
     // FETCH-stage
     Fetch fetch(
         .clk(clk),

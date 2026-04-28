@@ -22,9 +22,9 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 0111 (7) -> XOR
 - 1000 (8) -> JMP
 - 1001 (9) -> BRANCH
-- 1010 (10) -> 
-- 1011 (11) ->
-- 1100 (12) ->
-- 1101 (13) -> LOAD
-- 1110 (14) -> STORE
+- 1010 (A) -> 
+- 1011 (B) ->
+- 1100 (C) ->
+- 1101 (D) -> LOAD
+- 1110 (E) -> STORE
 - 1111 (F) -> NOP 

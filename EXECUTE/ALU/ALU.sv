@@ -1,6 +1,5 @@
 /*
-    - forwarding path: return ALU result to EXECUTE stage, check if one of the sources operands is the dst operand of the previous execution
-
+    forwarding path: return ALU result to EXECUTE stage, check if one of the sources operands is the dst operand of the previous execution
 */
 
 module ALU(

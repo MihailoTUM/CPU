@@ -14,6 +14,7 @@ module DataMemory(
     logic [15:0] localResult;
     logic [3:0] writeBackDst;
     logic localEnable;
+    logic [15:0] dataMemoryResult;
 
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
@@ -27,9 +28,17 @@ module DataMemory(
         .enableSignal(localEnable)
     );
 
+    always_comb 
+    begin
+        case(operation)
+        4'hE: resultToWriteBack = dataMemoryResult;
+        4'hF: resultToWriteBack = dataMemoryResult;
+        default: resultToWriteBack = ALUResult;
+        endcase
+    end
+
     /*
     check if load or store, if not, skip the memory
     */
-    // assign resultToWriteBack = operation[]
 
 endmodule
