@@ -12,6 +12,9 @@ module Execute(
     output logic enableWrite,
     output logic [3:0] operation
 );
+    // forwarding path
+    // output of the ALU is input for the execution state
+
 
     logic [3:0] localOperation;
     logic [3:0] localDstAddress;

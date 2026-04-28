@@ -4,6 +4,8 @@ module Fetch(
     input logic clk,
     input logic reset,
     input logic hold, 
+    input logic [15:0] relativeAddress,
+    input logic [15:0] fixedAddress,
     output logic [15:0] instruction
 );
     logic [15:0] address;

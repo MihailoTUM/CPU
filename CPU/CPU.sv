@@ -25,6 +25,10 @@ module CPU(
 
     // control outputs
     logic [1:0] controlSignals;
+    logic [15:0] relativeAddress;
+    logic [15:0] fixedAddress;
+
+    logic [3:0] localOperation2;
 
     // Control-unit
     Control control(
@@ -36,6 +40,9 @@ module CPU(
     Fetch fetch(
         .clk(clk),
         .reset(reset),
+        .hold(controlSignals[0]),
+        .relativeAddress(relativeAddress),
+        .fixedAddress(fixedAddress),
         .instruction(instruction)
     );
 
@@ -67,14 +74,33 @@ module CPU(
         // outputs
         .result(localDataToStore),
         .writeBackDst(localWriteBackDst),
-        .enableWrite(localEnableWrite)
+        .enableWrite(localEnableWrite),
+        .operation(localOperation2)
     );
+
+    // outputs for DATAMEMORY-stage
+    logic [15:0] resultInputWB;
+    logic [3:0] dstInputWB;
+    logic enableWriteRegisterInputWB;
+
+    // DATAMEMORY-stage
+    DataMemory dataMemory(
+        .clk(clk),
+        .ALUResult(localDataToStore),
+        .writeBackALUResultDst(localWriteBackDst),
+        .writeBackEnable(localEnableWrite),
+        .operation(localOperation2),
+        .resultToWriteBack(resultInputWB),
+        .distToWriteBack(dstInputWB),
+        .enableToWriteBack(enableWriteRegisterInputWB)
+    );
+
 
     // WRITE_BACK-stage (technically does nothing except for passing data through)
     WriteBack writeBack(
-        .result(localDataToStore),
-        .writeBackDst(localWriteBackDst),
-        .enableWrite(localEnableWrite),
+        .result(resultInputWB),
+        .writeBackDst(dstInputWB),
+        .enableWrite(enableWriteRegisterInputWB),
         // outputs
         .writeToRegisterData(writeToRegisterData),
         .writeToRegisterDst(writeToRegisterDst),
