@@ -1,7 +1,12 @@
 
 
 module Decode(
+    // clk
     input logic clk,
+    // hold pipeline stage
+    input logic hold,
+    // resetting in case of wrong BRANCH prediction
+    input logic flush,
     // instruction at cycle t
     input logic [15:0] instruction,
     // data to store from cycle t-1
@@ -25,6 +30,8 @@ module Decode(
 
     PipelineRegisterDE pipelineRegister(
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
         .instruction(instruction),
         // outputs
         .operation(localOperation),

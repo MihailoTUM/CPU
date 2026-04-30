@@ -3,6 +3,10 @@
 */
 
 module ALU(
+    // clk for sequential operations such as DIV
+    input logic clk,
+    // holding the ALU for as long as the operation takes place
+    input logic hold,
     input logic [3:0] operation,
     input logic [15:0] data1,
     input logic [15:0] data2,
@@ -33,8 +37,9 @@ module ALU(
     ADD16 add16(data1, data2, 1'b0, addOut, addCout);
     ADD16 sub16(data1, ~data2, 1'b1, subOut, subCout);
     // MUL
-    // DIV
 
+    // DIV
+    
     // logic
     AND16 and16(data1, data2, andOut);
     OR16 or16(data1, data2, orOut);
@@ -63,7 +68,9 @@ module ALU(
         endcase
     end
 
+    // specialized outputs
     assign enableWrite = ~(operation[3] & operation[2] & operation[1] & operation[0]);
     assign operationOutput = operation;
+    assign forwardPath = result;
 
 endmodule

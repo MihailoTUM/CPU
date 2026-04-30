@@ -27,8 +27,8 @@ module CPU(
     logic [1:0] controlSignals;
     logic [15:0] relativeAddress;
     logic [15:0] fixedAddress;
-
     logic [3:0] localOperation2;
+    logic enableWrite;
 
     // Control-unit
     Control control(
@@ -38,11 +38,14 @@ module CPU(
 
     // FETCH-stage
     Fetch fetch(
+        // inputs
         .clk(clk),
         .reset(reset),
         .hold(controlSignals[0]),
         .relativeAddress(relativeAddress),
         .fixedAddress(fixedAddress),
+        .enableWrite(enableWrite),
+        // outputs
         .instruction(instruction)
     );
 
@@ -50,6 +53,8 @@ module CPU(
     Decode decode(
         // inputs
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
         .instruction(instruction),
         .dataToStore(writeToRegisterData),
         .writeBackDst(writeToRegisterDst),
@@ -66,6 +71,8 @@ module CPU(
     Execute execute(
         // inputs
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
         .operationIn(localOperation),
         .dstAddressIn(localDstAddress),
         .src1DataIn(localSrc1Data),

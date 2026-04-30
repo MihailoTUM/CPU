@@ -16,6 +16,7 @@ module DataMemory(
     logic localEnable;
     logic [15:0] dataMemoryResult;
 
+    // pipeline register
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
         .ALUResult(ALUResult),
@@ -28,6 +29,10 @@ module DataMemory(
         .enableSignal(localEnable)
     );
 
+    // memory, takes 10-more cycles to operate
+    Memory mem();
+
+    // circumvent the memory if not needed
     always_comb 
     begin
         case(operation)
@@ -36,9 +41,5 @@ module DataMemory(
         default: resultToWriteBack = ALUResult;
         endcase
     end
-
-    /*
-    check if load or store, if not, skip the memory
-    */
 
 endmodule

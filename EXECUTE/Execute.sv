@@ -2,11 +2,14 @@
 
 module Execute(
     input logic clk,
+    input logic hold,
+    input logic flush,
     input logic [3:0] operationIn,
     input logic [3:0] dstAddressIn,
     input logic [15:0] src1DataIn,
     input logic [15:0] src2DataIn,
     input logic [7:0] immediateOperandOutputIn,
+    input logic [15:0] forwardPathInput,
     output logic [15:0] result,
     output logic [3:0] writeBackDst,
     output logic enableWrite,
@@ -25,6 +28,8 @@ module Execute(
     PipelineRegisterEX register(
         // inputs
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
         .operationIn(operationIn),
         .dstAddressIn(dstAddressIn),
         .src1DataIn(src1DataIn),
