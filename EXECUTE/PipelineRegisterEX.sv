@@ -1,57 +1,65 @@
 
 
 module PipelineRegisterEX(
-    // clk
+    // control inputs
     input logic clk,
-    // hold
     input logic hold,
-    // flush
-    input logic flush,
-    input logic [3:0] operationIn,
-    input logic [3:0] dstAddressIn,
-    input logic [15:0] src1DataIn,
-    input logic [15:0] src2DataIn,
-    input logic [7:0] immediateOperandOutputIn,
+    // input logic flush,
+
+    // data inputs
+    input logic [3:0] inputOperation,
+    input logic [3:0] inputDstAddress,
+    input logic [15:0] inputSrc1,
+    input logic [15:0] inputSrc2,
+    input logic [7:0] inputImmediate,
+
+    // data outputs
     output logic [3:0] operation,
     output logic [3:0] dstAddress,
     output logic [15:0] src1Data,
     output logic [15:0] src2Data,
-    output logic [7:0] immediateOperandOutput,
-    output logic [3:0] writeBackDst
+    output logic [7:0] immediate
 );
+    logic [3:0] localOperation;
+    logic [3:0] localDstAddress;
+    logic [15:0] localSrc1;
+    logic [15:0] localSrc2;
+    logic [7:0] localImmediate;
 
     always_ff @(posedge clk)
     begin
-        // hold current values of register
         if(hold)
             begin
-                operationIn <= operation;
-                dstAddressIn <= dstAddress;
-                src1DataIn <= src1Data;
-                src2DataIn <= src2Data;
-                immediateOperandOutputIn <= immediateOperandOutput;
-                dstAddressIn <= writeBackDst;
+                localOperation <= localOperation;
+                localDstAddress <= localDstAddress;
+                localSrc1 <= localSrc1;
+                localSrc2 <= localSrc2;
+                localImmediate <= localImmediate;
             end
-        // reset values of register to 0
-        else if (flush)
-            begin
-                operation <= 4'h0;
-                dstAddress <= 4'h0;
-                src1Data <= 4'h0;
-                src2Data <= 4'h0;
-                immediateOperandOutput <= 8'h00;
-                writeBackDst <= 4'h0;
-            end
-        // normal register development
+        // else if (flush)
+        //     begin
+        //         operation <= 4'h0;
+        //         dstAddress <= 4'h0;
+        //         src1Data <= 4'h0;
+        //         src2Data <= 4'h0;
+        //         immediateOperandOutput <= 8'h00;
+        //         writeBackDst <= 4'h0;
+        //     end
         else
             begin
-                operation <= operationIn;
-                dstAddress <= dstAddressIn;
-                src1Data <= src1DataIn;
-                src2Data <= src2DataIn;
-                immediateOperand <= immediateOperandOutputIn;
-                writeBackDst <= dstAddressIn;
+                localOperation <= inputOperation;
+                localDstAddress <= inputDstAddress;
+                localSrc1 <= inputSrc1;
+                localSrc2 <= inputSrc2;
+                localImmediate <= inputImmediate;
+                localDstAddress <= inputDstAddress;
             end
     end
+
+    assign operation = localOperation;
+    assign dstAddress = localDstAddress;
+    assign src1Data = localSrc1;
+    assign src2Data = localSrc2;
+    assign immediate = localImmediate;
 
 endmodule

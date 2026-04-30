@@ -6,13 +6,13 @@ module Fetch(
     // pipeline stall
     input logic hold, 
     // new address for JMP
-    input logic JMP,
-    input logic [15:0] relativeAddress,
+    // input logic JMP,
+    // input logic [15:0] relativeAddress,
     // new address for BRANCH, function calls
-    input logic BRANCH,
-    input logic [15:0] fixedAddress,
+    // input logic BRANCH,
+    // input logic [15:0] fixedAddress,
     // writing in instruction memory
-    input logic enableWrite,
+    // input logic enableWrite,
     // outputs
     output logic [15:0] instruction
 );
@@ -25,14 +25,14 @@ module Fetch(
             // hold PC at same address
             else if(hold) address <= address;
             // JMP to relative address
-            else if(JMP) address <= address + relativeAddress;
+            // else if(JMP) address <= address + relativeAddress;
             // BRANCH to fixed address
-            else if(BRANCH) address <= fixedAddress;
+            // else if(BRANCH) address <= fixedAddress;
             // normal program development
             else address <= address + 2;
         end
 
-    // read-only memory so far
+    // ROM
     InstructionMemory instructionMemory(
         // inputs
         .address(address),

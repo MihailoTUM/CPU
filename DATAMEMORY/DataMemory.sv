@@ -3,11 +3,11 @@
 
 module DataMemory(
     input logic clk,
-    input logic [15:0] ALUResult
-    input logic [3:0] writeBackALUResultDst
+    input logic [15:0] ALUResult,
+    input logic [3:0] writeBackALUResultDst,
     input logic writeBackEnable,
     input logic [3:0] operation,
-    output logic [15:0] resultToWriteBack
+    output logic [15:0] resultToWriteBack,
     output logic [3:0] dstToWriteBack,
     output logic enableToWriteBack
 );

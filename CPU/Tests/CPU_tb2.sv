@@ -5,8 +5,8 @@ module CPU_tb2();
     logic reset;
 
     CPU dut(
-        .clk(clk),
-        .reset(reset)
+        .globalClk(clk),
+        .globalReset(reset)
     );
 
     initial clk = 1;

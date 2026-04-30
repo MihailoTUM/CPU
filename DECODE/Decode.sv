@@ -6,7 +6,7 @@ module Decode(
     // hold pipeline stage
     input logic hold,
     // resetting in case of wrong BRANCH prediction
-    input logic flush,
+    // input logic flush,
     // instruction at cycle t
     input logic [15:0] instruction,
     // data to store from cycle t-1

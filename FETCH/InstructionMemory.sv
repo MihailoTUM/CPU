@@ -1,5 +1,6 @@
 
 module InstructionMemory(
+    // input logic clk
     input logic [15:0] address,
     output logic [15:0] instruction
 );

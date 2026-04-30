@@ -1,34 +1,30 @@
 
 
 module CPU(
-    input logic clk,
-    input logic reset
+    input logic globalClk,
+    input logic globalReset
 );
-    // local output for fetch
-    logic [15:0] instruction;
+    // FETCH inputs
+    // logic enableWrite;
 
-    // local inputs for decode
-    logic [15:0] localDataToStore;
-    logic [3:0] localWriteBackDst;
+    // FETCH output
+    logic [15:0] fetchOutputInstruction;
 
-    // local outputs for decode
-    logic [3:0] localOperation;
-    logic [3:0] localDstAddress;
-    logic [15:0] localSrc1Data;
-    logic [15:0] localSrc2Data;
-    logic [7:0] localImmediateOperandOutput;
-    logic localEnableWrite;
-
+    // DECODE inputs: WRITE
     logic [15:0] writeToRegisterData;
     logic [3:0] writeToRegisterDst;
     logic enableRegisterWrite;
 
+    // DECODE outputs: READ
+    logic [3:0] decodeOutputOperation;
+    logic [3:0] decodeOutputDst;
+    logic [15:0] decodeSrc1Data;
+    logic [15:0] decodeSrc2Data;
+    logic [7:0] decodeOutputImmediate;
+    logic localEnableWrite;
+
     // control outputs
-    logic [1:0] controlSignals;
-    logic [15:0] relativeAddress;
-    logic [15:0] fixedAddress;
-    logic [3:0] localOperation2;
-    logic enableWrite;
+    logic [3:0] controlSignals;
 
     // Control-unit
     Control control(
@@ -39,75 +35,92 @@ module CPU(
     // FETCH-stage
     Fetch fetch(
         // inputs
-        .clk(clk),
-        .reset(reset),
+        .clk(globalClk),
+        .reset(globalReset),
         .hold(controlSignals[0]),
-        .relativeAddress(relativeAddress),
-        .fixedAddress(fixedAddress),
-        .enableWrite(enableWrite),
+        // .relativeAddress(relativeAddress),
+        // .fixedAddress(fixedAddress),
+        // .enableWrite(enableWrite),
+
         // outputs
-        .instruction(instruction)
+        .instruction(fetchOutputInstruction)
     );
 
     // DECODE-stage
     Decode decode(
         // inputs
+        // control
         .clk(clk),
-        .hold(hold),
-        .flush(flush),
-        .instruction(instruction),
+        .hold(controlSignals[0]),
+        // .flush(flush),
+
+        // write to registers
+        .instruction(fetchOutputInstruction),
         .dataToStore(writeToRegisterData),
         .writeBackDst(writeToRegisterDst),
         .enableWrite(enableRegisterWrite),
         // outputs
-        .operation(localOperation),
-        .dstAddress(localDstAddress),
-        .src1Data(localSrc1Data),
-        .src2Data(localSrc2Data),
-        .immediateOperandOutput(localImmediateOperandOutput)
+        .operation(decodeOutputOperation),
+        .dstAddress(decodeOutputDst),
+        .src1Data(decodeSrc1Data),
+        .src2Data(decodeSrc2Data),
+        .immediateOperandOutput(decodeOutputImmediate)
     );
+
+    // EXECUTE outputs
+    logic [15:0] executeResult;
+    logic [3:0] executeWriteBackDst;
+    logic executeEnableWrite;
+    logic [3:0] executeOutputOperation;
+
 
     // EXECUTE-stage
     Execute execute(
         // inputs
+        // control
         .clk(clk),
-        .hold(hold),
-        .flush(flush),
-        .operationIn(localOperation),
-        .dstAddressIn(localDstAddress),
-        .src1DataIn(localSrc1Data),
-        .src2DataIn(localSrc2Data),
-        .immediateOperandOutputIn(localImmediateOperandOutput),
+        .hold(controlSignals[0]),
+        // .flush(flush),
+        .operationIn(decodeOutputOperation),
+        .dstAddressIn(decodeOutputDst),
+        .src1DataIn(decodeSrc1Data),
+        .src2DataIn(decodeSrc2Data),
+        .immediateOperandOutputIn(decodeOutputImmediate),
         // outputs
-        .result(localDataToStore),
-        .writeBackDst(localWriteBackDst),
-        .enableWrite(localEnableWrite),
-        .operation(localOperation2)
+        .result(executeResult),
+        .writeBackDst(executeWriteBackDst),
+        .enableWrite(executeEnableWrite),
+        .operation(executeOutputOperation)
     );
 
-    // outputs for DATAMEMORY-stage
-    logic [15:0] resultInputWB;
-    logic [3:0] dstInputWB;
-    logic enableWriteRegisterInputWB;
+    // DATAMEMORY outputs
+    logic [15:0] datamemoryOutput;
+    logic [3:0] datamemoryWriteBackDst;
+    logic datamemoryEnableWriteBack;
 
     // DATAMEMORY-stage
     DataMemory dataMemory(
+        // inputs
+        // control
         .clk(clk),
-        .ALUResult(localDataToStore),
-        .writeBackALUResultDst(localWriteBackDst),
-        .writeBackEnable(localEnableWrite),
-        .operation(localOperation2),
-        .resultToWriteBack(resultInputWB),
-        .distToWriteBack(dstInputWB),
-        .enableToWriteBack(enableWriteRegisterInputWB)
+
+        .ALUResult(executeResult),
+        .writeBackALUResultDst(executeWriteBackDst),
+        .writeBackEnable(executeEnableWrite),
+        .operation(executeOutputOperation),
+        // outputs
+        .resultToWriteBack(datamemoryOutput),
+        .dstToWriteBack(datamemoryWriteBackDst),
+        .enableToWriteBack(datamemoryEnableWriteBack)
     );
 
 
     // WRITE_BACK-stage (technically does nothing except for passing data through)
     WriteBack writeBack(
-        .result(resultInputWB),
-        .writeBackDst(dstInputWB),
-        .enableWrite(enableWriteRegisterInputWB),
+        // inputs
+        .result(datamemoryOutput),
+        .writeBackDst(datamemoryWriteBackDst),
+        .enableWrite(datamemoryEnableWriteBack),
         // outputs
         .writeToRegisterData(writeToRegisterData),
         .writeToRegisterDst(writeToRegisterDst),

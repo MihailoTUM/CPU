@@ -1,5 +1,5 @@
 $date
-	Wed Apr 08 19:06:42 2026
+	Thu Apr 30 22:03:01 2026
 $end
 $version
 	Icarus Verilog
@@ -8,152 +8,331 @@ $timescale
 	1ns
 $end
 $scope module Execute_tb $end
-$var reg 1 ! clk $end
-$var reg 4 " dstAddress [3:0] $end
-$var reg 8 # immediateOperandOutput [7:0] $end
-$var reg 4 $ operation [3:0] $end
-$var reg 16 % src1Data [15:0] $end
-$var reg 16 & src2Data [15:0] $end
+$var wire 16 ! out [15:0] $end
+$var reg 1 " clk $end
+$var reg 4 # dstAddress [3:0] $end
+$var reg 1 $ hold $end
+$var reg 8 % immediate [7:0] $end
+$var reg 4 & operation [3:0] $end
+$var reg 16 ' src1Data [15:0] $end
+$var reg 16 ( src2Data [15:0] $end
 $scope module dut $end
-$var wire 1 ! clk $end
-$var wire 4 ' dstAddressIn [3:0] $end
-$var wire 8 ( immediateOperandOutputIn [7:0] $end
-$var wire 4 ) operationIn [3:0] $end
-$var wire 16 * src1DataIn [15:0] $end
-$var wire 16 + src2DataIn [15:0] $end
-$var wire 4 , writeBackDst [3:0] $end
-$var wire 16 - result [15:0] $end
-$var wire 16 . localSrc2Data [15:0] $end
-$var wire 16 / localSrc1Data [15:0] $end
-$var wire 4 0 localOperation [3:0] $end
-$var wire 8 1 localImmediateOperandOutput [7:0] $end
-$var wire 4 2 localDstAddress [3:0] $end
+$var wire 1 " clk $end
+$var wire 1 $ hold $end
+$var wire 4 ) inputDstAddress [3:0] $end
+$var wire 8 * inputImmediate [7:0] $end
+$var wire 4 + inputOperation [3:0] $end
+$var wire 16 , inputSrc1 [15:0] $end
+$var wire 16 - inputSrc2 [15:0] $end
+$var wire 16 . out [15:0] $end
+$var wire 4 / operation [3:0] $end
+$var wire 16 0 localSrc2Data [15:0] $end
+$var wire 16 1 localSrc1Data [15:0] $end
+$var wire 4 2 localOperation [3:0] $end
+$var wire 8 3 localImmediate [7:0] $end
+$var wire 4 4 localDstAddress [3:0] $end
+$var wire 1 5 enableWrite $end
+$var reg 4 6 writeBackDst [3:0] $end
 $scope module alu $end
-$var wire 4 3 operation [3:0] $end
-$var wire 8 4 immediateOperand [7:0] $end
-$var wire 16 5 data2 [15:0] $end
-$var wire 16 6 data1 [15:0] $end
-$var wire 1 7 cout $end
-$var wire 16 8 constOut [15:0] $end
-$var wire 16 9 addOut [15:0] $end
-$var reg 16 : result [15:0] $end
+$var wire 1 7 clk $end
+$var wire 1 5 enableWrite $end
+$var wire 1 8 hold $end
+$var wire 4 9 outputOperation [3:0] $end
+$var wire 16 : subOut [15:0] $end
+$var wire 1 ; subCout $end
+$var wire 4 < operation [3:0] $end
+$var wire 8 = immediate [7:0] $end
+$var wire 32 > flags [31:0] $end
+$var wire 16 ? d2 [15:0] $end
+$var wire 16 @ d1 [15:0] $end
+$var wire 16 A constOut [15:0] $end
+$var wire 16 B addOut [15:0] $end
+$var wire 1 C addCout $end
+$var reg 1 D addCarry $end
+$var reg 16 E out [15:0] $end
+$var reg 1 F subCarry $end
 $scope module add16 $end
-$var wire 1 ; cin $end
-$var wire 16 < s [15:0] $end
-$var wire 1 7 cout $end
-$var wire 16 = b [15:0] $end
-$var wire 16 > a [15:0] $end
+$var wire 1 G cin $end
+$var wire 16 H s [15:0] $end
+$var wire 1 C cout $end
+$var wire 16 I b [15:0] $end
+$var wire 16 J a [15:0] $end
 $scope module b0 $end
-$var wire 4 ? a [3:0] $end
-$var wire 4 @ b [3:0] $end
-$var wire 1 ; blockCin $end
-$var wire 1 A blockCout $end
-$var wire 1 B c1 $end
-$var wire 1 C c2 $end
-$var wire 1 D c3 $end
-$var wire 1 E g0 $end
-$var wire 1 F g1 $end
-$var wire 1 G g2 $end
-$var wire 1 H g3 $end
-$var wire 1 I p0 $end
-$var wire 1 J p1 $end
-$var wire 1 K p2 $end
-$var wire 1 L p3 $end
-$var wire 4 M s [3:0] $end
+$var wire 4 K a [3:0] $end
+$var wire 4 L b [3:0] $end
+$var wire 1 G blockCin $end
+$var wire 1 M blockCout $end
+$var wire 1 N c1 $end
+$var wire 1 O c2 $end
+$var wire 1 P c3 $end
+$var wire 1 Q g0 $end
+$var wire 1 R g1 $end
+$var wire 1 S g2 $end
+$var wire 1 T g3 $end
+$var wire 1 U p0 $end
+$var wire 1 V p1 $end
+$var wire 1 W p2 $end
+$var wire 1 X p3 $end
+$var wire 4 Y s [3:0] $end
 $upscope $end
 $scope module b1 $end
-$var wire 4 N a [3:0] $end
-$var wire 4 O b [3:0] $end
-$var wire 1 A blockCin $end
-$var wire 1 P blockCout $end
-$var wire 1 Q c1 $end
-$var wire 1 R c2 $end
-$var wire 1 S c3 $end
-$var wire 1 T g0 $end
-$var wire 1 U g1 $end
-$var wire 1 V g2 $end
-$var wire 1 W g3 $end
-$var wire 1 X p0 $end
-$var wire 1 Y p1 $end
-$var wire 1 Z p2 $end
-$var wire 1 [ p3 $end
-$var wire 4 \ s [3:0] $end
+$var wire 4 Z a [3:0] $end
+$var wire 4 [ b [3:0] $end
+$var wire 1 M blockCin $end
+$var wire 1 \ blockCout $end
+$var wire 1 ] c1 $end
+$var wire 1 ^ c2 $end
+$var wire 1 _ c3 $end
+$var wire 1 ` g0 $end
+$var wire 1 a g1 $end
+$var wire 1 b g2 $end
+$var wire 1 c g3 $end
+$var wire 1 d p0 $end
+$var wire 1 e p1 $end
+$var wire 1 f p2 $end
+$var wire 1 g p3 $end
+$var wire 4 h s [3:0] $end
 $upscope $end
 $scope module b2 $end
-$var wire 4 ] a [3:0] $end
-$var wire 4 ^ b [3:0] $end
-$var wire 1 P blockCin $end
-$var wire 1 _ blockCout $end
-$var wire 1 ` c1 $end
-$var wire 1 a c2 $end
-$var wire 1 b c3 $end
-$var wire 1 c g0 $end
-$var wire 1 d g1 $end
-$var wire 1 e g2 $end
-$var wire 1 f g3 $end
-$var wire 1 g p0 $end
-$var wire 1 h p1 $end
-$var wire 1 i p2 $end
-$var wire 1 j p3 $end
-$var wire 4 k s [3:0] $end
+$var wire 4 i a [3:0] $end
+$var wire 4 j b [3:0] $end
+$var wire 1 \ blockCin $end
+$var wire 1 k blockCout $end
+$var wire 1 l c1 $end
+$var wire 1 m c2 $end
+$var wire 1 n c3 $end
+$var wire 1 o g0 $end
+$var wire 1 p g1 $end
+$var wire 1 q g2 $end
+$var wire 1 r g3 $end
+$var wire 1 s p0 $end
+$var wire 1 t p1 $end
+$var wire 1 u p2 $end
+$var wire 1 v p3 $end
+$var wire 4 w s [3:0] $end
 $upscope $end
 $scope module b3 $end
-$var wire 4 l a [3:0] $end
-$var wire 4 m b [3:0] $end
-$var wire 1 _ blockCin $end
-$var wire 1 7 blockCout $end
-$var wire 1 n c1 $end
-$var wire 1 o c2 $end
-$var wire 1 p c3 $end
-$var wire 1 q g0 $end
-$var wire 1 r g1 $end
-$var wire 1 s g2 $end
-$var wire 1 t g3 $end
-$var wire 1 u p0 $end
-$var wire 1 v p1 $end
-$var wire 1 w p2 $end
-$var wire 1 x p3 $end
-$var wire 4 y s [3:0] $end
+$var wire 4 x a [3:0] $end
+$var wire 4 y b [3:0] $end
+$var wire 1 k blockCin $end
+$var wire 1 C blockCout $end
+$var wire 1 z c1 $end
+$var wire 1 { c2 $end
+$var wire 1 | c3 $end
+$var wire 1 } g0 $end
+$var wire 1 ~ g1 $end
+$var wire 1 !" g2 $end
+$var wire 1 "" g3 $end
+$var wire 1 #" p0 $end
+$var wire 1 $" p1 $end
+$var wire 1 %" p2 $end
+$var wire 1 &" p3 $end
+$var wire 4 '" s [3:0] $end
 $upscope $end
 $upscope $end
 $scope module const16 $end
-$var wire 16 z out [15:0] $end
-$var wire 8 { a [7:0] $end
+$var wire 16 (" out [15:0] $end
+$var wire 8 )" a [7:0] $end
+$upscope $end
+$scope module sub16 $end
+$var wire 16 *" b [15:0] $end
+$var wire 1 +" cin $end
+$var wire 16 ," s [15:0] $end
+$var wire 1 ; cout $end
+$var wire 16 -" a [15:0] $end
+$scope module b0 $end
+$var wire 4 ." a [3:0] $end
+$var wire 4 /" b [3:0] $end
+$var wire 1 +" blockCin $end
+$var wire 1 0" blockCout $end
+$var wire 1 1" c1 $end
+$var wire 1 2" c2 $end
+$var wire 1 3" c3 $end
+$var wire 1 4" g0 $end
+$var wire 1 5" g1 $end
+$var wire 1 6" g2 $end
+$var wire 1 7" g3 $end
+$var wire 1 8" p0 $end
+$var wire 1 9" p1 $end
+$var wire 1 :" p2 $end
+$var wire 1 ;" p3 $end
+$var wire 4 <" s [3:0] $end
+$upscope $end
+$scope module b1 $end
+$var wire 4 =" a [3:0] $end
+$var wire 4 >" b [3:0] $end
+$var wire 1 0" blockCin $end
+$var wire 1 ?" blockCout $end
+$var wire 1 @" c1 $end
+$var wire 1 A" c2 $end
+$var wire 1 B" c3 $end
+$var wire 1 C" g0 $end
+$var wire 1 D" g1 $end
+$var wire 1 E" g2 $end
+$var wire 1 F" g3 $end
+$var wire 1 G" p0 $end
+$var wire 1 H" p1 $end
+$var wire 1 I" p2 $end
+$var wire 1 J" p3 $end
+$var wire 4 K" s [3:0] $end
+$upscope $end
+$scope module b2 $end
+$var wire 4 L" a [3:0] $end
+$var wire 4 M" b [3:0] $end
+$var wire 1 ?" blockCin $end
+$var wire 1 N" blockCout $end
+$var wire 1 O" c1 $end
+$var wire 1 P" c2 $end
+$var wire 1 Q" c3 $end
+$var wire 1 R" g0 $end
+$var wire 1 S" g1 $end
+$var wire 1 T" g2 $end
+$var wire 1 U" g3 $end
+$var wire 1 V" p0 $end
+$var wire 1 W" p1 $end
+$var wire 1 X" p2 $end
+$var wire 1 Y" p3 $end
+$var wire 4 Z" s [3:0] $end
+$upscope $end
+$scope module b3 $end
+$var wire 4 [" a [3:0] $end
+$var wire 4 \" b [3:0] $end
+$var wire 1 N" blockCin $end
+$var wire 1 ; blockCout $end
+$var wire 1 ]" c1 $end
+$var wire 1 ^" c2 $end
+$var wire 1 _" c3 $end
+$var wire 1 `" g0 $end
+$var wire 1 a" g1 $end
+$var wire 1 b" g2 $end
+$var wire 1 c" g3 $end
+$var wire 1 d" p0 $end
+$var wire 1 e" p1 $end
+$var wire 1 f" p2 $end
+$var wire 1 g" p3 $end
+$var wire 4 h" s [3:0] $end
+$upscope $end
 $upscope $end
 $upscope $end
 $scope module register $end
-$var wire 1 ! clk $end
-$var wire 4 | dstAddressIn [3:0] $end
-$var wire 8 } immediateOperandOutputIn [7:0] $end
-$var wire 4 ~ operationIn [3:0] $end
-$var wire 16 !" src1DataIn [15:0] $end
-$var wire 16 "" src2DataIn [15:0] $end
-$var reg 4 #" dstAddress [3:0] $end
-$var reg 8 $" immediateOperandOutput [7:0] $end
-$var reg 4 %" operation [3:0] $end
-$var reg 16 &" src1Data [15:0] $end
-$var reg 16 '" src2Data [15:0] $end
+$var wire 1 " clk $end
+$var wire 4 i" dstAddress [3:0] $end
+$var wire 1 $ hold $end
+$var wire 4 j" inputDstAddress [3:0] $end
+$var wire 8 k" inputImmediate [7:0] $end
+$var wire 4 l" inputOperation [3:0] $end
+$var wire 16 m" inputSrc1 [15:0] $end
+$var wire 16 n" inputSrc2 [15:0] $end
+$var wire 4 o" operation [3:0] $end
+$var wire 16 p" src1Data [15:0] $end
+$var wire 16 q" src2Data [15:0] $end
+$var wire 8 r" immediate [7:0] $end
+$var reg 4 s" localDstAddress [3:0] $end
+$var reg 8 t" localImmediate [7:0] $end
+$var reg 4 u" localOperation [3:0] $end
+$var reg 16 v" localSrc1 [15:0] $end
+$var reg 16 w" localSrc2 [15:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b11 '"
-b1 &"
-b1 %"
-bx $"
-b0 #"
-b11 ""
-b1 !"
-b1 ~
-bx }
-b0 |
-bx {
-bx z
+b11 w"
+b1 v"
+b1 u"
+bx t"
+b0 s"
+bx r"
+b11 q"
+b1 p"
+b1 o"
+b11 n"
+b1 m"
+b1 l"
+bx k"
+b0 j"
+b0 i"
+b1111 h"
+1g"
+1f"
+1e"
+1d"
+0c"
+0b"
+0a"
+0`"
+0_"
+0^"
+0]"
+b1111 \"
+b0 ["
+b1111 Z"
+1Y"
+1X"
+1W"
+1V"
+0U"
+0T"
+0S"
+0R"
+0Q"
+0P"
+0O"
+0N"
+b1111 M"
+b0 L"
+b1111 K"
+1J"
+1I"
+1H"
+1G"
+0F"
+0E"
+0D"
+0C"
+0B"
+0A"
+0@"
+0?"
+b1111 >"
+b0 ="
+b1110 <"
+1;"
+1:"
+09"
+18"
+07"
+06"
+05"
+04"
+03"
+02"
+11"
+00"
+b1100 /"
+b1 ."
+b1 -"
+b1111111111111110 ,"
+1+"
+b1111111111111100 *"
+bx )"
+bx ("
+b0 '"
+0&"
+0%"
+0$"
+0#"
+0""
+0!"
+0~
+0}
+0|
+0{
+0z
 b0 y
-0x
-0w
+b0 x
+b0 w
 0v
 0u
 0t
@@ -163,12 +342,12 @@ b0 y
 0p
 0o
 0n
-b0 m
-b0 l
-b0 k
-0j
-0i
-0h
+0m
+0l
+0k
+b0 j
+b0 i
+b0 h
 0g
 0f
 0e
@@ -178,173 +357,90 @@ b0 k
 0a
 0`
 0_
-b0 ^
-b0 ]
-b0 \
-0[
-0Z
-0Y
+0^
+0]
+0\
+b0 [
+b0 Z
+b100 Y
 0X
 0W
-0V
+1V
 0U
 0T
 0S
 0R
-0Q
+1Q
 0P
-b0 O
-b0 N
-b100 M
-0L
-0K
-1J
-0I
-0H
+1O
+1N
+0M
+b11 L
+b1 K
+b1 J
+b11 I
+b100 H
 0G
-0F
-1E
-0D
-1C
-1B
-0A
-b11 @
-b1 ?
-b1 >
-b11 =
-b100 <
+xF
+b100 E
+xD
+0C
+b100 B
+bx A
+b1 @
+b11 ?
+bx000000000000000000000000000000 >
+bx =
+b1 <
 0;
-b100 :
-b100 9
-bx 8
-07
-b1 6
-b11 5
-bx 4
-b1 3
-b0 2
-bx 1
-b1 0
+b1111111111111110 :
+b1 9
+z8
+z7
+bx 6
+15
+b0 4
+bx 3
+b1 2
+b1 1
+b11 0
 b1 /
-b11 .
-b100 -
-b0 ,
-b11 +
-b1 *
-b1 )
-bx (
-b0 '
-b11 &
-b1 %
-b1 $
-bx #
-b0 "
-1!
+b100 .
+b11 -
+b1 ,
+b1 +
+bx *
+b0 )
+b11 (
+b1 '
+b1 &
+bx %
+0$
+b0 #
+1"
+b100 !
 $end
 #2
-0!
+0"
 #4
-x7
-xp
-x_
-xb
-xP
-xS
-xA
-xC
-xD
-xo
-xa
-xR
-xn
-bx y
-x`
-bx k
-xQ
-bx \
-xB
-bx 9
-bx <
-bx M
-xu
-xq
-xv
-xr
-xw
-xs
-xx
-xt
-xg
-xc
-xh
-xd
-xi
-xe
-xj
-xf
-xX
-xT
-xY
-xU
-xZ
-xV
-x[
-xW
-xI
-xE
-xJ
-xF
-xK
-xG
-xL
-xH
-bx m
-bx ^
-bx O
-bx @
-bx l
-bx ]
-bx N
-bx ?
-b1100 -
-b1100 :
-b1100 8
-b1100 z
-b1100 1
-b1100 4
-b1100 {
-b1100 $"
-bx .
-bx 5
-bx =
-bx '"
-bx /
-bx 6
-bx >
-bx &"
-b1010 2
-b1010 #"
-b0 0
-b0 3
-b0 %"
-1!
-b1100 #
-b1100 (
-b1100 }
-bx &
-bx +
-bx ""
-bx %
-bx *
-bx !"
-b1010 ,
-b1010 "
-b1010 '
-b1010 |
-b0 $
-b0 )
-b0 ~
+1"
+b1100 %
+b1100 *
+b1100 k"
+bx (
+bx -
+bx n"
+bx '
+bx ,
+bx m"
+b1010 #
+b1010 )
+b1010 j"
+b0 &
+b0 +
+b0 l"
+1$
 #6
-0!
+0"
 #8
-1!
+1"

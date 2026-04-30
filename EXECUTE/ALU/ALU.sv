@@ -1,76 +1,88 @@
-/*
-    forwarding path: return ALU result to EXECUTE stage, check if one of the sources operands is the dst operand of the previous execution
-*/
+// include forward path
 
 module ALU(
-    // clk for sequential operations such as DIV
+    // control inputs
     input logic clk,
-    // holding the ALU for as long as the operation takes place
     input logic hold,
+
+    // data inputs
     input logic [3:0] operation,
-    input logic [15:0] data1,
-    input logic [15:0] data2,
-    input logic [7:0] immediateOperand,
-    output logic [15:0] result,
+    input logic [15:0] d1,
+    input logic [15:0] d2,
+    input logic [7:0] immediate,
+
+    // data outputs
+    output logic [15:0] out,
     output logic enableWrite,
-    output logic [15:0] forwardPathData,
-    output logic [15:0] operationOutput
+    // output logic [15:0] forwardPathData,
+    output logic [3:0] outputOperation,
+    output logic controlHold,
+    output logic [31:0] flags
 );
-    // const function
+    logic controlSignals;
+    logic [15:0] quotient;
+    logic [15:0] remainder;
+    logic divFinished;
+
+    ALUControl control(
+        .clk(clk),
+        .hold(hold),
+        .operation(operation),
+        .divFinished(divFinished),
+        .controlSignals(controlSignals),
+    );
+
+    assign controlHold = controlSignals[2];
+
+    logic reset;
+    assign reset = controlSignals[3];
+    DIV16 div16(clk, reset, d1, d2, quotient, remainder, divFinished);
+
     logic [15:0] constOut;
-    // add
     logic [15:0] addOut;
-    logic addCout;
-    // sub
+    logic addCarry;
     logic [15:0] subOut;
-    logic subCout;
-    // and
-    logic [15:0] andOut;
-    // or
-    logic [15:0] orOut;
-    // xor
-    logic [15:0] xorOut;
+    logic subCarry;
+    // logic [15:0] andOut;
+    // logic [15:0] orOut;
+    // logic [15:0] xorOut;
 
+    CONST16 const16(immediate, constOut);
+    ADD16 add16(d1, d2, 1'b0, addOut, addCout);
+    ADD16 sub16(d1, ~d2, 1'b1, subOut, subCout);
+    // AND16 and16(data1, data2, andOut);
+    // OR16 or16(data1, data2, orOut);
+    // XOR16 xor16(data1, data2, xorOut);
 
-    // arithmetic
-    CONST16 const16(immediateOperand, constOut);
-    ADD16 add16(data1, data2, 1'b0, addOut, addCout);
-    ADD16 sub16(data1, ~data2, 1'b1, subOut, subCout);
-    // MUL
-
-    // DIV
-    
-    // logic
-    AND16 and16(data1, data2, andOut);
-    OR16 or16(data1, data2, orOut);
-    XOR16 xor16(data1, data2, xorOut);
-
-
-    // functional stalls NOPs
-
-
+    // single-cycle operation
     always_comb
     begin 
         case(operation)
             // arithmetic
-            4'h0: result = constOut;
-            4'h1: result = addOut;
-            4'h2: result = subOut;
+            4'h0: out = constOut;
+            4'h1: out = addOut;
+            4'h2: out = subOut;
 
             // logic
-            4'h5: result = andOut;
-            4'h6: result = orOut;
-            4'h7: result = xorOut;
+            // 4'h5: result = andOut;
+            // 4'h6: result = orOut;
+            // 4'h7: result = xorOut;
 
             // (stall) NOP
-            4'hF: result = 16'hXXXX;
-            default: result = 16'hXXXX;
+            4'hF: out = 16'hXXXX;
+            default: out = 16'hXXXX;
         endcase
     end
 
-    // specialized outputs
+    /*
+        further operations possibe like BRANCH possible
+        BZ: if difference = 0
+        BN: if MSB = 1
+        BP: if MSB = 0
+    */
+
+    assign outputOperation = operation;
     assign enableWrite = ~(operation[3] & operation[2] & operation[1] & operation[0]);
-    assign operationOutput = operation;
-    assign forwardPath = result;
+    assign flags = { addCarry, subCarry, 30'b00_0000_0000_0000_0000_0000_0000_0000 };
 
 endmodule

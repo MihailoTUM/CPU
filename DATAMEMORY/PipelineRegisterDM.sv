@@ -9,14 +9,14 @@ module PipelineRegisterDM(
     output logic [15:0] result,
     output logic [3:0] dst,
     output logic enableSignal,
-    output logic [3:0] operationOut;
+    output logic [3:0] operationOut
 );
 
     always_ff @(posedge clk)
     begin
         result <= ALUResult;
         dst <= writeBackDst;
-        enableSignal <= writeBackEnable
+        enableSignal <= writeBackEnable;
         operationOut <= operation;
     end
 
