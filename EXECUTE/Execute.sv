@@ -59,7 +59,10 @@ module Execute(
         // outputs
         .out(out),
         .enableWrite(enableWrite),
-        .outputOperation(operation)
+        .outputOperation(operation),
+        .controlHold(controlHold)
     );
+
+    assign writeBackDst = localDstAddress;
 
 endmodule

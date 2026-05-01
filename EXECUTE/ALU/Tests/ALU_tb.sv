@@ -1,33 +1,42 @@
 `timescale 1ns/1ns
 
 module ALU_tb();
-    logic [3:0] opcode;
-    logic [15:0] a;
-    logic [15:0] b;
-    logic [7:0] immediateOperand;
-    logic [15:0] result;
+    logic clk;
+    logic [3:0] operation;
+    logic [15:0] d1;
+    logic [15:0] d2;
+    logic [7:0] immediate;
+
+    logic [15:0] out;
+    logic enableWrite;
+    logic [3:0] outputOperation;
+    logic controlHold;
 
     ALU dut(
-        .opcode(opcode),
-        .a(a),
-        .b(b),
-        .immediateOperand(immediateOperand),
-        .result(result)
+        .clk(clk),
+        .operation(operation),
+        .d1(d1),
+        .d2(d2),
+        .immediate(immediate),
+        .out(out),
+        .enableWrite(enableWrite),
+        .outputOperation(outputOperation),
+        .controlHold(controlHold)
     );
 
-    initial begin
+    initial clk = 0;
+    always #2 clk = ~clk;
+
+    initial
+    begin
         $dumpfile("ALU.vcd");
         $dumpvars(0, ALU_tb);
 
-        // CONST
-        opcode = 4'h0; immediateOperand = 8'h04; #2;
-        assert(result == 16'h0004) else $error("Test 1 failed");
+        operation = 4'h0; immediate = 8'h0C; d1 = 16'hXXXX; d2 = 16'hXXXX; #4;
 
-        // ADD
-        opcode = 4'h1; a = 16'h0001; b = 16'h000C; #2;
-        assert(result == 16'h000D) else $error("Test 2 failed");
+        operation = 4'h4; immediate = 8'hXX; d1 = 16'h000C; d2 = 16'h0003; #4;
 
+        #250;
+        $finish;
     end
-
-
 endmodule;

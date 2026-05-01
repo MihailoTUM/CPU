@@ -25,10 +25,10 @@ module DIV16(
     ADD16 sub(
         .a(subInput),
         .b(~divisor),
-        .carryIn(1'b1),
+        .cin(1'b1),
         // outputs
-        .result(subResult),
-        .carryOut()
+        .s(subResult),
+        .cout()
     );
 
     DivRegister divReg(
