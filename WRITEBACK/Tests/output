@@ -1,0 +1,65 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000022a417ebc80 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000022a418365c0 .scope module, "WriteBack_tb" "WriteBack_tb" 3 3;
+ .timescale -9 -9;
+v0000022a41836980_0 .net "enableRegisterWrite", 0 0, L_0000022a4187dcc0;  1 drivers
+v0000022a41834310_0 .var "enableWrite", 0 0;
+v0000022a418343b0_0 .var "result", 15 0;
+v0000022a41834450_0 .var "writeBackDst", 3 0;
+v0000022a418344f0_0 .net "writeToRegisterData", 15 0, L_0000022a4187dfd0;  1 drivers
+v0000022a4187d850_0 .net "writeToRegisterDst", 3 0, L_0000022a4187db70;  1 drivers
+S_0000022a41836750 .scope module, "dut" "WriteBack" 3 12, 4 3 0, S_0000022a418365c0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 16 "result";
+    .port_info 1 /INPUT 4 "writeBackDst";
+    .port_info 2 /INPUT 1 "enableWrite";
+    .port_info 3 /OUTPUT 16 "writeToRegisterData";
+    .port_info 4 /OUTPUT 4 "writeToRegisterDst";
+    .port_info 5 /OUTPUT 1 "enableRegisterWrite";
+L_0000022a4187dfd0 .functor BUFZ 16, v0000022a418343b0_0, C4<0000000000000000>, C4<0000000000000000>, C4<0000000000000000>;
+L_0000022a4187db70 .functor BUFZ 4, v0000022a41834450_0, C4<0000>, C4<0000>, C4<0000>;
+L_0000022a4187dcc0 .functor BUFZ 1, v0000022a41834310_0, C4<0>, C4<0>, C4<0>;
+v0000022a417e6f10_0 .net "enableRegisterWrite", 0 0, L_0000022a4187dcc0;  alias, 1 drivers
+v0000022a417e6ad0_0 .net "enableWrite", 0 0, v0000022a41834310_0;  1 drivers
+v0000022a417ebe10_0 .net "result", 15 0, v0000022a418343b0_0;  1 drivers
+v0000022a417ea5d0_0 .net "writeBackDst", 3 0, v0000022a41834450_0;  1 drivers
+v0000022a417e9bc0_0 .net "writeToRegisterData", 15 0, L_0000022a4187dfd0;  alias, 1 drivers
+v0000022a418368e0_0 .net "writeToRegisterDst", 3 0, L_0000022a4187db70;  alias, 1 drivers
+    .scope S_0000022a418365c0;
+T_0 ;
+    %vpi_call/w 3 24 "$dumpfile", "WriteBack.vcd" {0 0 0};
+    %vpi_call/w 3 25 "$dumpvars", 32'sb00000000000000000000000000000000, S_0000022a418365c0 {0 0 0};
+    %pushi/vec4 4012, 0, 16;
+    %store/vec4 v0000022a418343b0_0, 0, 16;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0000022a41834450_0, 0, 4;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000022a41834310_0, 0, 1;
+    %delay 4, 0;
+    %pushi/vec4 2732, 0, 16;
+    %store/vec4 v0000022a418343b0_0, 0, 16;
+    %pushi/vec4 3, 0, 4;
+    %store/vec4 v0000022a41834450_0, 0, 4;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000022a41834310_0, 0, 1;
+    %delay 4, 0;
+    %vpi_call/w 3 33 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "WriteBack_tb.sv";
+    "../WriteBack.sv";

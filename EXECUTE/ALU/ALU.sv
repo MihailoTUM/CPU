@@ -8,6 +8,8 @@ module ALU(
     input logic [15:0] d1,
     input logic [15:0] d2,
     input logic [7:0] immediate,
+    input logic [15:0] forwardPathInput,
+    input logic [3:0] forwardPathInputSrc,
 
     // data outputs
     output logic [15:0] out,

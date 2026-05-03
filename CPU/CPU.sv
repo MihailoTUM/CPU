@@ -4,37 +4,22 @@ module CPU(
     input logic globalClk,
     input logic globalReset
 );
-    // FETCH inputs
-    // logic enableWrite;
-
-    // FETCH output
-    logic [15:0] fetchOutputInstruction;
-
-    // DECODE inputs: WRITE
-    logic [15:0] writeToRegisterData;
-    logic [3:0] writeToRegisterDst;
-    logic enableRegisterWrite;
-
-    // DECODE outputs: READ
-    logic [3:0] decodeOutputOperation;
-    logic [3:0] decodeOutputDst;
-    logic [15:0] decodeSrc1Data;
-    logic [15:0] decodeSrc2Data;
-    logic [7:0] decodeOutputImmediate;
-    logic localEnableWrite;
-
-    // control outputs
+    // control
     logic [3:0] controlSignals;
 
-    // Control-unit
     Control control(
-        .clk(clk),
+        .clk(globalClk),
+        .reset(globalReset),
+        .holdSignalFromALU(controlHold),
+        .jumpSignalFromALU(controlJump),
+
         .controlSignals(controlSignals)
     );
 
-    // FETCH-stage
+    // fetch
+    logic [15:0] fetchOutputInstruction;
+
     Fetch fetch(
-        // inputs
         .clk(globalClk),
         .reset(globalReset),
         .hold(controlSignals[0]),
@@ -42,24 +27,30 @@ module CPU(
         // .fixedAddress(fixedAddress),
         // .enableWrite(enableWrite),
 
-        // outputs
         .instruction(fetchOutputInstruction)
     );
 
-    // DECODE-stage
+    // decode
+    logic [15:0] writeToRegisterData;
+    logic [3:0] writeToRegisterDst;
+    logic enableRegisterWrite;
+
+    logic [3:0] decodeOutputOperation;
+    logic [3:0] decodeOutputDst;
+    logic [15:0] decodeSrc1Data;
+    logic [15:0] decodeSrc2Data;
+    logic [7:0] decodeOutputImmediate;
+
     Decode decode(
-        // inputs
-        // control
         .clk(clk),
         .hold(controlSignals[0]),
         // .flush(flush),
 
-        // write to registers
         .instruction(fetchOutputInstruction),
         .dataToStore(writeToRegisterData),
         .writeBackDst(writeToRegisterDst),
         .enableWrite(enableRegisterWrite),
-        // outputs
+
         .operation(decodeOutputOperation),
         .dstAddress(decodeOutputDst),
         .src1Data(decodeSrc1Data),
@@ -72,25 +63,28 @@ module CPU(
     logic [3:0] executeWriteBackDst;
     logic executeEnableWrite;
     logic [3:0] executeOutputOperation;
+    logic controlHold;
+    logic controlJump;
 
 
     // EXECUTE-stage
     Execute execute(
-        // inputs
-        // control
         .clk(clk),
         .hold(controlSignals[0]),
         // .flush(flush),
-        .operationIn(decodeOutputOperation),
-        .dstAddressIn(decodeOutputDst),
-        .src1DataIn(decodeSrc1Data),
-        .src2DataIn(decodeSrc2Data),
-        .immediateOperandOutputIn(decodeOutputImmediate),
-        // outputs
-        .result(executeResult),
+
+        .inputOperation(decodeOutputOperation),
+        .inputDstAddress(decodeOutputDst),
+        .inputSrc1(decodeSrc1Data),
+        .inputSrc2(decodeSrc2Data),
+        .inputImmediate(decodeOutputImmediate),
+        
+        .out(executeResult),
         .writeBackDst(executeWriteBackDst),
         .enableWrite(executeEnableWrite),
-        .operation(executeOutputOperation)
+        .operation(executeOutputOperation),
+        .controlHold(controlHold),
+        .controlJump(controlJump)
     );
 
     // DATAMEMORY outputs

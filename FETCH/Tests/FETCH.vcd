@@ -1,5 +1,5 @@
 $date
-	Wed Apr 08 18:29:37 2026
+	Sun May 03 20:14:24 2026
 $end
 $version
 	Icarus Verilog
@@ -7,73 +7,82 @@ $end
 $timescale
 	1ns
 $end
-$scope module FETCH_tb $end
+$scope module Fetch_tb $end
 $var wire 16 ! instruction [15:0] $end
 $var reg 1 " clk $end
-$var reg 1 # reset $end
+$var reg 1 # hold $end
+$var reg 1 $ reset $end
 $scope module dut $end
 $var wire 1 " clk $end
-$var wire 1 # reset $end
-$var wire 16 $ instruction [15:0] $end
-$var reg 16 % address [15:0] $end
+$var wire 1 # hold $end
+$var wire 1 $ reset $end
+$var wire 16 % instruction [15:0] $end
+$var reg 16 & address [15:0] $end
 $scope module instructionMemory $end
-$var wire 16 & address [15:0] $end
-$var reg 16 ' instruction [15:0] $end
+$var wire 16 ' address [15:0] $end
+$var reg 16 ( instruction [15:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b0 '
+b1111000000000000 (
+bx '
 bx &
-bx %
-b0 $
+b1111000000000000 %
+1$
 x#
-1"
-b0 !
+0"
+b1111000000000000 !
 $end
 #2
-0"
-#4
-b1000000001 !
-b1000000001 $
-b1000000001 '
-b0 %
-b0 &
-1"
-1#
-#6
-0"
-#8
-b100100000 !
-b100100000 $
-b100100000 '
-b10 %
-b10 &
-1"
-0#
-#10
-0"
-#12
-b100000000100001 !
-b100000000100001 $
-b100000000100001 '
-b100 %
-b100 &
-1"
-#14
-0"
-#16
-b0 !
-b0 $
-b0 '
-b110 %
-b110 &
-1"
-#18
-0"
-#20
+b1000 !
 b1000 %
-b1000 &
+b1000 (
+b0 &
+b0 '
 1"
+#4
+0"
+0$
+#6
+b100000010 !
+b100000010 %
+b100000010 (
+b10 &
+b10 '
+1"
+#8
+0"
+#10
+b1111000000000000 !
+b1111000000000000 %
+b1111000000000000 (
+b100 &
+b100 '
+1"
+#12
+0"
+#14
+b1001000000001 !
+b1001000000001 %
+b1001000000001 (
+b110 &
+b110 '
+1"
+#16
+0"
+1#
+#18
+1"
+#20
+0"
+#22
+1"
+#24
+0"
+#26
+1"
+#28
+0"

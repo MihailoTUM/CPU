@@ -15,13 +15,15 @@ module Decode(
     input logic [3:0] writeBackDst,
     // necessary for (stalls) NOP
     input logic enableWrite,
+
     output logic [3:0] operation,
     output logic [3:0] dstAddress,
+    output logic [3:0] src1DataAddress,
+    output logic [3:0] src2DataAddress,
     output logic [15:0] src1Data,
     output logic [15:0] src2Data,
     output logic [7:0] immediateOperandOutput
 );
-    // local signals
     logic [3:0] localOperation;  
     logic [3:0] localDstAddress;
     logic [3:0] localSrc1Address;
@@ -59,5 +61,7 @@ module Decode(
         .immediateOperandOutput(immediateOperandOutput)
     );
 
+    assign src1DataAddress = instruction[7:4];
+    assign src2DataAddress = instruction[3:0];
 
 endmodule

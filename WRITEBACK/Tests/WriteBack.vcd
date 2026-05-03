@@ -1,0 +1,49 @@
+$date
+	Sun May 03 20:44:00 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module WriteBack_tb $end
+$var wire 4 ! writeToRegisterDst [3:0] $end
+$var wire 16 " writeToRegisterData [15:0] $end
+$var wire 1 # enableRegisterWrite $end
+$var reg 1 $ enableWrite $end
+$var reg 16 % result [15:0] $end
+$var reg 4 & writeBackDst [3:0] $end
+$scope module dut $end
+$var wire 1 # enableRegisterWrite $end
+$var wire 1 $ enableWrite $end
+$var wire 16 ' result [15:0] $end
+$var wire 4 ( writeBackDst [3:0] $end
+$var wire 16 ) writeToRegisterData [15:0] $end
+$var wire 4 * writeToRegisterDst [3:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1 *
+b111110101100 )
+b1 (
+b111110101100 '
+b1 &
+b111110101100 %
+1$
+1#
+b111110101100 "
+b1 !
+$end
+#4
+b11 !
+b11 *
+b11 &
+b11 (
+b101010101100 "
+b101010101100 )
+b101010101100 %
+b101010101100 '
+#8

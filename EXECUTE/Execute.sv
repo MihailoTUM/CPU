@@ -9,17 +9,23 @@ module Execute(
     // data inputs
     input logic [3:0] inputOperation,
     input logic [3:0] inputDstAddress,
+    input logic [3:0] inputSrc1Address,
+    input logic [3:0] inputSrc2Address,
     input logic [15:0] inputSrc1,
     input logic [15:0] inputSrc2,
     input logic [7:0] inputImmediate,
-    // input logic [15:0] forwardPathInput,
+    input logic [15:0] forwardPathInput,
+    input logic [3:0] forwardPathSrcInput,
 
     // data outputs
-    output logic [3:0] operation,
     output logic [15:0] out,
     output logic [3:0] writeBackDst,
     output logic enableWrite,
-    output logic controlHold
+    output logic [3:0] operation,
+    output logic controlHold,
+    output logic controlJump;
+    output logic [15:0] forwardPathOutput;
+    output logic [15:0] forwardPathSrcOutput;
 );
     // forwarding path
     // output of the ALU is input for the execution state
@@ -29,23 +35,37 @@ module Execute(
     logic [15:0] localSrc1Data;
     logic [15:0] localSrc2Data;
     logic [7:0] localImmediate;
+    logic [15:0] localForwardPathInput;
+    logic [3:0] localForwardPathSrcInput;
+
+    logic [3:0] localSrc1Address;
+    logic [3:0] localSrc2Address;
 
     PipelineRegisterEX register(
         // inputs
         .clk(clk),
         .hold(hold),
         // .flush(flush),
+
         .inputOperation(inputOperation),
         .inputDstAddress(inputDstAddress),
+        .inputSrc1Address(inputSrc1Address),
+        .inputSrc2Address(inputSrc2Address),
+
         .inputSrc1(inputSrc1),
         .inputSrc2(inputSrc2),
         .inputImmediate(inputImmediate),
-        // outputs
+        .forwardPathInput(forwardPathInput),
+   
         .operation(localOperation),
         .dstAddress(localDstAddress),
         .src1Data(localSrc1Data),
         .src2Data(localSrc2Data),
-        .immediate(localImmediate)
+        .immediate(localImmediate),
+        .forwardPathOutput(localForwardPathInput),
+        .forwardPathSrcOutput(localForwardPathSrcInput),
+        .outputSrc1Address(localSrc1Address),
+        .outputSrc2Address(localSrc2Address)
     );
 
 
@@ -56,7 +76,9 @@ module Execute(
         .d1(localSrc1Data),
         .d2(localSrc2Data),
         .immediate(localImmediate),
-        // outputs
+        .forwardPathInput(localForwardPathInput),
+        .forwardPathInputSrc(localForwardPathSrcInput),
+
         .out(out),
         .enableWrite(enableWrite),
         .outputOperation(operation),
@@ -64,5 +86,7 @@ module Execute(
     );
 
     assign writeBackDst = localDstAddress;
+    assign forwardPathOutput = out;
+    assign forwardPathSrcOutput = localDstAddress;
 
 endmodule

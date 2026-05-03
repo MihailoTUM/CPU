@@ -1,34 +1,35 @@
 `timescale 1ns/1ns
 
-module FETCH_tb();
+module Fetch_tb();
     logic clk;
     logic reset;
+    logic hold;
     logic [15:0] instruction;
 
-    FETCH dut(
+    Fetch dut(
         .clk(clk),
         .reset(reset),
+        .hold(hold),
         .instruction(instruction)
     );
 
-    initial clk = 1;
+    initial clk = 0;
     always #2 clk = ~clk;
 
     initial begin
-        $dumpfile("FETCH.vcd");
-        $dumpvars(0, FETCH_tb);
+        $dumpfile("Fetch.vcd");
+        $dumpvars(0, Fetch_tb);
 
-        // wait one cycle
-        #4;
-
-        // reset the program counter
         reset = 1;
         #4;
 
         reset = 0;
+        #4;
+
+        #8;
+        hold = 1;
 
         #12;
-
         $finish;
     end
 endmodule

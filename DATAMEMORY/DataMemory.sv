@@ -7,16 +7,16 @@ module DataMemory(
     input logic [3:0] writeBackALUResultDst,
     input logic writeBackEnable,
     input logic [3:0] operation,
+
     output logic [15:0] resultToWriteBack,
     output logic [3:0] dstToWriteBack,
     output logic enableToWriteBack
 );
-    logic [15:0] localResult;
-    logic [3:0] writeBackDst;
-    logic localEnable;
     logic [15:0] dataMemoryResult;
 
-    // pipeline register
+    // temporarly
+    assign dataMemoryResult = 16'hXXXX;
+
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
         .ALUResult(ALUResult),
@@ -24,15 +24,14 @@ module DataMemory(
         .writeBackEnable(writeBackEnable),
         .operation(operation),
         // outputs
-        .result(localResult),
-        .dst(writeBackDst),
-        .enableSignal(localEnable)
+        .result(),
+        .dst(dstToWriteBack),
+        .enableSignal(enableToWriteBack)
     );
 
     // memory, takes 10-more cycles to operate
     Memory mem();
 
-    // circumvent the memory if not needed
     always_comb 
     begin
         case(operation)
