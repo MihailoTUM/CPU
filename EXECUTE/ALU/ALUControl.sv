@@ -1,25 +1,41 @@
 
 
 module ALUControl(
+    // control inputs
     input logic clk,
-    input logic [3:0] operation,
     input logic divFinished,
-    output logic [3:0] controlSignals
+
+    // data inputs
+    input logic [3:0] operation,
+    input logic [3:0] dstAddress,
+    input logic [15:0] data1Input,
+    input logic [15:0] data1Input,
+
+    // forward path
+    input logic [15:0] forwardPathInput,
+    input logic [3:0] forwardPathInputSrc,
+    input logic [3:0] forwardPathSrc1Address,
+    input logic [3:0] forwardPathSrc2Address,
+
+    output logic [3:0] controlSignals,
+    output logic [15:0] data1Output,
+    output logic [15:0] data2Output
 );  
-    // detect if instruction is multi-cycle
     logic multiCycle;
+
+    assign data1Output = |(dstAddress ^ forwardPathSrc1Address) ? data1: forwardPathInput;
+    assign data2Output = |(dstAddress ^ forwardPathSrc2Address) ? data2: forwardPathInput;
+
 
     always_comb
     begin 
         case(operation)
-        4'h4: multiCycle = 1;
-        default: multiCycle = 0;
+            4'h4: multiCycle = 1;
+            default: multiCycle = 0;
         endcase
     end
 
-    typedef enum logic [1:0] {
-        reset1, reset2, loop, finished
-    } statetype;
+    typedef enum logic [1:0] { reset1, reset2, loop, finished } statetype;
     statetype state, nextState;
 
     always_comb 
@@ -39,13 +55,11 @@ module ALUControl(
     begin
         state <= nextState;
     end
-
     /*
         controlSignals
         0: reset,
         1: hold
     */
-
 
     always_comb
     begin
@@ -57,4 +71,4 @@ module ALUControl(
         endcase
     end
 
-endmodule;
+endmodule

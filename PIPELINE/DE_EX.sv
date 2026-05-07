@@ -8,9 +8,13 @@ module DE_EX(
 );
     logic [3:0] localOperation;
     logic [3:0] localDstAddress;
+    
     logic [15:0] localSrc1Data;
     logic [15:0] localSrc2Data;
+
     logic [7:0] localImmediate;
+    logic [3:0] localSrc1Address;
+    logic [3:0] localSrc2Address;
 
 
     Decode decode(

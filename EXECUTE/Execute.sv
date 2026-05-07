@@ -56,6 +56,7 @@ module Execute(
         .inputSrc2(inputSrc2),
         .inputImmediate(inputImmediate),
         .forwardPathInput(forwardPathInput),
+        .forwardPathSrcInput(forwardPathSrcInput),
    
         .operation(localOperation),
         .dstAddress(localDstAddress),
@@ -78,6 +79,9 @@ module Execute(
         .immediate(localImmediate),
         .forwardPathInput(localForwardPathInput),
         .forwardPathInputSrc(localForwardPathSrcInput),
+        .forwardSrc1Address(localSrc1Address),
+        .forwardSrc2Address(localSrc2Address),
+        .dstAddress(localDstAddress),
 
         .out(out),
         .enableWrite(enableWrite),

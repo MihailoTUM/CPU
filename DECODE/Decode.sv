@@ -33,7 +33,7 @@ module Decode(
     PipelineRegisterDE pipelineRegister(
         .clk(clk),
         .hold(hold),
-        .flush(flush),
+        // .flush(flush),
         .instruction(instruction),
         // outputs
         .operation(localOperation),
