@@ -1,5 +1,5 @@
 $date
-	Tue May 12 10:03:37 2026
+	Tue May 12 21:30:46 2026
 $end
 $version
 	Icarus Verilog
@@ -74,13 +74,13 @@ $var wire 4 V forwardSrc1Address [3:0] $end
 $var wire 4 W forwardPathInputSrc [3:0] $end
 $var wire 16 X forwardPathInput [15:0] $end
 $var wire 32 Y flags [31:0] $end
-$var wire 4 Z dstAddress [3:0] $end
-$var wire 1 [ divFinished $end
-$var wire 16 \ d2 [15:0] $end
-$var wire 16 ] d1 [15:0] $end
-$var wire 4 ^ controlSignals [3:0] $end
+$var wire 1 Z divFinished $end
+$var wire 16 [ d2 [15:0] $end
+$var wire 16 \ d1 [15:0] $end
+$var wire 4 ] controlSignals [3:0] $end
 $var wire 1 ( controlHold $end
-$var wire 16 _ constOut [15:0] $end
+$var wire 16 ^ constOut [15:0] $end
+$var wire 4 _ beforeAddress [3:0] $end
 $var wire 16 ` addOut [15:0] $end
 $var wire 1 a addCout $end
 $var reg 1 b addCarry $end
@@ -176,12 +176,12 @@ $var wire 4 I" forwardPathSrc2Address [3:0] $end
 $var wire 4 J" forwardPathSrc1Address [3:0] $end
 $var wire 4 K" forwardPathInputSrc [3:0] $end
 $var wire 16 L" forwardPathInput [15:0] $end
-$var wire 4 M" dstAddress [3:0] $end
-$var wire 1 [ divFinished $end
-$var wire 16 N" data2Output [15:0] $end
-$var wire 16 O" data2Input [15:0] $end
-$var wire 16 P" data1Output [15:0] $end
-$var wire 16 Q" data1Input [15:0] $end
+$var wire 1 Z divFinished $end
+$var wire 16 M" data2Output [15:0] $end
+$var wire 16 N" data2Input [15:0] $end
+$var wire 16 O" data1Output [15:0] $end
+$var wire 16 P" data1Input [15:0] $end
+$var wire 4 Q" beforeAddress [3:0] $end
 $var reg 4 R" controlSignals [3:0] $end
 $var reg 1 S" multiCycle $end
 $var reg 2 T" nextState [1:0] $end
@@ -197,13 +197,13 @@ $var wire 16 Z" subResult [15:0] $end
 $var wire 16 [" subInput [15:0] $end
 $var wire 16 \" quotient [15:0] $end
 $var wire 10 ]" localSignals [9:0] $end
-$var wire 1 [ finished $end
+$var wire 1 Z finished $end
 $scope module control $end
 $var wire 1 ^" MSB $end
 $var wire 1 ) clk $end
 $var wire 1 Y" reset $end
 $var wire 4 _" localCounter [3:0] $end
-$var wire 1 [ finished $end
+$var wire 1 Z finished $end
 $var reg 5 `" counter [4:0] $end
 $var reg 5 a" nextState [4:0] $end
 $var reg 10 b" signals [9:0] $end
@@ -2901,21 +2901,21 @@ $scope module register $end
 $var wire 1 ) clk $end
 $var wire 16 /9 forwardPathInput [15:0] $end
 $var wire 4 09 forwardPathSrcInput [3:0] $end
-$var wire 4 19 forwardPathSrcOutput [3:0] $end
 $var wire 1 , hold $end
-$var wire 4 29 inputDstAddress [3:0] $end
-$var wire 8 39 inputImmediate [7:0] $end
-$var wire 4 49 inputOperation [3:0] $end
-$var wire 16 59 inputSrc1 [15:0] $end
-$var wire 4 69 inputSrc1Address [3:0] $end
-$var wire 16 79 inputSrc2 [15:0] $end
-$var wire 4 89 inputSrc2Address [3:0] $end
-$var wire 4 99 operation [3:0] $end
-$var wire 4 :9 outputSrc1Address [3:0] $end
-$var wire 4 ;9 outputSrc2Address [3:0] $end
-$var wire 16 <9 src1Data [15:0] $end
-$var wire 16 =9 src2Data [15:0] $end
-$var wire 8 >9 immediate [7:0] $end
+$var wire 4 19 inputDstAddress [3:0] $end
+$var wire 8 29 inputImmediate [7:0] $end
+$var wire 4 39 inputOperation [3:0] $end
+$var wire 16 49 inputSrc1 [15:0] $end
+$var wire 4 59 inputSrc1Address [3:0] $end
+$var wire 16 69 inputSrc2 [15:0] $end
+$var wire 4 79 inputSrc2Address [3:0] $end
+$var wire 4 89 operation [3:0] $end
+$var wire 4 99 outputSrc1Address [3:0] $end
+$var wire 4 :9 outputSrc2Address [3:0] $end
+$var wire 16 ;9 src1Data [15:0] $end
+$var wire 16 <9 src2Data [15:0] $end
+$var wire 8 =9 immediate [7:0] $end
+$var wire 4 >9 forwardPathSrcOutput [3:0] $end
 $var wire 16 ?9 forwardPathOutput [15:0] $end
 $var wire 4 @9 dstAddress [3:0] $end
 $var reg 4 A9 localDstAddress [3:0] $end
@@ -2950,14 +2950,14 @@ bx <9
 bx ;9
 bx :9
 bx 99
-b0 89
+bx 89
 b0 79
 b0 69
 b0 59
 b0 49
-b1010 39
-b0 29
-bx 19
+b0 39
+b1010 29
+b0 19
 b0 09
 b0 /9
 bx .9
@@ -5163,7 +5163,7 @@ bx g
 bx f
 0e
 xd
-bx c
+b1010101111001101 c
 xb
 xa
 bx `
@@ -5171,8 +5171,8 @@ bx _
 bx ^
 bx ]
 bx \
-x[
-bx Z
+bx [
+xZ
 bx000000000000000000000000000000 Y
 bx X
 bx W
@@ -5198,7 +5198,7 @@ bx D
 bx C
 bx B
 bx A
-bx @
+b1010101111001101 @
 bx ?
 b0 >
 b0 =
@@ -5209,7 +5209,7 @@ b1010 9
 b0 8
 bx 7
 b0 6
-bx 5
+b1010101111001101 5
 b0 4
 b0 3
 b0 2
@@ -5225,10 +5225,10 @@ b0 *
 x(
 x'
 x&
-bx %
+b1010101111001101 %
 bx $
 bx #
-bx "
+b1010101111001101 "
 bx !
 $end
 #2
@@ -6360,12 +6360,12 @@ b0 p"
 0Y"
 b0 R
 b0 g
-b0 N"
+b0 M"
 b0 W"
 b0 U#
 b0 S
 b0 h
-b0 P"
+b0 O"
 b0 V"
 b0 h"
 b0 T#
@@ -6377,53 +6377,53 @@ b1010 @
 b1010 c
 b100010000 ]"
 b100010000 b"
-b0 ^
+b0 ]
 b0 R"
 b1 a"
 b0 C
 b0 U
 b0 I"
-b0 ;9
+b0 :9
 b0 F9
 b0 E
 b0 V
 b0 J"
-b0 :9
+b0 99
 b0 E9
 b0 H
 b0 W
+b0 _
 b0 K"
-b0 19
+b0 Q"
+b0 >9
 b0 C9
 b0 I
 b0 X
 b0 L"
 b0 ?9
 b0 B9
-b1010 _
+b1010 ^
 b1010 F"
 b1010 G
 b1010 T
 b1010 G"
-b1010 >9
+b1010 =9
 b1010 D9
 b0 B
-b0 \
-b0 O"
-b0 =9
+b0 [
+b0 N"
+b0 <9
 b0 I9
 b0 D
-b0 ]
-b0 Q"
-b0 <9
+b0 \
+b0 P"
+b0 ;9
 b0 H9
 b0 $
 b0 7
 b0 !
 b0 ?
 b0 J
-b0 Z
-b0 M"
 b0 @9
 b0 A9
 b0 #
@@ -6432,20 +6432,20 @@ b0 K
 b0 F
 b0 P
 b0 H"
-b0 99
+b0 89
 b0 G9
 b11 U"
-0[
+0Z
 b0 c"
 1)
 #4
 0)
 b1 .
 b1 9
-b1 39
+b1 29
 b1 -
 b1 8
-b1 29
+b1 19
 #6
 1m"
 0^"
@@ -6529,20 +6529,18 @@ b1 "
 b1 @
 b1 c
 b1 c"
-b1 _
+b1 ^
 b1 F"
 b1 G
 b1 T
 b1 G"
-b1 >9
+b1 =9
 b1 D9
 b1 $
 b1 7
 b1 !
 b1 ?
 b1 J
-b1 Z
-b1 M"
 b1 @9
 b1 A9
 1)
@@ -6550,248 +6548,127 @@ b1 A9
 0)
 b0 .
 b0 9
-b0 39
+b0 29
 b1 2
 b1 =
-b1 79
+b1 69
 b1010 0
 b1010 ;
-b1010 59
+b1010 49
 b1 3
 b1 >
-b1 89
+b1 79
 b10 -
 b10 8
-b10 29
+b10 19
 b1 /
 b1 :
-b1 49
+b1 39
 #10
-b0xxxxxxxxxxxxxxx0000000000001010 Q
-b0xxxxxxxxxxxxxxx0000000000001010 V#
-b0xxxxxxxxxxxxxxx0000000000001010 }+
-b1010 b,
-b1010 q,
-1n,
-1p,
-b1010 c,
-b1010 `,
-b0xxxxxxxxxxxxxx0000000000001010 X*
-b0xxxxxxxxxxxxxx0000000000001010 y+
-b1010 =+
-b1010 L+
-1I+
-1K+
-b1010 >+
-b1010 ;+
-b0xxxxxxxxxxxxx0000000000001010 3)
-b0xxxxxxxxxxxxx0000000000001010 T*
-b1010 v)
-b1010 '*
-1$*
-1&*
-b1010 w)
-b1010 t)
-b0xxxxxxxxxxxx0000000000001010 l'
-b0xxxxxxxxxxxx0000000000001010 /)
-b1010 Q(
-b1010 `(
-1](
-1_(
-b1010 R(
-b1010 O(
-b0xxxxxxxxxxx0000000000001010 F&
-b0xxxxxxxxxxx0000000000001010 h'
-b1010 ,'
-b1010 ;'
-18'
-1:'
-b1010 -'
-b1010 *'
-b0xxxxxxxxxx0000000000001010 I&
-b0xxxxxxxxxx0000000000001010 -7
-b1010 p7
-b1010 !8
-1|7
-1~7
-b1010 q7
-b1010 n7
-b0xxxxxxxxx0000000000001010 f5
-b0xxxxxxxxx0000000000001010 )7
-b1010 K6
-b1010 Z6
-1W6
-1Y6
-b1010 L6
-b1010 I6
-b0xxxxxxxx0000000000001010 A4
-b0xxxxxxxx0000000000001010 b5
-b1010 &5
-b1010 55
-125
-145
-b1010 '5
-b1010 $5
-b0xxxxxxx0000000000001010 z2
-b0xxxxxxx0000000000001010 =4
-b1010 _3
-b1010 n3
-1k3
-1m3
-b1010 `3
-b1010 ]3
-b0xxxxxx0000000000001010 U1
-b0xxxxxx0000000000001010 v2
-b1010 :2
-b1010 I2
-1F2
-1H2
-b1010 ;2
-b1010 82
-b0xxxxx0000000000001010 00
-b0xxxxx0000000000001010 Q1
-b1010 s0
-b1010 $1
-1!1
-1#1
-b1010 t0
-b1010 q0
-b0xxxx0000000000001010 i.
-b0xxxx0000000000001010 ,0
-b1010 N/
-b1010 ]/
-1Z/
-1\/
-b1010 O/
-b1010 L/
-b0xxx0000000000001010 D-
-b0xxx0000000000001010 e.
-b1010 ).
-b1010 8.
 0m"
-15.
-17.
 1^"
-b1010 *.
 0H#
 0I#
 0J#
 0v"
-b1010 '.
+0#9
+0$9
+0%9
+0M
 b1111 S#
-b0xx0000000000001010 "%
-b0xx0000000000001010 @-
-b1010 e%
-b1010 t%
+b1111 .9
 0:#
 0;#
 0<#
 09#
-1q%
-1s%
+0s8
+0t8
+0u8
+0r8
 b1111 E#
+b1111 ~8
 0+#
 0,#
 0-#
 0*#
-b1010 f%
+0d8
+0e8
+0f8
+0c8
 b1111 6#
-b1010 c%
+b1111 o8
 0{"
 0|"
 0y"
-b0x0000000000001010 [#
-b0x0000000000001010 |$
-b1010 @$
-b1010 O$
+0V8
+0W8
+0T8
 0z"
-1L$
-1N$
 0U8
 b1111111111111111 Z"
 b1111111111111111 i"
 b1111111111111111 u"
 b1111 '#
+b1111111111111111 L
+b1111111111111111 Q8
+b1111 `8
 0##
-b1010 A$
+b1 `
+b1 f
+b1 w
 0\8
-b1001 L
-b1001 Q8
-b1001 `8
-b1011 `
-b1011 f
-b1011 w
-b1010 >$
 1s
-0]8
-1Y8
-0_8
-1[8
-1t
-1v
 b1110 x"
-b1010 W#
 b1110 S8
 b1111111111111110 s"
 b1 j
 b1111111111111110 O8
-b1010 R8
-b1010 i
+b1 R
+b1 g
+b1 M"
+b1 W"
+b1 U#
 bx p"
 0o"
 0l"
 1g"
 0f"
 0d"
-b1 R
-b1 g
-b1 N"
-b1 W"
-b1 U#
-b1010 S
-b1010 h
-b1010 P"
-b1010 V"
-b1010 h"
-b1010 T#
-b1010 N8
-b1011 %
-b1011 5
-b1011 "
-b1011 @
-b1011 c
+b1 %
+b1 5
+b1 "
+b1 @
+b1 c
 b100xxxx ]"
 b100xxxx b"
 b11 a"
 b1 C
 b1 U
 b1 I"
-b1 ;9
+b1 :9
 b1 F9
-b0 _
+b0 ^
 b0 F"
 b0 G
 b0 T
 b0 G"
-b0 >9
+b0 =9
 b0 D9
 b1 B
-b1 \
-b1 O"
-b1 =9
+b1 [
+b1 N"
+b1 <9
 b1 I9
 b1010 D
-b1010 ]
-b1010 Q"
-b1010 <9
+b1010 \
+b1010 P"
+b1010 ;9
 b1010 H9
 b10 $
 b10 7
 b10 !
 b10 ?
 b10 J
-b10 Z
-b10 M"
 b10 @9
 b10 A9
 b1 #
@@ -6800,7 +6677,7 @@ b1 K
 b1 F
 b1 P
 b1 H"
-b1 99
+b1 89
 b1 G9
 b10 c"
 1)

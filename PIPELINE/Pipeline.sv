@@ -3,11 +3,27 @@
 module Pipeline(
     // control inputs
     input logic clk,
-    input logic hold,
-
-    // data inputs
-    input logic [15:0] instruction
+    input logic reset
 );
+    logic [3:0] localControlSignals;
+
+    CPUControl cpuControl(
+        .clk(clk),
+        .reset(reset),
+        .holdSignalFromALU(localControlHoldExecute),
+        .jumpSignalFromALU(localControlJumpExecute),
+        .controlSignals(localControlSignals)
+    );
+
+    logic [15:0] instruction;
+
+    Fetch fetch(
+        .clk(clk),
+        .reset(reset),
+        .hold(localControlSignals[3]),
+        .instruction(instruction)
+    );
+
     logic [3:0] localOperationDecode;
     logic [3:0] localDstAddressDecode;
     logic [3:0] localSrc1DataAddressDecode;
@@ -18,12 +34,12 @@ module Pipeline(
 
     Decode decode(
         .clk(clk),
-        .hold(hold),
+        .hold(localControlSignals[3]),
 
         .instruction(instruction),
-        .dataToStore(localOutputExecute),
-        .writeBackDst(localWriteBackDstExecute),
-        .enableWrite(localEnableWriteExecute),
+        .dataToStore(localResultToWriteBack),
+        .writeBackDst(localDstToWriteBack),
+        .enableWrite(localEnableToWriteBack),
 
         .operation(localOperationDecode),
         .dstAddress(localDstAddressDecode),
@@ -46,7 +62,7 @@ module Pipeline(
 
     Execute execute(
         .clk(clk),
-        .hold(hold),
+        .hold(localControlSignals[3]),
 
         .inputOperation(localOperationDecode),
         .inputDstAddress(localDstAddressDecode),
@@ -67,6 +83,22 @@ module Pipeline(
         .forwardPathOutput(localForwardPathInputExecute),
         .forwardPathSrcOutput(localForwardPathSrcInputExecute)
     );
+
+    logic [15:0] localResultToWriteBack;
+    logic [3:0] localDstToWriteBack;
+    logic localEnableToWriteBack;
+
+    DataMemory dataMemory(
+        .clk(clk),
+        .ALUResult(localOutputExecute),
+        .writeBackALUResultDst(localWriteBackDstExecute),
+        .writeBackEnable(localEnableWriteExecute),
+        .operation(localOperationExecute),
+
+        .resultToWriteBack(localResultToWriteBack),
+        .dstToWriteBack(localDstToWriteBack),
+        .enableToWriteBack(localEnableToWriteBack)
+    );  
 
 
 endmodule

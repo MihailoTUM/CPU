@@ -1,6 +1,6 @@
 
 
-module Control(
+module CPUControl(
     // control inputs
     input logic clk,
     input logic reset,
@@ -9,12 +9,14 @@ module Control(
     input logic holdSignalFromALU,
     input logic jumpSignalFromALU,
 
+    // data inputs
+    input logic [15:0] JMPAddressFromALU,
+    inout logic JMPSignalFromALU,
+
     // data outputs
     output logic [3:0] controlSignals
 );
-    typedef enum logic [2:0] {
-        run, hold, jump, reset1, reset2
-    } statetype;
+    typedef enum logic [2:0] { run, hold, jump, reset1, reset2 } statetype;
     statetype state, nextState;
 
     always_ff @(posedge clk)
@@ -38,8 +40,8 @@ module Control(
     end
 
     // controlSignals
-    // 0: hold
-    // 1: reset
+    // 3: hold
+    // 2: reset
 
     always_comb
     begin

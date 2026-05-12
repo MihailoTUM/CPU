@@ -5,7 +5,7 @@ module ALU(
     input logic clk,
     // data inputs
     input logic [3:0] operation,
-    input logic [3:0] dstAddress,
+    input logic [3:0] beforeAddress,
     input logic [15:0] d1,
     input logic [15:0] d2,
     input logic [7:0] immediate,
@@ -21,7 +21,9 @@ module ALU(
     output logic enableWrite,
     output logic [3:0] outputOperation,
     output logic controlHold,
-    output logic [31:0] flags
+    output logic [31:0] flags,
+    output logic [15:0] JMPAddressToControl,
+    output logic JMPSignalToControl
 );
     logic [15:0] localData1Output;
     logic [15:0] localData2Output;
@@ -35,7 +37,7 @@ module ALU(
         .clk(clk),
         .divFinished(divFinished),
         .operation(operation),
-        .dstAddress(dstAddress),
+        .beforeAddress(beforeAddress),
         .data1Input(d1),
         .data2Input(d2),
         
@@ -48,6 +50,12 @@ module ALU(
         .data1Output(localData1Output),
         .data2Output(localData2Output)
     );
+
+    ALUExecute aluExecute(
+        .clk(clk),
+        .hold(controlSignals[3]),
+    );
+
 
     logic [15:0] constOut;
 
@@ -63,9 +71,11 @@ module ALU(
     ADD16 add16(localData1Output, localData2Output, 1'b0, addOut, addCout);
     ADD16 sub16(localData1Output, ~localData2Output, 1'b1, subOut, subCout);
     MUL16 mul16(localData1Output, localData2Output, mulOut);
+
+
     DIV16 div16(clk, controlSignals[3], localData1Output, localData2Output, quotient, remainder, divFinished);
 
-    
+    // combinational arithmetic-logic operations
     always_comb
     begin 
         case(operation)
@@ -75,21 +85,23 @@ module ALU(
             4'h3: out = mulOut;
             4'h4: out = quotient;
 
+            4'h8: out = constOut;
+
             4'hF: out = 16'hXXXX;
             default: out = 16'hABCD;
         endcase
     end
 
-    /*
-        further operations possibe like BRANCH possible
-        BZ: if difference = 0
-        BN: if MSB = 1
-        BP: if MSB = 0
-    */
 
-    assign enableWrite = ~(operation[3] & operation[2] & operation[1] & operation[0]);
-    assign flags = { addCarry, subCarry, 30'b00_0000_0000_0000_0000_0000_0000_0000 };
-    assign outputOperation = operation;
+
+    Flag flag(
+        .operation(operation),
+        
+        .enableWrite(enableWrite),
+        .outputOperation(outputOperation),
+        .JMPSignalToControl(JMPSignalToControl)
+    );
+
     assign controlHold = controlSignals[2];
 
 endmodule

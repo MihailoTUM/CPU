@@ -13,6 +13,7 @@ module Fetch(
     // input logic [15:0] fixedAddress,
     // writing in instruction memory
     // input logic enableWrite,
+    
     // outputs
     output logic [15:0] instruction
 );

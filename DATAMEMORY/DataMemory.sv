@@ -13,6 +13,8 @@ module DataMemory(
     output logic enableToWriteBack
 );
     logic [15:0] dataMemoryResult;
+    logic [15:0] localALUResult;
+    logic [3:0] localOperation;
 
     // temporarly
     assign dataMemoryResult = 16'hXXXX;
@@ -24,9 +26,10 @@ module DataMemory(
         .writeBackEnable(writeBackEnable),
         .operation(operation),
         // outputs
-        .result(),
+        .result(localALUResult),
         .dst(dstToWriteBack),
-        .enableSignal(enableToWriteBack)
+        .enableSignal(enableToWriteBack),
+        .operationOut(localOperation)
     );
 
     // memory, takes 10-more cycles to operate
@@ -34,10 +37,10 @@ module DataMemory(
 
     always_comb 
     begin
-        case(operation)
+        case(localOperation)
         4'hE: resultToWriteBack = dataMemoryResult;
         4'hF: resultToWriteBack = dataMemoryResult;
-        default: resultToWriteBack = ALUResult;
+        default: resultToWriteBack = localALUResult;
         endcase
     end
 

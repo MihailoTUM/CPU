@@ -6,6 +6,7 @@ module PipelineRegisterDM(
     input logic [3:0] writeBackDst,
     input logic writeBackEnable, 
     input logic [3:0] operation,
+    
     output logic [15:0] result,
     output logic [3:0] dst,
     output logic enableSignal,

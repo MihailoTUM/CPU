@@ -3,12 +3,11 @@
 module Pipeline_tb();
     logic clk;
     logic hold;
-    logic [15:0] instruction;
+    logic reset;
 
     Pipeline dut(
         .clk(clk),
-        .hold(hold),
-        .instruction(instruction)
+        .reset(reset)
     );
 
     initial clk = 0;
@@ -19,22 +18,10 @@ module Pipeline_tb();
         $dumpfile("Pipeline.vcd");
         $dumpvars(0, Pipeline_tb);
 
-        instruction = 16'h000A;
+        reset = 1;
         #4;
-        
-        instruction = 16'h0101;
-        #4;
-
-        instruction = 16'hFFFF;
-        #4;
-
-        instruction = 16'h1201;
-        #4;
-
-        instruction = 16'h3312;
-        #4;
-
-        #4;
+        reset = 0;
+        #50;
 
         $finish;
     end

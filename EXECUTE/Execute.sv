@@ -74,6 +74,7 @@ module Execute(
         // inputs
         .clk(clk),
         .operation(localOperation),
+        .beforeAddress(localForwardPathSrcInput),
         .d1(localSrc1Data),
         .d2(localSrc2Data),
         .immediate(localImmediate),
@@ -81,8 +82,8 @@ module Execute(
         .forwardPathInputSrc(localForwardPathSrcInput),
         .forwardSrc1Address(localSrc1Address),
         .forwardSrc2Address(localSrc2Address),
-        .dstAddress(localDstAddress),
 
+        
         .out(out),
         .enableWrite(enableWrite),
         .outputOperation(operation),

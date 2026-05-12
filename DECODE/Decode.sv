@@ -61,7 +61,7 @@ module Decode(
         .immediateOperandOutput(immediateOperandOutput)
     );
 
-    assign src1DataAddress = instruction[7:4];
-    assign src2DataAddress = instruction[3:0];
+    assign src1DataAddress = localSrc1Address;
+    assign src2DataAddress = localSrc2Address;
 
 endmodule
