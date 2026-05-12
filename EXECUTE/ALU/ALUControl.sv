@@ -9,7 +9,7 @@ module ALUControl(
     input logic [3:0] operation,
     input logic [3:0] dstAddress,
     input logic [15:0] data1Input,
-    input logic [15:0] data1Input,
+    input logic [15:0] data2Input,
 
     // forward path
     input logic [15:0] forwardPathInput,
@@ -23,8 +23,8 @@ module ALUControl(
 );  
     logic multiCycle;
 
-    assign data1Output = |(dstAddress ^ forwardPathSrc1Address) ? data1: forwardPathInput;
-    assign data2Output = |(dstAddress ^ forwardPathSrc2Address) ? data2: forwardPathInput;
+    assign data1Output = |(dstAddress ^ forwardPathSrc1Address) ? data1Input : forwardPathInput;
+    assign data2Output = |(dstAddress ^ forwardPathSrc2Address) ? data2Input : forwardPathInput;
 
 
     always_comb

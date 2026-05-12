@@ -41,8 +41,8 @@ module ALU(
         
         .forwardPathInput(forwardPathInput),
         .forwardPathInputSrc(forwardPathInputSrc),
-        .forwardPathSrc1Address(forwardPathSrc1Address),
-        .forwardPathSrc2Address(forwardPathSrc2Address),
+        .forwardPathSrc1Address(forwardSrc1Address),
+        .forwardPathSrc2Address(forwardSrc2Address),
         
         .controlSignals(controlSignals),
         .data1Output(localData1Output),
@@ -57,7 +57,7 @@ module ALU(
     logic [15:0] subOut;
     logic subCarry;
 
-    logic [15:0] mulOut;
+    logic [31:0] mulOut;
 
     CONST16 const16(immediate, constOut);
     ADD16 add16(localData1Output, localData2Output, 1'b0, addOut, addCout);
@@ -76,7 +76,7 @@ module ALU(
             4'h4: out = quotient;
 
             4'hF: out = 16'hXXXX;
-            default: out = 16'hXXXX;
+            default: out = 16'hABCD;
         endcase
     end
 

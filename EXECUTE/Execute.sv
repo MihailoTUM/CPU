@@ -23,9 +23,9 @@ module Execute(
     output logic enableWrite,
     output logic [3:0] operation,
     output logic controlHold,
-    output logic controlJump;
-    output logic [15:0] forwardPathOutput;
-    output logic [15:0] forwardPathSrcOutput;
+    output logic controlJump,
+    output logic [15:0] forwardPathOutput,
+    output logic [3:0] forwardPathSrcOutput
 );
     // forwarding path
     // output of the ALU is input for the execution state

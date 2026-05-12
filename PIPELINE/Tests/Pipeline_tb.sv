@@ -1,16 +1,14 @@
 `timescale 1ns/1ns
 
-module DE_EX_tb();
+module Pipeline_tb();
     logic clk;
     logic hold;
     logic [15:0] instruction;
-    logic controlHold;
 
-    DE_EX dut(
+    Pipeline dut(
         .clk(clk),
         .hold(hold),
-        .instruction(instruction),
-        .controlHold(controlHold)
+        .instruction(instruction)
     );
 
     initial clk = 0;
@@ -18,26 +16,26 @@ module DE_EX_tb();
 
     initial
     begin
-        $dumpfile("DE_EX.vcd");
-        $dumpvars(0, DE_EX_tb);
-
+        $dumpfile("Pipeline.vcd");
+        $dumpvars(0, Pipeline_tb);
 
         instruction = 16'h000A;
         #4;
+        
+        instruction = 16'h0101;
+        #4;
+
         instruction = 16'hFFFF;
         #4;
-        instruction = 16'h0103;
-        #4;
-        instruction = 16'hFFFF;
-        #4;
+
         instruction = 16'h1201;
         #4;
-        instruction = 16'hFFFF;
-        #4;
-        instruction = 16'h4301;
 
-        #250;
+        instruction = 16'h3312;
+        #4;
+
+        #4;
+
         $finish;
     end
-
 endmodule
