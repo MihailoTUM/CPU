@@ -1,46 +1,67 @@
 // pipeline register
 
 module PipelineRegisterDE(
-    // clk
+    // control inputs
     input logic clk,
-    // hold current values from previous cycle until resolved
     input logic hold,
-    // reset the current values to 0
     input logic flush,
-    input logic [15:0] instruction,
-    output logic [3:0] operation,
-    output logic [3:0] dstAddress,
-    output logic [3:0] src1Address,
-    output logic [3:0] src2Address,
-    output logic [7:0] immediateOperand
+
+    // data inputs
+    input logic [15:0] inInstructionAddress,
+    input logic [15:0] inInstruction,
+
+    // data outputs
+    output logic [15:0] outInstructionAddress,
+    output logic [3:0] outOperation,
+    output logic [3:0] outDstAddress,
+    output logic [3:0] outSrc1Address,
+    output logic [3:0] outSrc2Address,
+    output logic [7:0] outImmediate
 );
+    logic [15:0] localInstructionAddress;
+    logic [3:0] localOperation;
+    logic [3:0] localDstAddress;
+    logic [3:0] localSrc1Address;
+    logic [3:0] localSrc2Address;
+    logic [7:0] localImmediate;
+
+
    always_ff @(posedge clk)
    begin
         if(hold)
         begin
-            // holding current register values
-            operation <= operation;
-            dstAddress <= dstAddress;
-            src1Address <= src1Address;
-            src2Address <= src2Address;
-            immediateOperand <= immediateOperand;
+            localInstructionAddress <= localInstructionAddress;
+            localOperation <= localOperation;
+            localDstAddress <= localDstAddress;
+            localSrc1Address <= localSrc1Address;
+            localSrc2Address <= localSrc2Address;
+            localImmediate <= localImmediate;
         end
         else if(flush)
-            // flushing the pipeline
             begin 
-                operation <= 4'hF;
-                dstAddress <= 4'h0;
-                src1Address <= 4'h0;
-                src2Address <= 4'h0;
-                immediateOperand <= 8'h00;
+                localInstructionAddress <= 16'h0000;
+                localOperation <= 4'hF;
+                localDstAddress <= 4'h0;
+                localSrc1Address <= 4'h0;
+                localSrc2Address <= 4'h0;
+                localImmediate <= 8'h00;
             end
         else 
             begin 
-                operation <= instruction[15:12];
+                localInstructionAddress <= inInstructionAddress;
+                localOperation <= inInstruction[15:12];
                 dstAddress <= instruction[11:8];
                 src1Address <= instruction[7:4];
                 src2Address <= instruction[3:0];
                 immediateOperand <= instruction[7:0];
             end
    end
+
+   assign outInstructionAddress = localInstructionAddress;
+   assign outOperation = localOperation;
+   assign outDstAddress = localDstAddress;
+   assign outSrc1Address = localSrc1Address;
+   assign outSrc2Address = localSrc2Address;
+   assign outImmediate = localImmediate;
+
 endmodule

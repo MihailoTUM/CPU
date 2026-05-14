@@ -7,21 +7,29 @@ module Execute(
     // input logic flush,
     
     // data inputs
-    input logic [3:0] inputOperation,
-    input logic [3:0] inputDstAddress,
-    input logic [3:0] inputSrc1Address,
-    input logic [3:0] inputSrc2Address,
-    input logic [15:0] inputSrc1,
-    input logic [15:0] inputSrc2,
-    input logic [7:0] inputImmediate,
-    input logic [15:0] forwardPathInput,
-    input logic [3:0] forwardPathSrcInput,
+    input logic [3:0] inOperation,
+    input logic [3:0] inDstAddress,
+    input logic [3:0] inSrc1Address,
+    input logic [3:0] inSrc2Address,
+    input logic [15:0] inSrc1,
+    input logic [15:0] inSrc2,
+    input logic [7:0] inImmediate,
+    input logic [15:0] inInstructionAddress,
+    input logic [15:0] inStackPointerAddress,
+
+    // forward path from Execute stage
+    input logic [15:0] forwardPathInputExecute,
+    input logic [3:0] forwardPathInputExecuteSrc,
+
+    // forward path from DataMemory stage
+    input logic [15:0] forwardPathInputDataMemory,
+    input logic [3:0] forwardPathInputDataMemorySrc,
 
     // data outputs
-    output logic [15:0] out,
-    output logic [3:0] writeBackDst,
-    output logic enableWrite,
-    output logic [3:0] operation,
+    output logic [15:0] outResult,
+    output logic [3:0] outWriteBackDst,
+    output logic outEenableWrite,
+    output logic [3:0] outOperation,
     output logic controlHold,
     output logic controlJump,
     output logic [15:0] forwardPathOutput,
@@ -35,11 +43,18 @@ module Execute(
     logic [15:0] localSrc1Data;
     logic [15:0] localSrc2Data;
     logic [7:0] localImmediate;
-    logic [15:0] localForwardPathInput;
-    logic [3:0] localForwardPathSrcInput;
+
+    logic [15:0] localForwardPathInputExecute;
+    logic [3:0] localForwardPathInputExecuteSrc;
+
+    logic [15:0] localForwardPathInputDataMemory;
+    logic [3:0] localForwardPathInputDataMemorySrc;  
 
     logic [3:0] localSrc1Address;
     logic [3:0] localSrc2Address;
+
+    logic [15:0] localInstructionAddress;
+    logic [15:0] localStackPointerAddress;
 
     PipelineRegisterEX register(
         // inputs
@@ -47,28 +62,37 @@ module Execute(
         .hold(hold),
         // .flush(flush),
 
-        .inputOperation(inputOperation),
-        .inputDstAddress(inputDstAddress),
-        .inputSrc1Address(inputSrc1Address),
-        .inputSrc2Address(inputSrc2Address),
+        .inOperation(inOperation),
+        .inDstAddress(inDstAddress),
+        .inSrc1Address(inSrc1Address),
+        .inSrc2Address(inSrc2Address),
+        .inImmediate(inImmediate),
+        .inInstructionAddress(inInstructionAddress),
+        .inStackPointerAddress(inStackPointerAddress),
 
-        .inputSrc1(inputSrc1),
-        .inputSrc2(inputSrc2),
-        .inputImmediate(inputImmediate),
-        .forwardPathInput(forwardPathInput),
-        .forwardPathSrcInput(forwardPathSrcInput),
-   
-        .operation(localOperation),
-        .dstAddress(localDstAddress),
-        .src1Data(localSrc1Data),
-        .src2Data(localSrc2Data),
-        .immediate(localImmediate),
-        .forwardPathOutput(localForwardPathInput),
-        .forwardPathSrcOutput(localForwardPathSrcInput),
-        .outputSrc1Address(localSrc1Address),
-        .outputSrc2Address(localSrc2Address)
+        .forwardPathInputExecute(forwardPathInputExecute),
+        .forwardPahtInputExecuteSrc(forwardPathInputExecuteSrc),
+        .forwardPathInputDataMemory(forwardPathInputDataMemory),
+        .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
+
+        .outOperation(localOperation),
+        .outDstAddress(localDstAddress),
+        .outSrc1Data(localSrc1Data),
+        .outSrc2Data(localSrc2Data),
+        .outImmediate(localImmediate),
+
+        .forwardPathOutputExecute(localForwardPathInputExecute),
+        .forwardPathOutputExecuteSrc(localForwardPathInputExecuteSrc),
+
+        .forwardPathOutputDataMemory(localForwardPathInputDataMemory),
+        .forwardPathOutputDataMemorySrc(localForwardPathInputDataMemorySrc),
+
+        .outInstructionAddress(localInstructionAddress),
+        .outStackPointerAddress(localInstructionAddress),
+
+        .outSrc1Address(localSrc1Address),
+        .outSrc2Address(localSrc2Address)
     );
-
 
     ALU alu(
         // inputs

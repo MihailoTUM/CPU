@@ -1,0 +1,5 @@
+- update ALU inputs
+- finish ALU JMP/BZ instructions
+- improve Control Unit (especially passing instruction Address to Fetch)
+- improve DataMemory (forward path, stackpointer address)
+- think about DataMemory read and write

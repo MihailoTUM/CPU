@@ -10,7 +10,10 @@ module DataMemory(
 
     output logic [15:0] resultToWriteBack,
     output logic [3:0] dstToWriteBack,
-    output logic enableToWriteBack
+    output logic enableToWriteBack,
+
+    output logic [15:0] forwardPathFromDataMemory
+    output logic [3:0] forwardPathFromDataMemorySrc
 );
     logic [15:0] dataMemoryResult;
     logic [15:0] localALUResult;
@@ -32,7 +35,9 @@ module DataMemory(
         .operationOut(localOperation)
     );
 
-    // memory, takes 10-more cycles to operate
+    assign forwardPathFromDataMemory = localALUResult;
+    assign forwardPathFromDataMemorySrc = dstToWriteBack;
+
     Memory mem();
 
     always_comb 

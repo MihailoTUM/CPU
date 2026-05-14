@@ -1,29 +1,39 @@
 
 
 module RegisterBlock(
+    // control inputs
     input logic clk,
-    input logic [15:0] dataToStore,
-    input logic [3:0] writeBackDst,
-    input logic [3:0] src1Address,
-    input logic [3:0] src2Address,
-    input logic [7:0] immediateOperandInput,
-    input logic enableWrite,
-    output logic [15:0] src1Data,
-    output logic [15:0] src2Data,
-    output logic [7:0] immediateOperandOutput
+
+    // data inputs
+    input logic [15:0] inDataToStore,
+    input logic [3:0] inWriteBackDst,
+    input logic [3:0] inSrc1Address,
+    input logic [3:0] inSrc2Address,
+    input logic [7:0] inImmediate,
+    input logic inEnableWrite,
+
+    // data outputs
+    output logic [15:0] outSrc1Data,
+    output logic [15:0] outSrc2Data,
+    output logic [7:0] outImmediate,
+    output logic [15:0] outStackPointerAddress
 );
 
     logic [15:0] registers [15:0];
+    logic [4:0] stackPointerAddress;
+    assign stackPointerAddress = 4'hF;
 
     always_ff @(posedge clk)
     begin
-        if(enableWrite) registers[writeBackDst] <= dataToStore;
+        if(inEnableWrite) registers[inWriteBackDst] <= inDataToStore;
     end
 
     always_comb 
     begin
-       src1Data = registers[src1Address];
-       src2Data = registers[src2Address];
-       immediateOperandOutput = immediateOperandInput;
+       outSrc1Data = registers[src1Address];
+       outSrc2Data = registers[src2Address];
+       outImmediate = inImmediate;
+       outStackPointerAddress = registers[stackPointerAddress];
     end
+
 endmodule

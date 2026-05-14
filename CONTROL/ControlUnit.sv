@@ -1,6 +1,6 @@
 
 
-module CPUControl(
+module ControlUnit(
     // control inputs
     input logic clk,
     input logic reset,

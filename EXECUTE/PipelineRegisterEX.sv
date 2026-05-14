@@ -7,35 +7,57 @@ module PipelineRegisterEX(
     // input logic flush,
 
     // data inputs
-    input logic [3:0] inputOperation,
-    input logic [3:0] inputDstAddress,
-    input logic [3:0] inputSrc1Address,
-    input logic [3:0] inputSrc2Address,
+    input logic [3:0] inOperation,
+    input logic [3:0] inDstAddress,
+    input logic [3:0] inSrc1Address,
+    input logic [3:0] inSrc2Address,
 
-    input logic [15:0] inputSrc1,
-    input logic [15:0] inputSrc2,
-    input logic [7:0] inputImmediate,
-    input logic [15:0] forwardPathInput,
-    input logic [3:0] forwardPathSrcInput,
+    input logic [15:0] inSrc1,
+    input logic [15:0] inSrc2,
+    input logic [7:0] inImmediate,
+    input logic [15:0] inInstructionAddress,
+    input logic [15:0] inStackPointerAddress,
+
+    input logic [15:0] forwardPathInputExecute,
+    input logic [3:0] forwardPathInputExecuteSrc,
+
+    input logic [15:0] forwardPathInputDataMemory,
+    input logic [3:0] forwardPathInputDataMemorySrc,
 
     // data outputs
-    output logic [3:0] operation,
-    output logic [3:0] dstAddress,
-    output logic [15:0] src1Data,
-    output logic [15:0] src2Data,
-    output logic [7:0] immediate,
-    output logic [15:0] forwardPathOutput,
-    output logic [3:0] forwardPathSrcOutput,
-    output logic [3:0] outputSrc1Address,
-    output logic [3:0] outputSrc2Address
+    output logic [3:0] outOperation,
+    output logic [3:0] outDstAddress,
+    output logic [15:0] outSrc1Data,
+    output logic [15:0] outSrc2Data,
+    output logic [7:0] outImmediate,
+
+    output logic [15:0] forwardPathOutputExecute,
+    output logic [3:0] forwardPathOutputExecuteSrc,
+
+    output logic [15:0] forwardPathOutputDataMemory,
+    output logic [3:0] forwardPathOutputDataMemorySrc,
+
+    output logic [15:0] outInstructionAddress,
+    output logic [15:0] outStackPointerAddress,
+    
+    output logic [3:0] outSrc1Address,
+    output logic [3:0] outSrc2Address
 );
     logic [3:0] localOperation;
     logic [3:0] localDstAddress;
     logic [15:0] localSrc1;
     logic [15:0] localSrc2;
     logic [7:0] localImmediate;
-    logic [15:0] localForwardPathInput;
-    logic [3:0] localForwardPathSrcInput;
+
+    logic [15:0] localInstructionAddress;
+    logic [15:0] localStackPointerAddress;
+
+    logic [15:0] localForwardPathInputExecute;
+    logic [3:0] localForwardPathInputExecuteSrc;
+
+    logic [15:0] localForwardPathInputDataMemory;
+    logic [3:0] localForwardPathInputDataMemorySrc;
+
     logic [3:0] localInputSrc1Address;
     logic [3:0] localInputSrc2Address;
 
@@ -49,8 +71,16 @@ module PipelineRegisterEX(
                 localSrc1 <= localSrc1;
                 localSrc2 <= localSrc2;
                 localImmediate <= localImmediate;
-                localForwardPathInput <= localForwardPathInput;
-                localForwardPathSrcInput <= localForwardPathSrcInput;
+
+                localForwardPathInputExecute <= localForwardPathInputExecute;
+                localForwardPathInputExecuteSrc <= localForwardPathInputExecuteSrc;
+
+                localForwardPathInputDataMemory <= localForwardPathInputDataMemory;
+                localForwardPathInputDataMemorySrc <= localForwardPathInputDataMemorySrc;
+
+                localInstructionAddress <= localInstructionAddress;
+                localStackPointerAddress <= localStackPointerAddress;
+
                 localInputSrc1Address <= localInputSrc1Address;
                 localInputSrc2Address <= localInputSrc2Address;
             end
@@ -65,28 +95,43 @@ module PipelineRegisterEX(
         //     end
         else
             begin
-                localOperation <= inputOperation;
-                localDstAddress <= inputDstAddress;
-                localSrc1 <= inputSrc1;
-                localSrc2 <= inputSrc2;
-                localImmediate <= inputImmediate;
-                localDstAddress <= inputDstAddress;
-                localForwardPathInput <= forwardPathInput;
-                localForwardPathSrcInput <= forwardPathSrcInput;
-                localInputSrc1Address <= inputSrc1Address;
-                localInputSrc2Address <= inputSrc2Address;
+                localOperation <= inOperation;
+                localDstAddress <= inDstAddress;
+                localSrc1 <= inSrc1;
+                localSrc2 <= inSrc2;
+                localImmediate <= inImmediate;
+                localDstAddress <= inDstAddress;
+
+                localForwardPathInputExecute <= forwardPathInputExecute;
+                localForwardPathInputExecuteSrc <= forwardPathInputExecuteSrc;
+
+                localForwardPathInputDataMemory <= forwardPathInputDataMemory;
+                localForwardPathInputDataMemorySrc <= forwardPathInputDataMemorySrc;
+                
+                localInstructionAddress <= inInstructionAddress;
+                localStackPointerAddress <= inStackPointerAddress;
+
+                localInputSrc1Address <= inSrc1Address;
+                localInputSrc2Address <= inSrc2Address;
             end
     end
 
-    assign operation = localOperation;
-    assign dstAddress = localDstAddress;
-    assign src1Data = localSrc1;
-    assign src2Data = localSrc2;
-    assign immediate = localImmediate;
-    assign forwardPathOutput = localForwardPathInput;
-    assign forwardPathSrcOutput = localForwardPathSrcInput;
+    assign outOperation = localOperation;
+    assign outDstAddress = localDstAddress;
+    assign outSrc1Data = localSrc1;
+    assign outSrc2Data = localSrc2;
+    assign outImmediate = localImmediate;
+    
+    assign forwardPathOutputExecute = localForwardPathInputExecute;
+    assign forwardPathOutputExecuteSrc = localForwardPathInputExecuteSrc;
 
-    assign outputSrc1Address = localInputSrc1Address;
-    assign outputSrc2Address = localInputSrc2Address;
+    assign forwardPathOutputDataMemory = localForwardPathInputDataMemory;
+    assign forwardPathOutputDataMemorySrc = localForwardPathInputDataMemorySrc;
+
+    assign outInstructionAddress = localInstructionAddress;
+    assign outStackPointerAddress = localStackPointerAddress;
+
+    assign outSrc1Address = localInputSrc1Address;
+    assign outSrc2Address = localInputSrc2Address;
 
 endmodule

@@ -6,32 +6,40 @@ module ALUControl(
     input logic divFinished,
 
     // data inputs
-    input logic [3:0] operation,
-    input logic [3:0] beforeAddress,
-    input logic [15:0] data1Input,
-    input logic [15:0] data2Input,
+    input logic [3:0] inOperation,
+    input logic [15:0] inData1,
+    input logic [15:0] inData2,
 
     // forward path
-    input logic [15:0] forwardPathInput,
-    input logic [3:0] forwardPathInputSrc,
-    input logic [3:0] forwardPathSrc1Address,
-    input logic [3:0] forwardPathSrc2Address,
+    input logic [15:0] forwardPathInputExecute,
+    input logic [3:0] forwardPathInputExecuteSrc
 
+    input logic [15:0] forwardPathInputDataMemory,
+    input logic [3:0] forwardPathInputDataMemorySrc,
+
+    input logic [3:0] srcRegister1,
+    input logic [3:0] srcRegister2,
+
+    // data outputs
     output logic [3:0] controlSignals,
-    output logic [15:0] data1Output,
-    output logic [15:0] data2Output
+    output logic [15:0] outData1,
+    output logic [15:0] outData2
 );  
     logic multiCycle;
 
 
-    assign data1Output = |(beforeAddress ^ forwardPathSrc1Address) ? data1Input : forwardPathInput;
-    assign data2Output = |(beforeAddress ^ forwardPathSrc2Address) ? data2Input : forwardPathInput;
+    assign outData1 = |(forwardPathInputExecuteSrc ^ srcRegister1) ? inData1: forwardPathInputExecute;
+    assign outData1 = |(forwardPathInputDataMemorySrc ^ srcRegister1) ? inData1: forwardPathInputDataMemory;
+
+    assign outData2 = |(forwardPathInputExecuteSrc ^ srcRegister2) ? inData1: forwardPathInputExecute;
+    assign outData2 = |(forwardPathInputDataMemorySrc ^ srcRegister2) ? inData1: forwardPathInputDataMemory;
 
 
     always_comb
     begin 
         case(operation)
             4'h4: multiCycle = 1;
+
             default: multiCycle = 0;
         endcase
     end
@@ -52,10 +60,6 @@ module ALUControl(
         endcase
     end
 
-    always_ff @(posedge clk)
-    begin
-        state <= nextState;
-    end
     /*
         controlSignals
         0: reset,
@@ -70,6 +74,12 @@ module ALUControl(
         reset2: controlSignals = { 1'b0, 1'b1, 2'b00 };
         loop: controlSignals = { 4'b0100 };
         endcase
+    end
+
+    
+    always_ff @(posedge clk)
+    begin
+        state <= nextState;
     end
 
 endmodule

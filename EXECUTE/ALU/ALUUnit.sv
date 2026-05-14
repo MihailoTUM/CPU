@@ -1,6 +1,6 @@
 
 
-module ALUExecute(
+module ALUUnit(
     // control inputs
     input logic clk,
     input logic hold,
@@ -20,12 +20,14 @@ module ALUExecute(
     logic [15:0] subFixedOutput;
     logic subFixedCarryOut;
     logic [31:0] mulFixedOutput;
+    logic [15:0] localNewAddress;
 
     // combinational arithmetic-logic operations
-    CONST16 constfixed(inImmediate, constOutput);
-    ADD16 addfixed(inData1, inData2, 1'b0, addFixedOutput, addFixedCarryOut);
-    ADD16 subfixed(inData1, ~inData2, 1'b1, subFixedOuput, subFixedCarryOut);
-    MUL16 mulfixed(inData1, inData2, mulFixedOutput);
+    CONST16 constFixed(inImmediate, constOutput);
+    ADD16 addFixed(inData1, inData2, 1'b0, addFixedOutput, addFixedCarryOut);
+    ADD16 subFixed(inData1, ~inData2, 1'b1, subFixedOuput, subFixedCarryOut);
+    MUL16 mulFixed(inData1, inData2, mulFixedOutput);
+    JMP16 jumpfixed(inImmediate, "", localNewAddress);
 
     logic [15:0] divFixedOutput;
     logic [15:0] divFixedRemainder;
@@ -43,7 +45,7 @@ module ALUExecute(
             4'h3: ALUOutput = mulFixedOutput;
             4'h4: ALUOutput = divFixedOutput;
 
-            4'h8: ALUOutput = constFixedOutput;
+            4'h8: ALUOutput = localNewAddress;
 
             4'hF: ALUOutput = 16'hXXXX;
 
@@ -51,6 +53,6 @@ module ALUExecute(
         endcase
     end
 
-    assign flags = { addFixedCarryOut, subFixedCarryOut, 14'b00_0000_0000_0000 };
+    assign flags = { addFixedCarryOut, subFixedCarryOut, 14'b00_0000_0000_0000 };   
 
 endmodule

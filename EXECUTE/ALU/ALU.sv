@@ -3,105 +3,85 @@
 module ALU(
     // control inputs
     input logic clk,
+
     // data inputs
-    input logic [3:0] operation,
-    input logic [3:0] beforeAddress,
-    input logic [15:0] d1,
-    input logic [15:0] d2,
-    input logic [7:0] immediate,
+    input logic [3:0] inOperation,
+    input logic [15:0] inData1,
+    input logic [15:0] inData2,
+    input logic [7:0] inImmediate,
 
     // forward path
-    input logic [15:0] forwardPathInput,
-    input logic [3:0] forwardPathInputSrc,
-    input logic [3:0] forwardSrc1Address,
-    input logic [3:0] forwardSrc2Address,
+    input logic [3:0] srcRegister1,
+    input logic [3:0] srcRegister2,
+
+    input logic [15:0] forwardPathInputExecute,
+    input logic [3:0] forwardPathInputExecuteSrc,
+
+    input logic [15:0] forwardPathInputDataMemory,
+    input logic [3:0] forwardPathInputDataMemorySrc,
 
     // data outputs
-    output logic [15:0] out,
-    output logic enableWrite,
-    output logic [3:0] outputOperation,
+    output logic [15:0] outResult
+    output logic outEnableWrite,
+    output logic [3:0] outOperation,
     output logic controlHold,
-    output logic [31:0] flags,
-    output logic [15:0] JMPAddressToControl,
-    output logic JMPSignalToControl
-);
-    logic [15:0] localData1Output;
-    logic [15:0] localData2Output;
+    output logic [15:0] flags,
 
+    // control outputs
+    output logic [15:0] outNewAddress,
+    output logic outJMP
+);
+    logic localDivFinished;
     logic [3:0] controlSignals;
-    logic [15:0] quotient;
-    logic [15:0] remainder;
-    logic divFinished;
+
+    logic [15:0] localOutData1;
+    logic [15:0] localOutData2;
 
     ALUControl control(
         .clk(clk),
-        .divFinished(divFinished),
-        .operation(operation),
-        .beforeAddress(beforeAddress),
-        .data1Input(d1),
-        .data2Input(d2),
+        .divFinished(localDivFinished),
+
+        .inOperation(inOperation),
+        .inData1(inData1),
+        .inData2(inData2),
         
-        .forwardPathInput(forwardPathInput),
-        .forwardPathInputSrc(forwardPathInputSrc),
-        .forwardPathSrc1Address(forwardSrc1Address),
-        .forwardPathSrc2Address(forwardSrc2Address),
+        .forwardPathInputExecute(forwardPathInputExecute),
+        .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
+
+        .forwardPathInputDataMemory(forwardPathInputDataMemory),
+        .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
         
         .controlSignals(controlSignals),
-        .data1Output(localData1Output),
-        .data2Output(localData2Output)
+        .outData1(localOutData1),
+        .outData2(localOutData2)
     );
 
-    ALUExecute aluExecute(
+    logic [15:0] flags;
+
+    ALUUnit unit(
         .clk(clk),
         .hold(controlSignals[3]),
+        
+        .inOperation(operation),
+        .inData1(localOutData1),
+        .inData2(localOutData2),
+        .inImmediate(inImmediate),
+
+        .ALUOutput(outResult),
+        .flags(flags),
+        .divFinished(localDivFinished)
     );
 
-
-    logic [15:0] constOut;
-
-    logic [15:0] addOut;
-    logic addCarry;
-
-    logic [15:0] subOut;
-    logic subCarry;
-
-    logic [31:0] mulOut;
-
-    CONST16 const16(immediate, constOut);
-    ADD16 add16(localData1Output, localData2Output, 1'b0, addOut, addCout);
-    ADD16 sub16(localData1Output, ~localData2Output, 1'b1, subOut, subCout);
-    MUL16 mul16(localData1Output, localData2Output, mulOut);
-
-
-    DIV16 div16(clk, controlSignals[3], localData1Output, localData2Output, quotient, remainder, divFinished);
-
-    // combinational arithmetic-logic operations
-    always_comb
-    begin 
-        case(operation)
-            4'h0: out = constOut;
-            4'h1: out = addOut;
-            4'h2: out = subOut;
-            4'h3: out = mulOut;
-            4'h4: out = quotient;
-
-            4'h8: out = constOut;
-
-            4'hF: out = 16'hXXXX;
-            default: out = 16'hABCD;
-        endcase
-    end
-
-
-
-    Flag flag(
+    ALUFlag flag(
         .operation(operation),
         
-        .enableWrite(enableWrite),
-        .outputOperation(outputOperation),
+        .outEnableWrite(outEnableWrite),
+        .outOperation(outOperation),
         .JMPSignalToControl(JMPSignalToControl)
     );
 
     assign controlHold = controlSignals[2];
+    assign outNewAddress = outResult;
+    assign outJMP = JMPSignalToControl;
 
 endmodule
