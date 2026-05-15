@@ -28,18 +28,21 @@ module Execute(
     // data outputs
     output logic [15:0] outResult,
     output logic [3:0] outWriteBackDst,
-    output logic outEenableWrite,
+    output logic outEnableWrite,
     output logic [3:0] outOperation,
     output logic controlHold,
     output logic controlJump,
     output logic [15:0] forwardPathOutput,
-    output logic [3:0] forwardPathSrcOutput
+    output logic [3:0] forwardPathSrcOutput,
+
+    output logic [15:0] outNewAddress,
+    output logic outJmp,
+    output logic [15:0] outStackPointerAddress
 );
     // forwarding path
     // output of the ALU is input for the execution state
 
     logic [3:0] localOperation;
-    logic [3:0] localDstAddress;
     logic [15:0] localSrc1Data;
     logic [15:0] localSrc2Data;
     logic [7:0] localImmediate;
@@ -56,6 +59,8 @@ module Execute(
     logic [15:0] localInstructionAddress;
     logic [15:0] localStackPointerAddress;
 
+    logic [3:0] localWriteBackDst;
+ 
     PipelineRegisterEX register(
         // inputs
         .clk(clk),
@@ -76,7 +81,7 @@ module Execute(
         .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
 
         .outOperation(localOperation),
-        .outDstAddress(localDstAddress),
+        .outDstAddress(localWriteBackDst),
         .outSrc1Data(localSrc1Data),
         .outSrc2Data(localSrc2Data),
         .outImmediate(localImmediate),
@@ -94,28 +99,39 @@ module Execute(
         .outSrc2Address(localSrc2Address)
     );
 
+    logic [15:0] localResult;
+
     ALU alu(
         // inputs
         .clk(clk),
-        .operation(localOperation),
-        .beforeAddress(localForwardPathSrcInput),
-        .d1(localSrc1Data),
-        .d2(localSrc2Data),
-        .immediate(localImmediate),
-        .forwardPathInput(localForwardPathInput),
-        .forwardPathInputSrc(localForwardPathSrcInput),
-        .forwardSrc1Address(localSrc1Address),
-        .forwardSrc2Address(localSrc2Address),
 
-        
-        .out(out),
-        .enableWrite(enableWrite),
-        .outputOperation(operation),
-        .controlHold(controlHold)
+        .inOperation(localOperation);
+        .inData1(localSrc1Data),
+        .inData2(localSrc2Data),
+        .inImmediate(localImmediate),
+        .inInstructionAddress(inInstructionAddress),
+        .inStackPointerAddress(inStackPointerAddress),
+
+        .srcRegister1(localSrc1Address),
+        .srcRegister2(localSrc2Addres),
+
+        .forwardPathInputExecute(localForwardPathInputExecute),
+        .forwardPathInputExecuteSrc(localForwardPathInputExecuteSrc),
+
+        .forwardPathInputDataMemory(localForwardPathInputDataMemory),
+        .forwardPathInputDataMmeorySrc(localForwarPathInputDataMemorySrc),
+
+        .outResult(localResult),
+        .outEnableWrite(outEnableWrite),
+        .outOperation(outOperation),
+        .controlHold(controlHold),
+        .flags(),
+        .outNewAddress(outNewAddress),
+        .outJMP(outJMP),
+        .outStackPointerAddress(outStackPointerAddress)
     );
 
-    assign writeBackDst = localDstAddress;
-    assign forwardPathOutput = out;
-    assign forwardPathSrcOutput = localDstAddress;
+    assign forwardPathOutput = localResult;
+    assign forwardPathSrcOutput = localWriteBackDst;
 
 endmodule

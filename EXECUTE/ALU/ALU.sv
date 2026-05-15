@@ -9,6 +9,8 @@ module ALU(
     input logic [15:0] inData1,
     input logic [15:0] inData2,
     input logic [7:0] inImmediate,
+    input logic [15:0] inInstructionAddress,
+    input logic [15:0] inStackPointerAddress,
 
     // forward path
     input logic [3:0] srcRegister1,
@@ -29,7 +31,8 @@ module ALU(
 
     // control outputs
     output logic [15:0] outNewAddress,
-    output logic outJMP
+    output logic outJMP,
+    output logic [15:0] outStackPointerAddress
 );
     logic localDivFinished;
     logic [3:0] controlSignals;
@@ -62,6 +65,8 @@ module ALU(
         .clk(clk),
         .hold(controlSignals[3]),
         
+        .inInstructionAddress(inInstructionAddress),
+        .inStackPointerAddress(inStackPointerAddress),
         .inOperation(operation),
         .inData1(localOutData1),
         .inData2(localOutData2),

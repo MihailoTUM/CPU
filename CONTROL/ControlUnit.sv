@@ -25,6 +25,15 @@ module ControlUnit(
         else        state <= nextState;
     end
 
+    logic [15:0] localAddress;
+
+    always_ff @(posedge clk)
+    begin
+        if(JMPAddressFromALU) localAddress <= JMPAddressFromALU;
+        else if(reset) localAddress <= 16'h0000;
+        else localAddress <= localAddress;
+    end
+
     always_comb 
     begin
         case(state)
