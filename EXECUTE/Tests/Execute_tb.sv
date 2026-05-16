@@ -4,50 +4,68 @@ module Execute_tb();
     // control inputs
     logic clk;
     logic hold;
+    logic reset;
 
     // data inputs
-    logic [3:0] inputOperation;
-    logic [3:0] inputDstAddress;
-    logic [3:0] inputSrc1Address;
-    logic [3:0] inputSrc2Address;
-    logic [15:0] inputSrc1;
-    logic [15:0] inputSrc2;
-    logic [7:0] inputImmediate;
-    logic [15:0] forwardPathInput;
-    logic [3:0] forwardPathSrcInput;
+    logic [3:0] inOperation;
+    logic [3:0] inDstAddress;
+    logic [3:0] inSrc1Address;
+    logic [3:0] inSrc2Address;
+    logic [15:0] inSrc1;
+    logic [15:0] inSrc2;
+    logic [7:0] inImmediate;
+    logic [15:0] inInstructionAddress;
+    logic [15:0] inStackPointerAddress;
+
+    logic [15:0] forwardPathInputExecute;
+    logic [3:0] forwardPathInputExecuteSrc;
+
+    logic [15:0] forwardPathInputDataMemory;
+    logic [3:0] forwardPathInputDataMemorySrc;
 
     // data outputs
-    logic [15:0] out;
-    logic [3:0] writeBackDst;
+    logic [15:0] outResult;
+    logic [3:0] outWriteBackDst;
     logic enableWrite;
-    logic [3:0] operation;
+    logic [3:0] outOperation;
     logic controlHold;
     logic controlJump;
     logic [15:0] forwardPathOutput;
     logic [3:0] forwardPathSrcOutput;
 
+    logic outJMP;
+
     Execute dut(
         .clk(clk),
         .hold(hold),
+        .reset(reset),
 
-        .inputOperation(inputOperation),
-        .inputDstAddress(inputDstAddress),
-        .inputSrc1Address(inputSrc1Address),
-        .inputSrc2Address(inputSrc2Address),
-        .inputSrc1(inputSrc1),
-        .inputSrc2(inputSrc2),
-        .inputImmediate(inputImmediate),
-        .forwardPathInput(forwardPathInput),
-        .forwardPathSrcInput(forwardPathSrcInput),
+        .inOperation(inOperation),
+        .inDstAddress(inDstAddress),
+        .inSrc1Address(inSrc1Address),
+        .inSrc2Address(inSrc2Address),
+        .inSrc1(inSrc1),
+        .inSrc2(inSrc2),
+        .inImmediate(inImmediate),
+        .inInstructionAddress(inInstructionAddress),
+        .inStackPointerAddress(inStackPointerAddress),
 
-        .out(out),
-        .writeBackDst(writeBackDst),
-        .enableWrite(enableWrite),
-        .operation(operation),
+        .forwardPathInputExecute(forwardPathInputExecute),
+        .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
+
+        .forwardPathInputDataMemory(forwardPathInputDataMemory),
+        .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
+
+        .outResult(outResult),
+        .outWriteBackDst(outWriteBackDst),
+        .outEnableWrite(outEnableWrite),
+        .outOperation(outOperation),
         .controlHold(controlHold),
         .controlJump(controlJump),
         .forwardPathOutput(forwardPathOutput),
-        .forwardPathSrcOutput(forwardPathSrcOutput)
+        .forwardPathSrcOutput(forwardPathSrcOutput),
+
+        .outJMP(outJMP)
     );
 
 
@@ -59,18 +77,25 @@ module Execute_tb();
         $dumpfile("Execute.vcd");
         $dumpvars(0, Execute_tb);
 
-        // loading #0A into register 0
-        inputOperation = 4'h0; inputDstAddress = 4'h0; inputSrc1Address = 4'h0; inputSrc2Address = 4'h0; inputSrc1 = 16'h0000; inputSrc2 = 16'h0000; inputImmediate = 8'h0A; forwardPathInput = 16'h0000; forwardPathSrcInput = 4'h0;
+        // testing reset capabilities
+        reset = 1;
         #4;
 
-        // loading #01 into register 1
-        inputOperation = 4'h0; inputDstAddress = 4'h1; inputSrc1Address = 4'h0; inputSrc2Address = 4'h0; inputSrc1 = 16'h0000; inputSrc2 = 16'h0000; inputImmediate = 8'h01; forwardPathInput = 16'h0000; forwardPathSrcInput = 4'h0;
+        reset = 0;
+
+
+        inOperation = 4'h0; inDstAddress = 4'h0; inSrc1Address = 4'h0; inSrc2Address = 4'h1; inSrc1 = 16'hXXXX; inSrc2 = 16'hXXXX; inImmediate = 8'h0F; inInstructionAddress = 16'h0000; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
         #4;
 
-        // adding register 0 and register 1, store in register 2
-        inputOperation = 4'h1; inputDstAddress = 4'h2; inputSrc1Address = 4'h0; inputSrc2Address = 4'h1; inputSrc1 = 16'h000A; inputSrc2 = 16'h0001; inputImmediate = 8'h00; forwardPathInput = 16'h0000; forwardPathSrcInput = 4'h0;
+        inOperation = 4'h1; inDstAddress = 4'h1; inSrc1Address = 4'h1; inSrc2Address = 4'h2; inSrc1 = 16'h0002; inSrc2 = 16'h0004; inImmediate = 8'hXX; inInstructionAddress = 16'h0000; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
         #4;
 
+        inOperation = 4'h8; inDstAddress = 4'hF; inSrc1Address = 4'h0; inSrc2Address = 4'h3; inSrc1 = 16'h0000; inSrc2 = 16'h0000; inImmediate = 8'h02; inInstructionAddress = 16'h0008; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
+        #4;
+
+        // testing hold capabilites
+
+        #8;
         $finish;
     end
 

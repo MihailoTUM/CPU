@@ -31,6 +31,9 @@ module ALUControl(
     logic data1FPathExecute;
     logic data1FPathDataMemory;
 
+    logic data2FPathExecute;
+    logic data2FPathDataMemory;
+
     assign data1FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister1);
     assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister1);
 

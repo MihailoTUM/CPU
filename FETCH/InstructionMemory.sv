@@ -16,9 +16,10 @@ module InstructionMemory(
         case(inAddress)
         16'h0002: outInstruction = 16'h000A;
         16'h0004: outInstruction = 16'h0101;
-        16'h0006: outInstruction = 16'h1201;
+        16'h0006: outInstruction = 16'h1001;
+        16'h0008: outInstruction = 16'h83FE;
 
-        default: outInstruction = 16'hXXXX;
+        default: outInstruction = 16'hFFFF;
         endcase
     end
     

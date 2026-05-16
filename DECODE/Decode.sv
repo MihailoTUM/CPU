@@ -61,4 +61,7 @@ module Decode(
         .outStackPointerAddress(outStackPointerAddress)
     );
 
+    assign outSrc1Address = localSrc1Address;
+    assign outSrc2Address = localSrc2Address;
+
 endmodule

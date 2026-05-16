@@ -27,15 +27,12 @@ module ALU(
     output logic outEnableWrite,
     output logic [3:0] outOperation,
     output logic controlHold,
-    output logic [15:0] flags,
 
     // control outputs
-    output logic [15:0] outNewAddress,
-    output logic outJMP,
-    output logic [15:0] outStackPointerAddress
+    output logic outJMP
 );
     logic localDivFinished;
-    logic [3:0] controlSignals;
+    logic [3:0] localControlSignals;
 
     logic [15:0] localOutData1;
     logic [15:0] localOutData2;
@@ -48,48 +45,38 @@ module ALU(
         .inData1(inData1),
         .inData2(inData2),
 
-        .srcRegister1(srcRegister1),
-        .srcRegister2(srcRegister2),
-        
         .forwardPathInputExecute(forwardPathInputExecute),
         .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
 
         .forwardPathInputDataMemory(forwardPathInputDataMemory),
         .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
+
+        .srcRegister1(srcRegister1),
+        .srcRegister2(srcRegister2),
         
-        .controlSignals(controlSignals),
+        .controlSignals(localControlSignals),
         .outData1(localOutData1),
         .outData2(localOutData2)
     );
 
-    logic [15:0] localFlags;
-
     ALUUnit unit(
         .clk(clk),
-        .hold(controlSignals[3]),
+        .hold(localControlSignals[2]),
         
-        .inInstructionAddress(inInstructionAddress),
-        .inStackPointerAddress(inStackPointerAddress),
         .inOperation(inOperation),
         .inData1(localOutData1),
         .inData2(localOutData2),
         .inImmediate(inImmediate),
+        .inInstructionAddress(inInstructionAddress),
+        .inStackPointerAddress(inStackPointerAddress),
+
+        .divFinished(localDivFinished),
+        .outEnableWrite(outEnableWrite),
+        .JMPSignalToControl(outJMP),
 
         .ALUOutput(outResult),
-        .flags(localFlags),
-        .divFinished(localDivFinished)
+        .outOperation(outOperation)
     );
 
-    ALUFlag flag(
-        .inOperation(inOperation),
-        
-        .outEnableWrite(outEnableWrite),
-        .outOperation(outOperation),
-        .JMPSignalToControl(JMPSignalToControl)
-    );
-
-    assign controlHold = controlSignals[2];
-    assign outNewAddress = outResult;
-    assign outJMP = JMPSignalToControl;
-
+    assign controlHold = localControlSignals[2];
 endmodule

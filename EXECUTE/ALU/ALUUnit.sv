@@ -5,6 +5,7 @@ module ALUUnit(
     input logic clk,
     input logic hold,
 
+    // data inputs
     input logic [3:0] inOperation,
     input logic [15:0] inData1,
     input logic [15:0] inData2,
@@ -12,9 +13,14 @@ module ALUUnit(
     input logic [15:0] inInstructionAddress,
     input logic [15:0] inStackPointerAddress,
 
+    // control outputs
+    output logic divFinished,
+    output logic outEnableWrite,
+    output logic JMPSignalToControl,
+
+    // data outputs
     output logic [15:0] ALUOutput,
-    output logic [15:0] flags,
-    output logic divFinished
+    output logic [3:0] outOperation
 );
     logic [15:0] constFixedOutput;
     logic [15:0] addFixedOutput;
@@ -49,12 +55,32 @@ module ALUUnit(
 
             4'h8: ALUOutput = localNewAddress;
 
+
             4'hF: ALUOutput = 16'hXXXX;
 
             default: ALUOutput = 16'hABCD;
         endcase
     end
 
-    assign flags = { addFixedCarryOut, subFixedCarryOut, 14'b00_0000_0000_0000 };   
+    always_comb
+    begin
+        case(inOperation)
+            4'h8: outEnableWrite = 0;
+            4'hF: outEnableWrite = 0;
+
+            default: outEnableWrite = 1;
+        endcase
+    end
+
+    always_comb
+    begin
+        case(inOperation)
+            4'h8: JMPSignalToControl = 1;
+
+            default: JMPSignalToControl = 0;
+        endcase
+    end
+
+    assign outOperation = inOperation;
 
 endmodule

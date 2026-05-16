@@ -4,7 +4,7 @@ module PipelineRegisterEX(
     // control inputs
     input logic clk,
     input logic hold,
-    // input logic flush,
+    input logic reset,
 
     // data inputs
     input logic [3:0] inOperation,
@@ -84,15 +84,15 @@ module PipelineRegisterEX(
                 localInputSrc1Address <= localInputSrc1Address;
                 localInputSrc2Address <= localInputSrc2Address;
             end
-        // else if (flush)
-        //     begin
-        //         operation <= 4'h0;
-        //         dstAddress <= 4'h0;
-        //         src1Data <= 4'h0;
-        //         src2Data <= 4'h0;
-        //         immediateOperandOutput <= 8'h00;
-        //         writeBackDst <= 4'h0;
-        //     end
+
+        else if(reset)
+            begin
+                localForwardPathInputExecute <= 16'h0000;
+                localForwardPathInputExecuteSrc <= 4'hF;
+
+                localForwardPathInputDataMemory <= 16'h0000;
+                localForwardPathInputDataMemorySrc <= 4'hF;
+            end
         else
             begin
                 localOperation <= inOperation;

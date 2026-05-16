@@ -21,7 +21,7 @@ module Pipeline_tb();
         #4;
         reset = 0;
 
-        #50;
+        #100;
         $finish;
     end
 endmodule

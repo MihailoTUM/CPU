@@ -3,7 +3,7 @@ module Execute(
     // control inputs
     input logic clk,
     input logic hold,
-    // input logic flush,
+    input logic reset,
     
     // data inputs
     input logic [3:0] inOperation,
@@ -34,9 +34,7 @@ module Execute(
     output logic [15:0] forwardPathOutput,
     output logic [3:0] forwardPathSrcOutput,
 
-    output logic [15:0] outNewAddress,
-    output logic outJmp,
-    output logic [15:0] outStackPointerAddress
+    output logic outJMP
 );
     // forwarding path
     // output of the ALU is input for the execution state
@@ -64,12 +62,15 @@ module Execute(
         // inputs
         .clk(clk),
         .hold(hold),
-        // .flush(flush),
+        .reset(reset),
 
         .inOperation(inOperation),
         .inDstAddress(inDstAddress),
         .inSrc1Address(inSrc1Address),
         .inSrc2Address(inSrc2Address),
+
+        .inSrc1(inSrc1),
+        .inSrc2(inSrc2),
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
         .inStackPointerAddress(inStackPointerAddress),
@@ -108,7 +109,7 @@ module Execute(
         .inData1(localSrc1Data),
         .inData2(localSrc2Data),
         .inImmediate(localImmediate),
-        .inInstructionAddress(inInstructionAddress),
+        .inInstructionAddress(localInstructionAddress),
         .inStackPointerAddress(inStackPointerAddress),
 
         .srcRegister1(localSrc1Address),
@@ -124,13 +125,13 @@ module Execute(
         .outEnableWrite(outEnableWrite),
         .outOperation(outOperation),
         .controlHold(controlHold),
-        .flags(),
-        .outNewAddress(outNewAddress),
-        .outJMP(outJMP),
-        .outStackPointerAddress(outStackPointerAddress)
+
+        .outJMP(outJMP)
     );
 
     assign forwardPathOutput = localResult;
     assign forwardPathSrcOutput = localWriteBackDst;
+    assign outResult = localResult;
+    assign outWriteBackDst = localWriteBackDst;
 
 endmodule

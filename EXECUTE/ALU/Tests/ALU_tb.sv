@@ -23,11 +23,8 @@ module ALU_tb();
     logic outEnableWrite;
     logic [3:0] outOperation;
     logic controlHold;
-    logic [15:0] flags;
 
-    logic [15:0] outNewAddress;
     logic outJMP;
-    logic [15:0] outStackPointerAddress;
 
     ALU dut(
         .clk(clk),
@@ -51,11 +48,8 @@ module ALU_tb();
         .outEnableWrite(outEnableWrite),
         .outOperation(outOperation),
         .controlHold(controlHold),
-        .flags(flags),
 
-        .outNewAddress(outNewAddress),
-        .outJMP(outJMP),
-        .outStackPointerAddress(outStackPointerAddress)
+        .outJMP(outJMP)
     );
 
     initial clk = 0;
@@ -80,6 +74,7 @@ module ALU_tb();
 
         inOperation = 4'h8; inData1 = 16'hXXXX; inData2 = 16'hXXXX; inImmediate = 8'hFD; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF; srcRegister1 = 4'h0; srcRegister2 = 4'h0; inInstructionAddress = 16'h00FA; 
         #4;
+
 
         $finish;
     end
