@@ -29,4 +29,4 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 1110 (E) -> STORE
 - 1111 (F) -> NOP 
 
-![CPU Datapath] (docs/ControlUnit.png)
+![CPU Datapath](docs/ControlUnit.png)
