@@ -20,8 +20,8 @@ module Pipeline_tb();
         reset = 1;
         #4;
         reset = 0;
-        #50;
 
+        #50;
         $finish;
     end
 endmodule
