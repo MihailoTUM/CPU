@@ -3,26 +3,31 @@
 module ControlUnit_tb();
     logic clk;
     logic reset;
-    logic hold;
     logic holdSignalFromALU;
-    logic [15:0] inInstructionAddress;
-    logic changeInstructionAddress;
-    logic [3:0] controlSignals;
+    logic [15:0] inNewInstructionAddress;
+    logic changeToNewInstructionAddress;
+
+    logic holdSigFromControl;
+    logic resetSigFromControl;
+
+    logic [15:0] outInstructionAddress;
 
     ControlUnit dut(
         .clk(clk),
         .reset(reset),
-        .holdSignal(hold),
         .holdSignalFromALU(holdSignalFromALU),
-        .inInstructionAddress(inInstructionAddress),
-        .changeInstructionAddress(changeInstructionAddress),
-        .controlSignals(controlSignals)
+        .inNewInstructionAddress(inNewInstructionAddress),
+        .changeToNewInstructionAddress(changeToNewInstructionAddress),
+
+        .holdSigFromControl(holdSigFromControl),
+        .resetSigFromControl(resetSigFromControl),
+        .outInstructionAddress(outInstructionAddress)
     );
 
     initial clk = 0;
     always #2 clk = ~clk;
 
-    initial 
+    initial
     begin
         $dumpfile("ControlUnit.vcd");
         $dumpvars(0, ControlUnit_tb);
@@ -32,7 +37,19 @@ module ControlUnit_tb();
 
         reset = 0;
 
+        #4;
+        holdSignalFromALU = 1;
+
         #8;
+        holdSignalFromALU = 0;
+        changeToNewInstructionAddress = 1;
+        inNewInstructionAddress = 16'h0000;
+        #4;
+
+        changeToNewInstructionAddress = 0;
+
+        #4;
         $finish;
     end
+
 endmodule

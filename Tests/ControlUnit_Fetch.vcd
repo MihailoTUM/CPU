@@ -1,5 +1,5 @@
 $date
-	Fri May 15 20:40:20 2026
+	Sat May 16 15:33:08 2026
 $end
 $version
 	Icarus Verilog
@@ -12,10 +12,10 @@ $var wire 1 ! resetSigFromControl $end
 $var wire 16 " outInstructionAddress [15:0] $end
 $var wire 16 # instruction [15:0] $end
 $var wire 1 $ holdSigFromControl $end
-$var reg 1 % changeInstructionAddress $end
+$var reg 1 % changeToNewInstructionAddress $end
 $var reg 1 & clk $end
 $var reg 1 ' holdSignalFromALU $end
-$var reg 16 ( inInstructionAddress [15:0] $end
+$var reg 16 ( inNewInstructionAddress [15:0] $end
 $var reg 1 ) reset $end
 $scope module fetch $end
 $var wire 16 * outInstruction [15:0] $end
@@ -26,17 +26,17 @@ $var reg 16 - outInstruction [15:0] $end
 $upscope $end
 $upscope $end
 $scope module unit $end
-$var wire 1 % changeInstructionAddress $end
+$var wire 1 % changeToNewInstructionAddress $end
 $var wire 1 & clk $end
 $var wire 1 ' holdSignalFromALU $end
-$var wire 16 . inInstructionAddress [15:0] $end
+$var wire 16 . inNewInstructionAddress [15:0] $end
 $var wire 16 / outInstructionAddress [15:0] $end
 $var wire 1 ) reset $end
+$var reg 16 0 currentInstructionAddress [15:0] $end
+$var reg 3 1 currentState [2:0] $end
 $var reg 1 $ holdSigFromControl $end
-$var reg 16 0 instructionAddress [15:0] $end
-$var reg 3 1 nextState [2:0] $end
+$var reg 3 2 nextState [2:0] $end
 $var reg 1 ! resetSigFromControl $end
-$var reg 3 2 state [2:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
@@ -62,10 +62,10 @@ bx "
 x!
 $end
 #2
-b1 1
+b1 2
 1!
-1$
-b0 2
+0$
+b0 1
 b0 "
 b0 +
 b0 ,
@@ -77,18 +77,12 @@ b0 0
 0)
 #6
 0!
-b10 1
-b1 2
+b10 2
+b1 1
 1&
 #8
 0&
 #10
-0$
-b10 2
-1&
-#12
-0&
-#14
 b1010 #
 b1010 *
 b1010 -
@@ -97,10 +91,11 @@ b10 +
 b10 ,
 b10 /
 b10 0
+b10 1
 1&
-#16
+#12
 0&
-#18
+#14
 b100000001 #
 b100000001 *
 b100000001 -
@@ -110,9 +105,9 @@ b100 ,
 b100 /
 b100 0
 1&
-#20
+#16
 0&
-#22
+#18
 b1001000000001 #
 b1001000000001 *
 b1001000000001 -
@@ -122,24 +117,36 @@ b110 ,
 b110 /
 b110 0
 1&
+#20
+0&
+#22
+bx #
+bx *
+bx -
+b1000 "
+b1000 +
+b1000 ,
+b1000 /
+b1000 0
+1&
 #24
-b100 1
+b100 2
 0&
 b10 (
 b10 .
 1%
 #26
-b10 1
 b1010 #
 b1010 *
 b1010 -
-b100 2
 b10 "
 b10 +
 b10 ,
 b10 /
 b10 0
+b100 1
 1&
 #28
+b10 2
 0&
 0%

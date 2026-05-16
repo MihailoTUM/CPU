@@ -35,7 +35,7 @@ module ALUControl(
     assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister1);
 
     assign data2FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister2);
-    assign data2FPathDataMemory = ~|(forwardPathInputDataMemory ^ srcRegister2);
+    assign data2FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister2);
 
     assign outData1 = data1FPathExecute ? forwardPathInputExecute: data1FPathDataMemory ? forwardPathInputDataMemory: inData1;
     assign outData2 = data2FPathExecute ? forwardPathInputExecute: data2FPathDataMemory ? forwardPathInputDataMemory: inData2;

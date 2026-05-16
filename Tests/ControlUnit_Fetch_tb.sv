@@ -4,8 +4,8 @@ module ControlUnit_Fetch_tb();
     logic clk;
     logic reset;
     logic holdSignalFromALU;
-    logic [15:0] inInstructionAddress;
-    logic changeInstructionAddress;
+    logic [15:0] inNewInstructionAddress;
+    logic changeToNewInstructionAddress;
 
     logic holdSigFromControl;
     logic resetSigFromControl;
@@ -19,12 +19,12 @@ module ControlUnit_Fetch_tb();
         .reset(reset),
         .holdSignalFromALU(holdSignalFromALU),
 
-        .inInstructionAddress(inInstructionAddress),
-        .changeInstructionAddress(changeInstructionAddress),
-        
+        .inNewInstructionAddress(inNewInstructionAddress),
+        .changeToNewInstructionAddress(changeToNewInstructionAddress),
+
         .holdSigFromControl(holdSigFromControl),
         .resetSigFromControl(resetSigFromControl),
-
+        
         .outInstructionAddress(outInstructionAddress)
     );
 
@@ -49,11 +49,11 @@ module ControlUnit_Fetch_tb();
 
         #20;
 
-        changeInstructionAddress = 1;
-        inInstructionAddress = 16'h0002;
+        changeToNewInstructionAddress = 1;
+        inNewInstructionAddress = 16'h0002;
 
         #4;
-        changeInstructionAddress = 0;
+        changeToNewInstructionAddress = 0;
 
 
         $finish;

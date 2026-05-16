@@ -18,7 +18,7 @@ module ALUFlag(
         endcase
     end
 
-    assign outputOperation = inOperation;
+    assign outOperation = inOperation;
 
     always_comb
     begin

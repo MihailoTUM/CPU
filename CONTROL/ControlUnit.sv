@@ -9,84 +9,90 @@ module ControlUnit(
     input logic holdSignalFromALU,
 
     // data inputs
-    input logic [15:0] inInstructionAddress,
-    input logic changeInstructionAddress,
+    input logic [15:0] inNewInstructionAddress,
+    input logic changeToNewInstructionAddress,
 
     // control outputs
-   output logic holdSigFromControl,
-   output logic resetSigFromControl,
+    output logic holdSigFromControl,
+    output logic resetSigFromControl,
 
-    // data outputs
+    // data output
     output logic [15:0] outInstructionAddress
 );
-    logic [15:0] instructionAddress;
-    assign outInstructionAddress = instructionAddress;
+    logic [15:0] currentInstructionAddress;
 
-    typedef enum logic [2:0] { reset1, reset2, run1, hold1, jump1, flush1 } statetype;
-    statetype state, nextState;
+    typedef enum logic [2:0] { reset_1, reset_2, run_1, hold_1, jump_1 } statetype;
 
-    always_ff @(posedge clk)
-    begin
-        if(reset)   state <= reset1;
-        else        state <= nextState;
-    end
+    statetype currentState, nextState;
 
     always_ff @(posedge clk)
     begin
-        if(changeInstructionAddress)    instructionAddress <= inInstructionAddress;
-        else if(reset)                  instructionAddress <= 16'h0000;
-        else if(holdSigFromControl)     instructionAddress <= instructionAddress;
-        else                            instructionAddress <= instructionAddress + 2;
+        if(reset)   
+        begin
+            currentInstructionAddress <= 16'h0000;
+            currentState <= reset_1;
+        end
+        else
+        begin
+            currentState <= nextState;
+            if(nextState == run_1)
+                currentInstructionAddress <= currentInstructionAddress + 2;
+            else if(nextState == jump_1)
+                currentInstructionAddress <= inNewInstructionAddress;
+            else 
+                currentInstructionAddress <= currentInstructionAddress;
+        end
     end
 
-    always_comb 
+    assign outInstructionAddress = currentInstructionAddress;
+
+    always_comb
     begin
-        case(state)
-        reset1: nextState = reset2;
-        reset2: nextState = run1;
-        run1:    if(holdSignalFromALU) nextState = hold1;
-                else if(changeInstructionAddress) nextState = jump1;
-                else nextState = run1;
-        hold1:   if(holdSignalFromALU) nextState = hold1;
-                else nextState = run1;
-        jump1:   nextState = run1;
-        flush1:  nextState = run1;
+        case(currentState)
+            reset_1: nextState = reset_2;
+            reset_2: nextState = run_1;
+
+            run_1: 
+                if(holdSignalFromALU) nextState = hold_1;
+                else if(changeToNewInstructionAddress) nextState = jump_1;
+                else nextState = run_1;
+
+            jump_1:
+                if(holdSignalFromALU) nextState = hold_1;
+                else if(changeToNewInstructionAddress) nextState = jump_1;
+                else nextState = run_1;
+
+            hold_1:
+                if(holdSignalFromALU) nextState = hold_1;
+                else if(changeToNewInstructionAddress) nextState = jump_1;
+                else nextState = run_1;
+
         endcase
     end
 
-    always_comb 
+    always_comb
     begin
-        case(state)
-        reset1:
-        begin
-            holdSigFromControl = 1;
-            resetSigFromControl = 1;
-        end
-        reset2:
-        begin
-            holdSigFromControl = 1;
-            resetSigFromControl = 0;
-        end
-        run1: 
-        begin
-            holdSigFromControl = 0;
-            resetSigFromControl = 0;
-        end
-        hold1:
-        begin
-            holdSigFromControl = 1;
-            resetSigFromControl = 0;
-        end
-        jump1:
-        begin
-            holdSigFromControl = 0;
-            resetSigFromControl = 0;
-        end
-        flush1:
-        begin
-            holdSigFromControl = 0;
-            resetSigFromControl = 0;
-        end
+        case(currentState)
+            reset_1: 
+            begin
+                holdSigFromControl = 0;
+                resetSigFromControl = 1;
+            end
+            reset_2:
+            begin
+                holdSigFromControl = 0;
+                resetSigFromControl = 0;
+            end
+            run_1:
+            begin
+                holdSigFromControl = 0;
+                resetSigFromControl = 0;
+            end
+            hold_1:
+            begin
+                holdSigFromControl = 1;
+                resetSigFromControl = 0;
+            end
         endcase
     end
 
