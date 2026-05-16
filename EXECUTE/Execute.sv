@@ -1,5 +1,4 @@
 
-
 module Execute(
     // control inputs
     input logic clk,
@@ -76,7 +75,7 @@ module Execute(
         .inStackPointerAddress(inStackPointerAddress),
 
         .forwardPathInputExecute(forwardPathInputExecute),
-        .forwardPahtInputExecuteSrc(forwardPathInputExecuteSrc),
+        .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
         .forwardPathInputDataMemory(forwardPathInputDataMemory),
         .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
 
@@ -93,7 +92,7 @@ module Execute(
         .forwardPathOutputDataMemorySrc(localForwardPathInputDataMemorySrc),
 
         .outInstructionAddress(localInstructionAddress),
-        .outStackPointerAddress(localInstructionAddress),
+        .outStackPointerAddress(localStackPointerAddress),
 
         .outSrc1Address(localSrc1Address),
         .outSrc2Address(localSrc2Address)
@@ -105,7 +104,7 @@ module Execute(
         // inputs
         .clk(clk),
 
-        .inOperation(localOperation);
+        .inOperation(localOperation),
         .inData1(localSrc1Data),
         .inData2(localSrc2Data),
         .inImmediate(localImmediate),
@@ -113,13 +112,13 @@ module Execute(
         .inStackPointerAddress(inStackPointerAddress),
 
         .srcRegister1(localSrc1Address),
-        .srcRegister2(localSrc2Addres),
+        .srcRegister2(localSrc2Address),
 
         .forwardPathInputExecute(localForwardPathInputExecute),
         .forwardPathInputExecuteSrc(localForwardPathInputExecuteSrc),
 
         .forwardPathInputDataMemory(localForwardPathInputDataMemory),
-        .forwardPathInputDataMmeorySrc(localForwarPathInputDataMemorySrc),
+        .forwardPathInputDataMemorySrc(localForwardPathInputDataMemorySrc),
 
         .outResult(localResult),
         .outEnableWrite(outEnableWrite),

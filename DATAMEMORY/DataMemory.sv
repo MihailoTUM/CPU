@@ -12,7 +12,7 @@ module DataMemory(
     output logic [3:0] dstToWriteBack,
     output logic enableToWriteBack,
 
-    output logic [15:0] forwardPathFromDataMemory
+    output logic [15:0] forwardPathFromDataMemory,
     output logic [3:0] forwardPathFromDataMemorySrc
 );
     logic [15:0] dataMemoryResult;

@@ -1,3 +1,4 @@
+- improve ControlUnit
 - update ALU inputs
 - finish ALU JMP/BZ instructions
 - improve Control Unit (especially passing instruction Address to Fetch)

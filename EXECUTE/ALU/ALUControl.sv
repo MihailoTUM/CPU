@@ -12,7 +12,7 @@ module ALUControl(
 
     // forward path
     input logic [15:0] forwardPathInputExecute,
-    input logic [3:0] forwardPathInputExecuteSrc
+    input logic [3:0] forwardPathInputExecuteSrc,
 
     input logic [15:0] forwardPathInputDataMemory,
     input logic [3:0] forwardPathInputDataMemorySrc,
@@ -27,17 +27,23 @@ module ALUControl(
 );  
     logic multiCycle;
 
+    // 4-to-1 multiplexer
+    logic data1FPathExecute;
+    logic data1FPathDataMemory;
 
-    assign outData1 = |(forwardPathInputExecuteSrc ^ srcRegister1) ? inData1: forwardPathInputExecute;
-    assign outData1 = |(forwardPathInputDataMemorySrc ^ srcRegister1) ? inData1: forwardPathInputDataMemory;
+    assign data1FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister1);
+    assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister1);
 
-    assign outData2 = |(forwardPathInputExecuteSrc ^ srcRegister2) ? inData1: forwardPathInputExecute;
-    assign outData2 = |(forwardPathInputDataMemorySrc ^ srcRegister2) ? inData1: forwardPathInputDataMemory;
+    assign data2FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister2);
+    assign data2FPathDataMemory = ~|(forwardPathInputDataMemory ^ srcRegister2);
+
+    assign outData1 = data1FPathExecute ? forwardPathInputExecute: data1FPathDataMemory ? forwardPathInputDataMemory: inData1;
+    assign outData2 = data2FPathExecute ? forwardPathInputExecute: data2FPathDataMemory ? forwardPathInputDataMemory: inData2;
 
 
     always_comb
     begin 
-        case(operation)
+        case(inOperation)
             4'h4: multiCycle = 1;
 
             default: multiCycle = 0;

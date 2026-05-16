@@ -50,10 +50,10 @@ module PipelineRegisterDE(
             begin 
                 localInstructionAddress <= inInstructionAddress;
                 localOperation <= inInstruction[15:12];
-                dstAddress <= instruction[11:8];
-                src1Address <= instruction[7:4];
-                src2Address <= instruction[3:0];
-                immediateOperand <= instruction[7:0];
+                localDstAddress <= inInstruction[11:8];
+                localSrc1Address <= inInstruction[7:4];
+                localSrc2Address <= inInstruction[3:0];
+                localImmediate <= inInstruction[7:0];
             end
    end
 

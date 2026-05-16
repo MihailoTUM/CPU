@@ -28,3 +28,5 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 1101 (D) -> LOAD
 - 1110 (E) -> STORE
 - 1111 (F) -> NOP 
+
+https://excalidraw.com/#json=NF6Vrz35TZ9iurfSEiR1F,7CE291RIR-YGPKLa1XmZcQ

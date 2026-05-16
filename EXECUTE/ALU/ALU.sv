@@ -23,7 +23,7 @@ module ALU(
     input logic [3:0] forwardPathInputDataMemorySrc,
 
     // data outputs
-    output logic [15:0] outResult
+    output logic [15:0] outResult,
     output logic outEnableWrite,
     output logic [3:0] outOperation,
     output logic controlHold,
@@ -47,6 +47,9 @@ module ALU(
         .inOperation(inOperation),
         .inData1(inData1),
         .inData2(inData2),
+
+        .srcRegister1(srcRegister1),
+        .srcRegister2(srcRegister2),
         
         .forwardPathInputExecute(forwardPathInputExecute),
         .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
@@ -59,7 +62,7 @@ module ALU(
         .outData2(localOutData2)
     );
 
-    logic [15:0] flags;
+    logic [15:0] localFlags;
 
     ALUUnit unit(
         .clk(clk),
@@ -67,18 +70,18 @@ module ALU(
         
         .inInstructionAddress(inInstructionAddress),
         .inStackPointerAddress(inStackPointerAddress),
-        .inOperation(operation),
+        .inOperation(inOperation),
         .inData1(localOutData1),
         .inData2(localOutData2),
         .inImmediate(inImmediate),
 
         .ALUOutput(outResult),
-        .flags(flags),
+        .flags(localFlags),
         .divFinished(localDivFinished)
     );
 
     ALUFlag flag(
-        .operation(operation),
+        .inOperation(inOperation),
         
         .outEnableWrite(outEnableWrite),
         .outOperation(outOperation),

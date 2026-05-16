@@ -30,8 +30,8 @@ module RegisterBlock(
 
     always_comb 
     begin
-       outSrc1Data = registers[src1Address];
-       outSrc2Data = registers[src2Address];
+       outSrc1Data = registers[inSrc1Address];
+       outSrc2Data = registers[inSrc2Address];
        outImmediate = inImmediate;
        outStackPointerAddress = registers[stackPointerAddress];
     end

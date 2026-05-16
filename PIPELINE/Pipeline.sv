@@ -1,104 +1,135 @@
 
 
 module Pipeline(
-    // control inputs
     input logic clk,
     input logic reset
 );
-    logic [3:0] localControlSignals;
+    logic [15:0] localInstructionAddress;
+    logic [15:0] localInstruction;
+    logic [3:0] controlSignals;
 
-    CPUControl cpuControl(
+    ControlUnit controlUnit(
         .clk(clk),
         .reset(reset),
-        .holdSignalFromALU(localControlHoldExecute),
-        .jumpSignalFromALU(localControlJumpExecute),
-        .controlSignals(localControlSignals)
-    );
+        .hold(),
+        .holdSignalFromALU(localControlHold),
+        .inInstructionAddress(localOutNewAddress),
+        .changeInstructionAddress(localOutJmp),
 
-    logic [15:0] instruction;
+        .controlSignals(controlSignals),
+        .outInstructionAddress(localInstructionAddress)
+    );
 
     Fetch fetch(
-        .clk(clk),
-        .reset(reset),
-        .hold(localControlSignals[3]),
-        .instruction(instruction)
+        .address(localInstructionAddress),
+
+        .instruction(localInstruction)
     );
 
-    logic [3:0] localOperationDecode;
-    logic [3:0] localDstAddressDecode;
-    logic [3:0] localSrc1DataAddressDecode;
-    logic [3:0] localSrc2DataAddressDecode;
-    logic [15:0] localSrc1DataDecode;
-    logic [15:0] localSrc2DataDecode;
-    logic [7:0] localImmediateOperandDecode;
+    logic [3:0] outOperationDecode;
+    logic [3:0] outDstAddressDecode;
+    logic [3:0] outSrc1AddressDecode;
+    logic [3:0] outSrc2AddressDecode;
+    logic [15:0] outSrc1DataDecode;
+    logic [15:0] outSrc2DataDecode;
+    logic [7:0] outImmediateDecode; 
+
+    logic [15:0] outInstructionAddressDecode;
+    logic [15:0] outStackPointerAddressDecode;
 
     Decode decode(
         .clk(clk),
-        .hold(localControlSignals[3]),
+        .hold(controlSignals[3]),
 
-        .instruction(instruction),
-        .dataToStore(localResultToWriteBack),
-        .writeBackDst(localDstToWriteBack),
-        .enableWrite(localEnableToWriteBack),
+        .inInstructionAddress(localInstructionAddress),
+        .inInstruction(localInstruction),
+        .inDataToStore(localDataMemoryResult),
+        .inWriteBackDst(localDataMemoryWriteBackAddress),  
+        .inEnableWrite(localDataMemoryEnableWriteBack),
 
-        .operation(localOperationDecode),
-        .dstAddress(localDstAddressDecode),
-        .src1DataAddress(localSrc1DataAddressDecode),
-        .src2DataAddress(localSrc2DataAddressDecode),
-        .src1Data(localSrc1DataDecode),
-        .src2Data(localSrc2DataDecode),
-        .immediateOperandOutput(localImmediateOperandDecode)
+        .outOperation(outOperationDecode),
+        .outDstAddress(outDstAddressDecode),
+        .outSrc1Address(outSrc1AddressDecode),
+        .outSrc2Address(outSrc2AddressDecode),
+        .outSrc1Data(outSrc1DataDecode),
+        .outSrc2Data(outSrc2DataDecode),
+        .outImmediate(outImmediateDecode),
+
+        .outInstructionAddress(outInstructionAddressDecode),
+        .outStackPointerAddress(outStackPointerAddressDecode)
     );
 
-    logic [15:0] localForwardPathInputExecute;
-    logic [3:0] localForwardPathSrcInputExecute;
+    logic [15:0] localOutResult;
+    logic [3:0] localWriteBackDst;
+    logic localEnableWrite;
+    logic [3:0] localOutOperation;
+    logic localControlHold;
+    logic localControlJump;
 
-    logic [15:0] localOutputExecute;
-    logic [3:0] localWriteBackDstExecute;
-    logic localEnableWriteExecute;
-    logic [3:0] localOperationExecute;
-    logic localControlHoldExecute;
-    logic localControlJumpExecute;
+    logic [15:0] localForwardPathOutput;
+    logic [3:0] localForwardPathOutputSrc;
+
+    logic [15:0] localOutNewAddress;
+    logic localOutJmp;
+    logic [15:0] localStackPointerAddress;
 
     Execute execute(
         .clk(clk),
-        .hold(localControlSignals[3]),
+        .hold(controlSignals[3]),
 
-        .inputOperation(localOperationDecode),
-        .inputDstAddress(localDstAddressDecode),
-        .inputSrc1Address(localSrc1DataAddressDecode),
-        .inputSrc2Address(localSrc2DataAddressDecode),
-        .inputSrc1(localSrc1DataDecode),
-        .inputSrc2(localSrc2DataDecode),
-        .inputImmediate(localImmediateOperandDecode),
-        .forwardPathInput(localForwardPathInputExecute),
-        .forwardPathSrcInput(localForwardPathSrcInputExecute),
+        .inOperation(outOperationDecode),
+        .inDstAddress(outDstAddressDecode),
+        .inSrc1Address(outSrc1AddressDecode),
+        .inSrc2Address(outSrc2AddressDecode),
+        .inSrc1(outSrc1DataDecode),
+        .inSrc2(outSrc2DataDecode),
+        .inImmediate(outImmediateDecode),
+        .inInstructionAddress(outInstructionAddressDecode),
+        .inStackPointerAddress(outStackPointerAddressDecode),
 
-        .out(localOutputExecute),
-        .writeBackDst(localWriteBackDstExecute),
-        .enableWrite(localEnableWriteExecute),
-        .operation(localOperationExecute),
-        .controlHold(localControlHoldExecute),
-        .controlJump(localControlJumpExecute),
-        .forwardPathOutput(localForwardPathInputExecute),
-        .forwardPathSrcOutput(localForwardPathSrcInputExecute)
+        .forwardPathInputExecute(localForwardPathOutput),
+        .forwardPathInputExecuteSrc(localForwardPathOutputSrc),
+
+        .forwardPathInputDataMemory(localForwardPathFromDataMemory),
+        .forwardPathInputDataMemorySrc(localForwardPathFromDataMemorySrc),
+
+        .outResult(localOutResult),
+        .outWriteBackDst(localWriteBackDst),
+        .outEnableWrite(localEnableWrite),
+        .outOperation(localOutOperation),
+        .controlHold(localControlHold),
+        .controlJump(localControlJump),
+        .forwardPathOutput(localForwardPathOutput),
+        .forwardPathSrcOutput(localForwardPathOutputSrc),
+        
+        .outNewAddress(localOutNewAddress),
+        .outJmp(localOutJmp),
+        .outStackPointerAddress(localStackPointerAddress)
     );
 
-    logic [15:0] localResultToWriteBack;
-    logic [3:0] localDstToWriteBack;
-    logic localEnableToWriteBack;
+    logic [15:0] localDataMemoryResult;
+    logic [3:0] localDataMemoryWriteBackAddress;
+    logic localDataMemoryEnableWriteBack;
+
+    logic [15:0] localForwardPathFromDataMemory;
+    logic [3:0] localForwardPathFromDataMemorySrc;
+
 
     DataMemory dataMemory(
         .clk(clk),
-        .ALUResult(localOutputExecute),
-        .writeBackALUResultDst(localWriteBackDstExecute),
-        .writeBackEnable(localEnableWriteExecute),
-        .operation(localOperationExecute),
 
-        .resultToWriteBack(localResultToWriteBack),
-        .dstToWriteBack(localDstToWriteBack),
-        .enableToWriteBack(localEnableToWriteBack)
-    );  
+        .ALUResult(localOutResult),
+        .writeBackALUResultDst(localWriteBackDst),
+        .writeBackEnable(localEnableWrite),
+        .operation(localOutOperation),
+
+        .resultToWriteBack(localDataMemoryResult),
+        .dstToWriteBack(localDataMemoryWriteBackAddress),
+        .enableToWriteBack(localDataMemoryEnableWriteBack),
+
+        .forwardPathFromDataMemory(localForwardPathFromDataMemory),
+        .forwardPathFromDataMemorySrc(localForwardPathFromDataMemorySrc)
+    );
 
 
 endmodule

@@ -2,7 +2,6 @@
 
 module Pipeline_tb();
     logic clk;
-    logic hold;
     logic reset;
 
     Pipeline dut(

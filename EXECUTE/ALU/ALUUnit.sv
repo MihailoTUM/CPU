@@ -14,7 +14,7 @@ module ALUUnit(
 
     output logic [15:0] ALUOutput,
     output logic [15:0] flags,
-    output logic divFinished,
+    output logic divFinished
 );
     logic [15:0] constFixedOutput;
     logic [15:0] addFixedOutput;
@@ -25,9 +25,9 @@ module ALUUnit(
     logic [15:0] localNewAddress;
 
     // combinational arithmetic-logic operations
-    CONST16 constFixed(inImmediate, constOutput);
+    CONST16 constFixed(inImmediate, constFixedOutput);
     ADD16 addFixed(inData1, inData2, 1'b0, addFixedOutput, addFixedCarryOut);
-    ADD16 subFixed(inData1, ~inData2, 1'b1, subFixedOuput, subFixedCarryOut);
+    ADD16 subFixed(inData1, ~inData2, 1'b1, subFixedOutput, subFixedCarryOut);
     MUL16 mulFixed(inData1, inData2, mulFixedOutput);
     JMP16 jumpfixed(inImmediate, inInstructionAddress, localNewAddress);
 
@@ -35,7 +35,7 @@ module ALUUnit(
     logic [15:0] divFixedRemainder;
 
     // sequential arithmetic-logic operations
-    DIV divFixed(clk, hold, inData1, inData2, divFixedOutput, divFixedRemainder, divFinished);
+    DIV16 divFixed(clk, hold, inData1, inData2, divFixedOutput, divFixedRemainder, divFinished);
 
 
     always_comb 

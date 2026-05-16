@@ -1,0 +1,73 @@
+$date
+	Fri May 15 18:52:25 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module ControlUnit_tb $end
+$var wire 4 ! controlSignals [3:0] $end
+$var reg 1 " changeInstructionAddress $end
+$var reg 1 # clk $end
+$var reg 1 $ hold $end
+$var reg 1 % holdSignalFromALU $end
+$var reg 16 & inInstructionAddress [15:0] $end
+$var reg 1 ' reset $end
+$scope module dut $end
+$var wire 1 " changeInstructionAddress $end
+$var wire 1 # clk $end
+$var wire 1 $ holdSignal $end
+$var wire 1 % holdSignalFromALU $end
+$var wire 16 ( inInstructionAddress [15:0] $end
+$var wire 1 ' reset $end
+$var reg 4 ) controlSignals [3:0] $end
+$var reg 16 * instructionAddress [15:0] $end
+$var reg 3 + nextState [2:0] $end
+$var reg 3 , state [2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx ,
+bx +
+bx *
+bx )
+bx (
+1'
+bx &
+x%
+x$
+0#
+x"
+bx !
+$end
+#2
+b0 !
+b0 )
+b100 +
+b11 ,
+b0 *
+1#
+#4
+0#
+0'
+#6
+b100 !
+b100 )
+b0 +
+b10 *
+b100 ,
+1#
+#8
+0#
+#10
+b0 !
+b0 )
+b0 ,
+b100 *
+1#
+#12
+0#
