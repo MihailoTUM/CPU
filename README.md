@@ -23,8 +23,12 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 1000 (8) -> JMP
 - 1001 (9) -> BZ
 - 1010 (A) -> ADDI
-- 1011 (B) ->
-- 1100 (C) ->
+- 1011 (B) -> CALL 
+- 1100 (C) -> RET
 - 1101 (D) -> LOAD
 - 1110 (E) -> STORE
 - 1111 (F) -> NOP 
+
+# special registers
+- r14: store address to RET after CALL
+- r15: stack pointer address

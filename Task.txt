@@ -1,3 +1,6 @@
-- finish ALU JMP/BZ instructions
 - improve DataMemory (forward path, stackpointer address)
 - think about DataMemory read and write
+- complete ADDI16
+- confirm BZ works with a loop example and ADDI
+- create a small Assembler
+- implement CALL and RET
