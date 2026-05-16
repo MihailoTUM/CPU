@@ -30,12 +30,19 @@ module ALUUnit(
     logic [31:0] mulFixedOutput;
     logic [15:0] localNewAddress;
 
+    logic [15:0] localBranchNewAddress;
+    logic branchSuccess;
+
     // combinational arithmetic-logic operations
     CONST16 constFixed(inImmediate, constFixedOutput);
     ADD16 addFixed(inData1, inData2, 1'b0, addFixedOutput, addFixedCarryOut);
     ADD16 subFixed(inData1, ~inData2, 1'b1, subFixedOutput, subFixedCarryOut);
     MUL16 mulFixed(inData1, inData2, mulFixedOutput);
-    JMP16 jumpfixed(inImmediate, inInstructionAddress, localNewAddress);
+
+    // logic
+    JMP16 jumpFixed(inImmediate, inInstructionAddress, localNewAddress);
+    BZ16 bzFixed(inImmediate, inInstructionAddress, localBranchNewAddress, branchSuccess);
+
 
     logic [15:0] divFixedOutput;
     logic [15:0] divFixedRemainder;
@@ -54,7 +61,7 @@ module ALUUnit(
             4'h4: ALUOutput = divFixedOutput;
 
             4'h8: ALUOutput = localNewAddress;
-
+            4'h9: ALUOutput = localBranchNewAddress;
 
             4'hF: ALUOutput = 16'hXXXX;
 
@@ -76,6 +83,11 @@ module ALUUnit(
     begin
         case(inOperation)
             4'h8: JMPSignalToControl = 1;
+            4'h9: 
+                begin
+                    if(branchSuccess) JMPSignalToControl = 1;
+                    else JMPSignalToControl = 0;
+                end
 
             default: JMPSignalToControl = 0;
         endcase

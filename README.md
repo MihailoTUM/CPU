@@ -21,8 +21,8 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 0110 (6) -> OR
 - 0111 (7) -> XOR
 - 1000 (8) -> JMP
-- 1001 (9) -> BRANCH
-- 1010 (A) -> 
+- 1001 (9) -> BZ
+- 1010 (A) -> ADDI
 - 1011 (B) ->
 - 1100 (C) ->
 - 1101 (D) -> LOAD
