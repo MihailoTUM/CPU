@@ -16,7 +16,6 @@ module PipelineRegisterEX(
     input logic [15:0] inSrc2,
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
-    input logic [15:0] inStackPointerAddress,
 
     input logic [15:0] forwardPathInputExecute,
     input logic [3:0] forwardPathInputExecuteSrc,

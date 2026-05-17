@@ -10,7 +10,6 @@ module ALU(
     input logic [15:0] inData2,
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
-    input logic [15:0] inStackPointerAddress,
 
     // forward path
     input logic [3:0] srcRegister1,

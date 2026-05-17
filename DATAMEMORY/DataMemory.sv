@@ -12,6 +12,7 @@ module DataMemory(
 
     // control outputs
     output logic enableToWriteBack,
+    output logic holdSignalFromDataMemory,
 
     // data outputs
     output logic [15:0] resultToWriteBack,
@@ -42,6 +43,15 @@ module DataMemory(
         .operationOut(localOperation),
         .outDataToStoreInMemory(localDataToStoreInMemory)
     );
+
+    always_comb
+    begin
+        case(localOperation)
+            4'hE: holdSignalFromDataMemory = 1;
+
+            default: holdSignalFromDataMemory = 0;
+        endcase
+    end
 
     assign forwardPathFromDataMemory = localALUResult;
     assign forwardPathFromDataMemorySrc = dstToWriteBack;

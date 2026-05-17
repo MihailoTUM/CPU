@@ -7,6 +7,7 @@ module ControlUnit(
 
     // control inputs from ALU
     input logic holdSignalFromALU,
+    input logic holdSignalFromDataMemory,
 
     // data inputs
     input logic [15:0] inNewInstructionAddress,
@@ -54,19 +55,21 @@ module ControlUnit(
 
             run_1: 
                 if(holdSignalFromALU) nextState = hold_1;
+                else if(holdSignalFromDataMemory) nextState = hold_1;
                 else if(changeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
 
             jump_1:
                 if(holdSignalFromALU) nextState = hold_1;
+                else if(holdSignalFromDataMemory) nextState = hold_1;
                 else if(changeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
 
             hold_1:
                 if(holdSignalFromALU) nextState = hold_1;
+                else if(holdSigFromControl) nextState = hold_1;
                 else if(changeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
-
         endcase
     end
 

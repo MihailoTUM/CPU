@@ -22,12 +22,12 @@ module Decode(
     output logic [15:0] outSrc2Data,
     output logic [7:0] outImmediate,
 
-    output logic [15:0] outInstructionAddress,
-    output logic [15:0] outStackPointerAddress
+    output logic [15:0] outInstructionAddress
 );
     logic [3:0] localSrc1Address;
     logic [3:0] localSrc2Address;
     logic [7:0] localImmediate;  
+    logic [3:0] localOperation;
 
     PipelineRegisterDE pipelineRegister(
         .clk(clk),
@@ -38,7 +38,7 @@ module Decode(
         .inInstruction(inInstruction),
 
         .outInstructionAddress(outInstructionAddress),
-        .outOperation(outOperation),
+        .outOperation(localOperation),
         .outDstAddress(outDstAddress),
         .outSrc1Address(localSrc1Address),
         .outSrc2Address(localSrc2Address),
@@ -48,6 +48,7 @@ module Decode(
     RegisterBlock registerBlock(
         .clk(clk),
         
+        .inOperation(localOperation),
         .inDataToStore(inDataToStore),
         .inWriteBackDst(inWriteBackDst),
         .inSrc1Address(localSrc1Address),
@@ -63,5 +64,6 @@ module Decode(
 
     assign outSrc1Address = localSrc1Address;
     assign outSrc2Address = localSrc2Address;
+    assign localOperation = outOperation;
 
 endmodule

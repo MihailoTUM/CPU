@@ -14,7 +14,6 @@ module Execute(
     input logic [15:0] inSrc2,
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
-    input logic [15:0] inStackPointerAddress,
 
     // forward path from Execute stage
     input logic [15:0] forwardPathInputExecute,
@@ -54,7 +53,6 @@ module Execute(
     logic [3:0] localSrc2Address;
 
     logic [15:0] localInstructionAddress;
-    logic [15:0] localStackPointerAddress;
 
     logic [3:0] localWriteBackDst;
  
@@ -73,7 +71,6 @@ module Execute(
         .inSrc2(inSrc2),
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
-        .inStackPointerAddress(inStackPointerAddress),
 
         .forwardPathInputExecute(forwardPathInputExecute),
         .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
@@ -110,7 +107,6 @@ module Execute(
         .inData2(localSrc2Data),
         .inImmediate(localImmediate),
         .inInstructionAddress(localInstructionAddress),
-        .inStackPointerAddress(inStackPointerAddress),
 
         .srcRegister1(localSrc1Address),
         .srcRegister2(localSrc2Address),
