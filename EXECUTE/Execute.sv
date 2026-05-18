@@ -33,7 +33,9 @@ module Execute(
     output logic [15:0] forwardPathOutput,
     output logic [3:0] forwardPathSrcOutput,
 
-    output logic outJMP
+    output logic outJMP,
+    output logic [15:0] outAddressToRET,
+    output logic outAddressToRETSignal
 );
     // forwarding path
     // output of the ALU is input for the execution state
@@ -122,7 +124,10 @@ module Execute(
         .outOperation(outOperation),
         .controlHold(controlHold),
 
-        .outJMP(outJMP)
+        .outJMP(outJMP),
+        .outAddressToRET(outAddressToRET),
+        .outAddressToRETSignal(outAddressToRETSignal)
+
     );
 
     assign forwardPathOutput = localResult;

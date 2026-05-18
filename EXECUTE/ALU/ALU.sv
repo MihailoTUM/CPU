@@ -28,7 +28,9 @@ module ALU(
     output logic controlHold,
 
     // control outputs
-    output logic outJMP
+    output logic outJMP,
+    output logic outAdressToRETSignal,
+    output logic [15:0] outAddressToRET
 );
     logic localDivFinished;
     logic [3:0] localControlSignals;
@@ -67,14 +69,15 @@ module ALU(
         .inData2(localOutData2),
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
-        .inStackPointerAddress(inStackPointerAddress),
 
         .divFinished(localDivFinished),
         .outEnableWrite(outEnableWrite),
         .JMPSignalToControl(outJMP),
 
         .ALUOutput(outResult),
-        .outOperation(outOperation)
+        .outOperation(outOperation),
+        .outAddressToRET(outAddressTORET),
+        .outAddressToRETSignal(outAdressToRETSignal)
     );
 
     assign controlHold = localControlSignals[2];

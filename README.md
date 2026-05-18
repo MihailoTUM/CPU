@@ -32,3 +32,10 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 # special registers
 - r14: store address to RET after CALL
 - r15: stack pointer address
+
+
+# instruction structure
+- 4-bits opcode, 4-bits register, 4-bits base address, 4-bits offset
+
+CALL
+- 4-bits opcode, 4-bits nothing, 8-bits address

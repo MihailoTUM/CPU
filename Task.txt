@@ -3,4 +3,9 @@
 - complete ADDI16
 - confirm BZ works with a loop example and ADDI
 - create a small Assembler
-- implement CALL and RET
+
+- complete the MINI pipeline,
+- test the MINi pipeline,
+- integrate the data hazard (partial stall for LOAD)
+- finish the entire pipeline & testing
+- finish the GitHub repo

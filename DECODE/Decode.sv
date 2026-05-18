@@ -5,6 +5,7 @@ module Decode(
     input logic clk,
     input logic hold,
     // input logic flush,
+    // input logic reset,
 
     // data inputs
     input logic [15:0] inInstructionAddress,
@@ -12,6 +13,10 @@ module Decode(
     input logic [15:0] inDataToStore,
     input logic [3:0] inWriteBackDst,
     input logic inEnableWrite,
+
+    // for CALL/RET
+    input logic [15:0] inAddressToRET,
+    input logic inAddressToRETSignal,
 
     // data outputs
     output logic [3:0] outOperation,
@@ -28,6 +33,7 @@ module Decode(
     logic [3:0] localSrc2Address;
     logic [7:0] localImmediate;  
     logic [3:0] localOperation;
+    logic [3:0] localDstAddress;
 
     PipelineRegisterDE pipelineRegister(
         .clk(clk),
@@ -39,7 +45,7 @@ module Decode(
 
         .outInstructionAddress(outInstructionAddress),
         .outOperation(localOperation),
-        .outDstAddress(outDstAddress),
+        .outDstAddress(localDstAddress),
         .outSrc1Address(localSrc1Address),
         .outSrc2Address(localSrc2Address),
         .outImmediate(localImmediate)
@@ -50,20 +56,24 @@ module Decode(
         
         .inOperation(localOperation),
         .inDataToStore(inDataToStore),
+        .inDstAddress(localDstAddress),
         .inWriteBackDst(inWriteBackDst),
         .inSrc1Address(localSrc1Address),
         .inSrc2Address(localSrc2Address),
         .inImmediate(localImmediate),
         .inEnableWrite(inEnableWrite),
 
+        .inAddressToRET(inAddressToRET),
+        .inAddressToRETSignal(inAddressToRETSignal),
+
         .outSrc1Data(outSrc1Data),
         .outSrc2Data(outSrc2Data),
-        .outImmediate(outImmediate),
-        .outStackPointerAddress(outStackPointerAddress)
+        .outImmediate(outImmediate)
     );
 
     assign outSrc1Address = localSrc1Address;
     assign outSrc2Address = localSrc2Address;
-    assign localOperation = outOperation;
+    assign outOperation = localOperation;
+    assign outDstAddress = localDstAddress;
 
 endmodule
