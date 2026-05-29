@@ -4,74 +4,81 @@ module DataMemory(
     input logic clk,
 
     // data inputs
-    input logic [15:0] ALUResult,
-    input logic [3:0] writeBackALUResultDst,
-    input logic writeBackEnable,
-    input logic [3:0] operation,
-    input logic [15:0] inDataToStoreInMemory,
+    input logic [15:0] inALUDataResult,
+    input logic [3:0] inWriteBackDataResultDst,
+    input logic inWriteBackDataResultEnable,
+    input logic [3:0] inOperation,
+    input logic [15:0] inMemoryAddress,
 
     // control outputs
-    output logic enableToWriteBack,
-    output logic holdSignalFromDataMemory,
+    output logic outHoldSignalFromDataMemory,
 
     // data outputs
-    output logic [15:0] resultToWriteBack,
-    output logic [3:0] dstToWriteBack,
+    output logic [15:0] outDataResult,
+    output logic [3:0] outWriteBackDataResultDst,
+    output logic outWriteBackDataResultEnable,
 
     // forward path
     output logic [15:0] forwardPathFromDataMemory,
     output logic [3:0] forwardPathFromDataMemorySrc
 );
-    logic [15:0] dataMemoryResult;
-    logic [15:0] localALUResult;
+    logic [15:0] localALUDataResult;
     logic [3:0] localOperation;
+    logic [15:0] localMemoryAddress;
+    logic [3:0] localWriteBackDataResultDst;
 
-    logic [15:0] localDataToStoreInMemory;
+    logic [15:0] localDataMemoryResult;
+
 
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
 
-        .ALUResult(ALUResult),
-        .writeBackDst(writeBackALUResultDst),
-        .writeBackEnable(writeBackEnable),
-        .operation(operation),
-        .inDataToStoreInMemory(inDataToStoreInMemory),
+        .inALUDataResult(inALUDataResult),
+        .inWriteBackDataResultDst(inWriteBackDataResultDst),
+        .inWriteBackDataResultEnable(inWriteBackDataResultEnable),
+        .inOperation(inOperation),
+        .inMemoryAddress(inMemoryAddress),
 
-        .result(localALUResult),
-        .dst(dstToWriteBack),
-        .enableSignal(enableToWriteBack),
-        .operationOut(localOperation),
-        .outDataToStoreInMemory(localDataToStoreInMemory)
+        .outALUDataResult(localALUDataResult),
+        .outWriteBackDataResultDst(localWriteBackDataResultDst),
+        .outWriteBackDataResultEnable(outWriteBackDataResultEnable),
+        .outOperation(localOperation),
+        .outMemoryAddress(localMemoryAddress)
     );
 
     always_comb
-    begin
-        case(localOperation)
-            4'hE: holdSignalFromDataMemory = 1;
+        begin
+            case(localOperation)
+                4'hE: outHoldSignalFromDataMemory = 1;
 
-            default: holdSignalFromDataMemory = 0;
-        endcase
-    end
+                default: outHoldSignalFromDataMemory = 0;
+            endcase
+        end
 
-    assign forwardPathFromDataMemory = localALUResult;
-    assign forwardPathFromDataMemorySrc = dstToWriteBack;
+    assign forwardPathFromDataMemory = localALUDataResult;
+    assign forwardPathFromDataMemorySrc = localWriteBackDataResultDst;
+    assign outWriteBackDataResultDst = localWriteBackDataResultDst;
+
+    logic localWriteToMemoryEnable;
+    assign localWriteToMemoryEnable = (localOperation == 4'hE);
 
     Memory memory(
         .clk(clk),
-        .allowWriteToMemory(),
+        .inWriteToMemoryEnable(localWriteToMemoryEnable),
 
-        .memoryAddress(localALUResult),
-        .dataToStoreInMemory(localDataToStoreInMemory)
+        .inALUDataResult(localALUDataResult),
+        .inMemoryAddress(localMemoryAddress),
 
-        .dataToLoad(dataMemoryResult)
+        .outDataMemoryResult(localDataMemoryResult)
     );
+
 
     always_comb 
     begin
         case(localOperation)
-        4'hD: resultToWriteBack = dataMemoryResult;
-        4'hE: resultToWriteBack = dataMemoryResult;
-        default: resultToWriteBack = localALUResult;
+        4'hD: outDataResult = localDataMemoryResult;
+        4'hE: outDataResult = localDataMemoryResult;
+        default: outDataResult = localALUDataResult;
         endcase
     end
 

@@ -8,142 +8,239 @@
 :vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
 :vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
 :vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
-S_000001f543c9bbe0 .scope package, "$unit" "$unit" 2 1;
+S_0000028ae66c2430 .scope package, "$unit" "$unit" 2 1;
  .timescale 0 0;
-S_000001f543c9bd70 .scope module, "DataMemory_tb" "DataMemory_tb" 3 3;
+S_0000028ae66c25c0 .scope module, "DataMemory_tb" "DataMemory_tb" 3 3;
  .timescale -9 -9;
-v000001f543d38140_0 .var "ALUResult", 15 0;
-v000001f543d383c0_0 .var "clk", 0 0;
-v000001f543d381e0_0 .net "dstToWriteBack", 3 0, v000001f543c9e670_0;  1 drivers
-v000001f543d38500_0 .net "enableToWriteBack", 0 0, v000001f543cec0e0_0;  1 drivers
-v000001f543d385a0_0 .var "operation", 3 0;
-v000001f543d37a60_0 .net "resultToWriteBack", 15 0, v000001f543d37b00_0;  1 drivers
-v000001f543d37e20_0 .var "writeBackALUResultDst", 3 0;
-v000001f543d386e0_0 .var "writeBackEnable", 0 0;
-S_000001f543cec9c0 .scope module, "dut" "DataMemory" 3 14, 4 4 0, S_000001f543c9bd70;
- .timescale 0 0;
-    .port_info 0 /INPUT 1 "clk";
-    .port_info 1 /INPUT 16 "ALUResult";
-    .port_info 2 /INPUT 4 "writeBackALUResultDst";
-    .port_info 3 /INPUT 1 "writeBackEnable";
-    .port_info 4 /INPUT 4 "operation";
-    .port_info 5 /OUTPUT 16 "resultToWriteBack";
-    .port_info 6 /OUTPUT 4 "dstToWriteBack";
-    .port_info 7 /OUTPUT 1 "enableToWriteBack";
-v000001f543c969f0_0 .net "ALUResult", 15 0, v000001f543d38140_0;  1 drivers
-v000001f543c96a90_0 .net "clk", 0 0, v000001f543d383c0_0;  1 drivers
-L_000001f543d39858 .functor BUFT 1, C4<1111111111111111>, C4<0>, C4<0>, C4<0>;
-v000001f543d38280_0 .net "dataMemoryResult", 15 0, L_000001f543d39858;  1 drivers
-v000001f543d37f60_0 .net "dstToWriteBack", 3 0, v000001f543c9e670_0;  alias, 1 drivers
-v000001f543d37ec0_0 .net "enableToWriteBack", 0 0, v000001f543cec0e0_0;  alias, 1 drivers
-v000001f543d38000_0 .net "operation", 3 0, v000001f543d385a0_0;  1 drivers
-v000001f543d37b00_0 .var "resultToWriteBack", 15 0;
-v000001f543d380a0_0 .net "writeBackALUResultDst", 3 0, v000001f543d37e20_0;  1 drivers
-v000001f543d37920_0 .net "writeBackEnable", 0 0, v000001f543d386e0_0;  1 drivers
-E_000001f543cd75c0 .event anyedge, v000001f543c966d0_0, v000001f543d38280_0, v000001f543c96e10_0;
-S_000001f543cecb50 .scope module, "mem" "Memory" 4 33, 5 3 0, S_000001f543cec9c0;
- .timescale -9 -9;
-S_000001f543cecce0 .scope module, "pipelineRegister" "PipelineRegisterDM" 4 20, 6 3 0, S_000001f543cec9c0;
+v0000028ae6718190_0 .var "clk", 0 0;
+v0000028ae6717c90_0 .net "forwardPathFromDataMemory", 15 0, L_0000028ae66bfea0;  1 drivers
+v0000028ae6718e10_0 .net "forwardPathFromDataMemorySrc", 3 0, L_0000028ae66bf650;  1 drivers
+v0000028ae6719130_0 .var "inALUDataResult", 15 0;
+v0000028ae6717d30_0 .var "inMemoryAddress", 15 0;
+v0000028ae6718f50_0 .var "inOperation", 3 0;
+v0000028ae6717ab0_0 .var "inWriteBackDataResultDst", 3 0;
+v0000028ae6718d70_0 .var "inWriteBackDataResultEnable", 0 0;
+v0000028ae6718a50_0 .net "outDataResult", 15 0, v0000028ae6717a10_0;  1 drivers
+v0000028ae6717830_0 .net "outHoldSignalFromDataMemory", 0 0, v0000028ae67185f0_0;  1 drivers
+v0000028ae6718ff0_0 .net "outWriteBackDataResultDst", 3 0, L_0000028ae66bfc00;  1 drivers
+v0000028ae67191d0_0 .net "outWriteBackDataResultEnable", 0 0, v0000028ae66b3e60_0;  1 drivers
+S_0000028ae66c2750 .scope module, "dut" "DataMemory" 3 21, 4 2 0, S_0000028ae66c25c0;
  .timescale -9 -9;
     .port_info 0 /INPUT 1 "clk";
-    .port_info 1 /INPUT 16 "ALUResult";
-    .port_info 2 /INPUT 4 "writeBackDst";
-    .port_info 3 /INPUT 1 "writeBackEnable";
-    .port_info 4 /INPUT 4 "operation";
-    .port_info 5 /OUTPUT 16 "result";
-    .port_info 6 /OUTPUT 4 "dst";
-    .port_info 7 /OUTPUT 1 "enableSignal";
-    .port_info 8 /OUTPUT 4 "operationOut";
-v000001f543c96e10_0 .net "ALUResult", 15 0, v000001f543d38140_0;  alias, 1 drivers
-v000001f543c9b950_0 .net "clk", 0 0, v000001f543d383c0_0;  alias, 1 drivers
-v000001f543c9e670_0 .var "dst", 3 0;
-v000001f543cec0e0_0 .var "enableSignal", 0 0;
-v000001f543c966d0_0 .net "operation", 3 0, v000001f543d385a0_0;  alias, 1 drivers
-v000001f543c96770_0 .var "operationOut", 3 0;
-v000001f543c96810_0 .var "result", 15 0;
-v000001f543c968b0_0 .net "writeBackDst", 3 0, v000001f543d37e20_0;  alias, 1 drivers
-v000001f543c96950_0 .net "writeBackEnable", 0 0, v000001f543d386e0_0;  alias, 1 drivers
-E_000001f543cd71c0 .event posedge, v000001f543c9b950_0;
-    .scope S_000001f543cecce0;
+    .port_info 1 /INPUT 16 "inALUDataResult";
+    .port_info 2 /INPUT 4 "inWriteBackDataResultDst";
+    .port_info 3 /INPUT 1 "inWriteBackDataResultEnable";
+    .port_info 4 /INPUT 4 "inOperation";
+    .port_info 5 /INPUT 16 "inMemoryAddress";
+    .port_info 6 /OUTPUT 1 "outHoldSignalFromDataMemory";
+    .port_info 7 /OUTPUT 16 "outDataResult";
+    .port_info 8 /OUTPUT 4 "outWriteBackDataResultDst";
+    .port_info 9 /OUTPUT 1 "outWriteBackDataResultEnable";
+    .port_info 10 /OUTPUT 16 "forwardPathFromDataMemory";
+    .port_info 11 /OUTPUT 4 "forwardPathFromDataMemorySrc";
+L_0000028ae66bfea0 .functor BUFZ 16, v0000028ae66b3c80_0, C4<0000000000000000>, C4<0000000000000000>, C4<0000000000000000>;
+L_0000028ae66bf650 .functor BUFZ 4, v0000028ae66b3820_0, C4<0000>, C4<0000>, C4<0000>;
+L_0000028ae66bfc00 .functor BUFZ 4, v0000028ae66b3820_0, C4<0000>, C4<0000>, C4<0000>;
+v0000028ae66b3500_0 .net "clk", 0 0, v0000028ae6718190_0;  1 drivers
+v0000028ae66b35a0_0 .net "forwardPathFromDataMemory", 15 0, L_0000028ae66bfea0;  alias, 1 drivers
+v0000028ae66b3b40_0 .net "forwardPathFromDataMemorySrc", 3 0, L_0000028ae66bf650;  alias, 1 drivers
+v0000028ae66b42c0_0 .net "inALUDataResult", 15 0, v0000028ae6719130_0;  1 drivers
+v0000028ae66b3f00_0 .net "inMemoryAddress", 15 0, v0000028ae6717d30_0;  1 drivers
+v0000028ae66b36e0_0 .net "inOperation", 3 0, v0000028ae6718f50_0;  1 drivers
+v0000028ae66b3fa0_0 .net "inWriteBackDataResultDst", 3 0, v0000028ae6717ab0_0;  1 drivers
+v0000028ae66b40e0_0 .net "inWriteBackDataResultEnable", 0 0, v0000028ae6718d70_0;  1 drivers
+v0000028ae66b3780_0 .net "localALUDataResult", 15 0, v0000028ae66b3c80_0;  1 drivers
+v0000028ae66b3a00_0 .net "localDataMemoryResult", 15 0, L_0000028ae66bf490;  1 drivers
+v0000028ae66b3dc0_0 .net "localMemoryAddress", 15 0, v0000028ae66b3d20_0;  1 drivers
+v0000028ae66b4040_0 .net "localOperation", 3 0, v0000028ae66b38c0_0;  1 drivers
+v0000028ae67176f0_0 .net "localWriteBackDataResultDst", 3 0, v0000028ae66b3820_0;  1 drivers
+v0000028ae6717a10_0 .var "outDataResult", 15 0;
+v0000028ae67185f0_0 .var "outHoldSignalFromDataMemory", 0 0;
+v0000028ae6717bf0_0 .net "outWriteBackDataResultDst", 3 0, L_0000028ae66bfc00;  alias, 1 drivers
+v0000028ae6717b50_0 .net "outWriteBackDataResultEnable", 0 0, v0000028ae66b3e60_0;  alias, 1 drivers
+E_0000028ae67faed0 .event anyedge, v0000028ae66b38c0_0, v0000028ae66b4220_0, v0000028ae66c6870_0;
+E_0000028ae67fadd0 .event anyedge, v0000028ae66b38c0_0;
+S_0000028ae66c65a0 .scope module, "memory" "Memory" 4 62, 5 3 0, S_0000028ae66c2750;
+ .timescale -9 -9;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "inWriteToMemoryEnable";
+    .port_info 2 /INPUT 16 "inALUDataResult";
+    .port_info 3 /INPUT 16 "inMemoryAddress";
+    .port_info 4 /OUTPUT 16 "outDataMemoryResult";
+L_0000028ae66bf490 .functor BUFZ 16, L_0000028ae6717790, C4<0000000000000000>, C4<0000000000000000>, C4<0000000000000000>;
+v0000028ae67fb9e0_0 .net *"_ivl_0", 15 0, L_0000028ae6717790;  1 drivers
+v0000028ae66acc70_0 .net *"_ivl_2", 17 0, L_0000028ae6719090;  1 drivers
+L_0000028ae671a448 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
+v0000028ae66c6730_0 .net *"_ivl_5", 1 0, L_0000028ae671a448;  1 drivers
+v0000028ae66c67d0_0 .net "clk", 0 0, v0000028ae6718190_0;  alias, 1 drivers
+v0000028ae66c6870_0 .net "inALUDataResult", 15 0, v0000028ae66b3c80_0;  alias, 1 drivers
+v0000028ae66b9800_0 .net "inMemoryAddress", 15 0, v0000028ae66b3d20_0;  alias, 1 drivers
+L_0000028ae671a490 .functor BUFT 1, C4<1>, C4<0>, C4<0>, C4<0>;
+v0000028ae66b98a0_0 .net "inWriteToMemoryEnable", 0 0, L_0000028ae671a490;  1 drivers
+v0000028ae66b4180 .array "memory", 65535 0, 15 0;
+v0000028ae66b4220_0 .net "outDataMemoryResult", 15 0, L_0000028ae66bf490;  alias, 1 drivers
+E_0000028ae67fa890 .event posedge, v0000028ae66c67d0_0;
+L_0000028ae6717790 .array/port v0000028ae66b4180, L_0000028ae6719090;
+L_0000028ae6719090 .concat [ 16 2 0 0], v0000028ae66b3d20_0, L_0000028ae671a448;
+S_0000028ae66b4380 .scope module, "pipelineRegister" "PipelineRegisterDM" 4 33, 6 3 0, S_0000028ae66c2750;
+ .timescale -9 -9;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 16 "inALUDataResult";
+    .port_info 2 /INPUT 4 "inWriteBackDataResultDst";
+    .port_info 3 /INPUT 1 "inWriteBackDataResultEnable";
+    .port_info 4 /INPUT 4 "inOperation";
+    .port_info 5 /INPUT 16 "inMemoryAddress";
+    .port_info 6 /OUTPUT 16 "outALUDataResult";
+    .port_info 7 /OUTPUT 4 "outWriteBackDataResultDst";
+    .port_info 8 /OUTPUT 1 "outWriteBackDataResultEnable";
+    .port_info 9 /OUTPUT 4 "outOperation";
+    .port_info 10 /OUTPUT 16 "outMemoryAddress";
+v0000028ae66b3960_0 .net "clk", 0 0, v0000028ae6718190_0;  alias, 1 drivers
+v0000028ae66b3640_0 .net "inALUDataResult", 15 0, v0000028ae6719130_0;  alias, 1 drivers
+v0000028ae66b33c0_0 .net "inMemoryAddress", 15 0, v0000028ae6717d30_0;  alias, 1 drivers
+v0000028ae66b3be0_0 .net "inOperation", 3 0, v0000028ae6718f50_0;  alias, 1 drivers
+v0000028ae66b3aa0_0 .net "inWriteBackDataResultDst", 3 0, v0000028ae6717ab0_0;  alias, 1 drivers
+v0000028ae66b3460_0 .net "inWriteBackDataResultEnable", 0 0, v0000028ae6718d70_0;  alias, 1 drivers
+v0000028ae66b3c80_0 .var "outALUDataResult", 15 0;
+v0000028ae66b3d20_0 .var "outMemoryAddress", 15 0;
+v0000028ae66b38c0_0 .var "outOperation", 3 0;
+v0000028ae66b3820_0 .var "outWriteBackDataResultDst", 3 0;
+v0000028ae66b3e60_0 .var "outWriteBackDataResultEnable", 0 0;
+    .scope S_0000028ae66b4380;
 T_0 ;
-    %wait E_000001f543cd71c0;
-    %load/vec4 v000001f543c96e10_0;
-    %assign/vec4 v000001f543c96810_0, 0;
-    %load/vec4 v000001f543c968b0_0;
-    %assign/vec4 v000001f543c9e670_0, 0;
-    %load/vec4 v000001f543c96950_0;
-    %assign/vec4 v000001f543cec0e0_0, 0;
-    %load/vec4 v000001f543c966d0_0;
-    %assign/vec4 v000001f543c96770_0, 0;
+    %wait E_0000028ae67fa890;
+    %load/vec4 v0000028ae66b3640_0;
+    %assign/vec4 v0000028ae66b3c80_0, 0;
+    %load/vec4 v0000028ae66b3aa0_0;
+    %assign/vec4 v0000028ae66b3820_0, 0;
+    %load/vec4 v0000028ae66b3460_0;
+    %assign/vec4 v0000028ae66b3e60_0, 0;
+    %load/vec4 v0000028ae66b3be0_0;
+    %assign/vec4 v0000028ae66b38c0_0, 0;
+    %load/vec4 v0000028ae66b33c0_0;
+    %assign/vec4 v0000028ae66b3d20_0, 0;
     %jmp T_0;
     .thread T_0;
-    .scope S_000001f543cec9c0;
+    .scope S_0000028ae66c65a0;
 T_1 ;
-Ewait_0 .event/or E_000001f543cd75c0, E_0x0;
-    %wait Ewait_0;
-    %load/vec4 v000001f543d38000_0;
-    %dup/vec4;
-    %pushi/vec4 14, 0, 4;
-    %cmp/u;
-    %jmp/1 T_1.0, 6;
-    %dup/vec4;
-    %pushi/vec4 15, 0, 4;
-    %cmp/u;
-    %jmp/1 T_1.1, 6;
-    %load/vec4 v000001f543c969f0_0;
-    %store/vec4 v000001f543d37b00_0, 0, 16;
-    %jmp T_1.3;
+    %wait E_0000028ae67fa890;
+    %load/vec4 v0000028ae66b98a0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_1.0, 8;
+    %load/vec4 v0000028ae66c6870_0;
+    %load/vec4 v0000028ae66b9800_0;
+    %pad/u 18;
+    %ix/vec4 3;
+    %ix/load 4, 0, 0; Constant delay
+    %assign/vec4/a/d v0000028ae66b4180, 0, 4;
 T_1.0 ;
-    %load/vec4 v000001f543d38280_0;
-    %store/vec4 v000001f543d37b00_0, 0, 16;
-    %jmp T_1.3;
-T_1.1 ;
-    %load/vec4 v000001f543d38280_0;
-    %store/vec4 v000001f543d37b00_0, 0, 16;
-    %jmp T_1.3;
-T_1.3 ;
-    %pop/vec4 1;
     %jmp T_1;
-    .thread T_1, $push;
-    .scope S_000001f543c9bd70;
+    .thread T_1;
+    .scope S_0000028ae66c2750;
 T_2 ;
-    %pushi/vec4 0, 0, 1;
-    %store/vec4 v000001f543d383c0_0, 0, 1;
-    %end;
-    .thread T_2;
-    .scope S_000001f543c9bd70;
-T_3 ;
-    %delay 2, 0;
-    %load/vec4 v000001f543d383c0_0;
-    %inv;
-    %store/vec4 v000001f543d383c0_0, 0, 1;
-    %jmp T_3;
-    .thread T_3;
-    .scope S_000001f543c9bd70;
-T_4 ;
-    %vpi_call/w 3 31 "$dumpfile", "DataMemory.vcd" {0 0 0};
-    %vpi_call/w 3 32 "$dumpvars", 32'sb00000000000000000000000000000000, S_000001f543c9bd70 {0 0 0};
-    %pushi/vec4 43981, 0, 16;
-    %store/vec4 v000001f543d38140_0, 0, 16;
-    %pushi/vec4 0, 0, 4;
-    %store/vec4 v000001f543d37e20_0, 0, 4;
-    %pushi/vec4 1, 0, 1;
-    %store/vec4 v000001f543d386e0_0, 0, 1;
-    %pushi/vec4 0, 0, 4;
-    %store/vec4 v000001f543d385a0_0, 0, 4;
-    %delay 12, 0;
-    %pushi/vec4 65535, 0, 16;
-    %store/vec4 v000001f543d38140_0, 0, 16;
-    %pushi/vec4 1, 0, 4;
-    %store/vec4 v000001f543d37e20_0, 0, 4;
-    %pushi/vec4 1, 0, 1;
-    %store/vec4 v000001f543d386e0_0, 0, 1;
+Ewait_0 .event/or E_0000028ae67fadd0, E_0x0;
+    %wait Ewait_0;
+    %load/vec4 v0000028ae66b4040_0;
+    %dup/vec4;
     %pushi/vec4 14, 0, 4;
-    %store/vec4 v000001f543d385a0_0, 0, 4;
-    %delay 8, 0;
-    %vpi_call/w 3 40 "$finish" {0 0 0};
+    %cmp/u;
+    %jmp/1 T_2.0, 6;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000028ae67185f0_0, 0, 1;
+    %jmp T_2.2;
+T_2.0 ;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000028ae67185f0_0, 0, 1;
+    %jmp T_2.2;
+T_2.2 ;
+    %pop/vec4 1;
+    %jmp T_2;
+    .thread T_2, $push;
+    .scope S_0000028ae66c2750;
+T_3 ;
+Ewait_1 .event/or E_0000028ae67faed0, E_0x0;
+    %wait Ewait_1;
+    %load/vec4 v0000028ae66b4040_0;
+    %dup/vec4;
+    %pushi/vec4 13, 0, 4;
+    %cmp/u;
+    %jmp/1 T_3.0, 6;
+    %dup/vec4;
+    %pushi/vec4 14, 0, 4;
+    %cmp/u;
+    %jmp/1 T_3.1, 6;
+    %load/vec4 v0000028ae66b3780_0;
+    %store/vec4 v0000028ae6717a10_0, 0, 16;
+    %jmp T_3.3;
+T_3.0 ;
+    %load/vec4 v0000028ae66b3a00_0;
+    %store/vec4 v0000028ae6717a10_0, 0, 16;
+    %jmp T_3.3;
+T_3.1 ;
+    %load/vec4 v0000028ae66b3a00_0;
+    %store/vec4 v0000028ae6717a10_0, 0, 16;
+    %jmp T_3.3;
+T_3.3 ;
+    %pop/vec4 1;
+    %jmp T_3;
+    .thread T_3, $push;
+    .scope S_0000028ae66c25c0;
+T_4 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000028ae6718190_0, 0, 1;
     %end;
     .thread T_4;
+    .scope S_0000028ae66c25c0;
+T_5 ;
+    %delay 2, 0;
+    %load/vec4 v0000028ae6718190_0;
+    %inv;
+    %store/vec4 v0000028ae6718190_0, 0, 1;
+    %jmp T_5;
+    .thread T_5;
+    .scope S_0000028ae66c25c0;
+T_6 ;
+    %vpi_call/w 3 46 "$dumpfile", "DataMemory.vcd" {0 0 0};
+    %vpi_call/w 3 47 "$dumpvars", 32'sb00000000000000000000000000000000, S_0000028ae66c25c0 {0 0 0};
+    %pushi/vec4 65535, 0, 16;
+    %store/vec4 v0000028ae6719130_0, 0, 16;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v0000028ae6717ab0_0, 0, 4;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000028ae6718d70_0, 0, 1;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0000028ae6718f50_0, 0, 4;
+    %delay 4, 0;
+    %pushi/vec4 52428, 0, 16;
+    %store/vec4 v0000028ae6719130_0, 0, 16;
+    %pushi/vec4 15, 0, 4;
+    %store/vec4 v0000028ae6717ab0_0, 0, 4;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000028ae6718d70_0, 0, 1;
+    %pushi/vec4 13, 0, 4;
+    %store/vec4 v0000028ae6718f50_0, 0, 4;
+    %pushi/vec4 65535, 0, 16;
+    %store/vec4 v0000028ae6717d30_0, 0, 16;
+    %delay 4, 0;
+    %pushi/vec4 43690, 0, 16;
+    %store/vec4 v0000028ae6719130_0, 0, 16;
+    %pushi/vec4 15, 15, 4;
+    %store/vec4 v0000028ae6717ab0_0, 0, 4;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000028ae6718d70_0, 0, 1;
+    %pushi/vec4 14, 0, 4;
+    %store/vec4 v0000028ae6718f50_0, 0, 4;
+    %pushi/vec4 65535, 0, 16;
+    %store/vec4 v0000028ae6717d30_0, 0, 16;
+    %delay 4, 0;
+    %pushi/vec4 65535, 65535, 16;
+    %store/vec4 v0000028ae6719130_0, 0, 16;
+    %pushi/vec4 15, 0, 4;
+    %store/vec4 v0000028ae6718f50_0, 0, 4;
+    %delay 4, 0;
+    %vpi_call/w 3 61 "$finish" {0 0 0};
+    %end;
+    .thread T_6;
 # The file index is used to find the file name in the following table.
 :file_names 7;
     "N/A";

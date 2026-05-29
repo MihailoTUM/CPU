@@ -3,14 +3,19 @@
 module Mini(
     input logic clk,
     input logic hold,
+    input logic reset,
 
     input logic [15:0] inInstructionAddress,
     input logic [15:0] inInstruction,
 
     input logic [15:0] inAddressToRET,
-    input logic inAddressToRETSignal,
-
+    input logic inAddressToRETSignal
 );
+    
+
+
+
+
     logic [3:0] localOutOperation;
     logic [3:0] localDstAddress;
     logic [3:0] localSrc1Address;
@@ -27,12 +32,12 @@ module Mini(
 
         .inInstructionAddress(inInstructionAddress),
         .inInstruction(inInstruction),
-        .inDataToStore(),
-        .inWriteBackDst(),
-        .inEnableWrite(),
+        .inDataToStore(localOutResult),
+        .inWriteBackDst(localOutWriteBackDst),
+        .inEnableWrite(localOutEnableWrite),
         
-        .inAddressToRET(),
-        .inAddressToRETSignal(),
+        .inAddressToRET(localOutAddressToRET),
+        .inAddressToRETSignal(localOutAddressToRetSignal),
 
         .outOperation(localOutOperation),
         .outDstAddress(localDstAddress),
@@ -48,35 +53,35 @@ module Mini(
     logic [15:0] localOutResult;
     logic [3:0] localOutWriteBackDst;
     logic localOutEnableWrite;  
-    logic [3:0] localOutOperation;
     logic localControlHold;
     logic localControlJump;
     logic [15:0] localForwardPathOutput;
-    logic [15:0] localForwardPathSrcOutput;
+    logic [3:0] localForwardPathSrcOutput;
 
     logic outJMP;
     logic [15:0] localOutAddressToRET;
     logic localOutAddressToRetSignal;
+    logic [3:0] localOperation;
 
     Execute execute(
         .clk(clk),
         .hold(hold),
-        .reset(),
+        .reset(reset),
 
-        .inOperation(),
-        .inDstAddress(),
-        .inSrc1Address(),
-        .inSrc2Address(),
-        .inSrc1(),
-        .inSrc2(),
-        .inImmediate(),
-        .inInstructionAddress(),
+        .inOperation(localOutOperation),
+        .inDstAddress(localDstAddress),
+        .inSrc1Address(localSrc1Address),
+        .inSrc2Address(localSrc2Address),
+        .inSrc1(localSrc1Data),
+        .inSrc2(localSrc2Data),
+        .inImmediate(localImmediate),
+        .inInstructionAddress(localOutInstructionAddress),
 
-        .forwardPathInputExecute(),
-        .forwardPathInputExecuteSrc(),
+        .forwardPathInputExecute(localForwardPathOutput),
+        .forwardPathInputExecuteSrc(localForwardPathSrcOutput),
 
-        .forwardPathInputDataMemory(),
-        .forwardPathInputDataMemorySrc(),
+        .forwardPathInputDataMemory(16'h0000),
+        .forwardPathInputDataMemorySrc(4'hA),
 
         .outResult(localOutResult),
         .outWriteBackDst(localOutWriteBackDst),
@@ -85,7 +90,7 @@ module Mini(
         .controlHold(localControlHold),
         .controlJump(localControlJump),
         .forwardPathOutput(localForwardPathOutput),
-        .forwardPahtSrcOutput(localForwardPathSrcOutput),
+        .forwardPathSrcOutput(localForwardPathSrcOutput),
         
         .outJMP(outJMP),
         .outAddressToRET(localOutAddressToRET),

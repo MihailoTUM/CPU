@@ -76,7 +76,7 @@ module ALU(
 
         .ALUOutput(outResult),
         .outOperation(outOperation),
-        .outAddressToRET(outAddressTORET),
+        .outAddressToRET(outAddressToRET),
         .outAddressToRETSignal(outAdressToRETSignal)
     );
 

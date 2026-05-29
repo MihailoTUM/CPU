@@ -53,14 +53,13 @@ module ALUUnit(
 
     // logic
     JMP16 jumpFixed(inImmediate, inInstructionAddress, localNewAddress);
-    BZ16 bzFixed(inImmediate, inInstructionAddress, localBranchNewAddress, branchSuccess);
+    BZ16 bzFixed(inImmediate, inInstructionAddress, inData1,localBranchNewAddress, branchSuccess);
 
     // memory 
     LOAD16 load(inData1, inImmediate[3:0], loadAddressOutput);
-    STORE16 store(inData1, inImmediate[3:0], storeAddressOutput);
+    STORE16 store(inData2, inImmediate[3:0], storeAddressOutput);
 
     // function calls
-    // CALL call(inData1, inImmediate[3:0], localAddressToGO, localAddressToRET);
     CALL call(inImmediate, inInstructionAddress, localAddressToGO, localAddressToRET);
     RET ret(inData1, localRETAddress);
 
@@ -88,6 +87,8 @@ module ALUUnit(
 
             4'hB: ALUOutput = localAddressToGO;
             4'hC: ALUOutput = localRETAddress;
+            4'hD: ALUOutput = loadAddressOutput;
+            4'hE: ALUOutput = storeAddressOutput;
             4'hF: ALUOutput = 16'hXXXX;
 
             default: ALUOutput = 16'hABCD;

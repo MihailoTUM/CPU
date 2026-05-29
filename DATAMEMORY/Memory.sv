@@ -3,22 +3,22 @@
 module Memory(
     // control inputs
     input logic clk,
-    input logic allowWriteToMemory,
+    input logic inWriteToMemoryEnable,
 
     // data inputs
-    input logic [15:0] memoryAddress,
-    input logic [15:0] dataToStoreInMemory
+    input logic [15:0] inALUDataResult,
+    input logic [15:0] inMemoryAddress,
 
     // data outputs
-    output logic [15:0] dataToLoad
+    output logic [15:0] outDataMemoryResult
 );
     logic [15:0] memory [0: (2**16 - 1)];
 
     always_ff @(posedge clk)
     begin
-        if(allowWriteToMemory) memory[memoryAddress]<= dataToStoreInMemory;
+        if(inWriteToMemoryEnable) memory[inMemoryAddress]<= inALUDataResult;
     end
 
-    assign dataToLoad = memoryAddress[memoryAddress];
+    assign outDataMemoryResult = memory[inMemoryAddress];
 
 endmodule

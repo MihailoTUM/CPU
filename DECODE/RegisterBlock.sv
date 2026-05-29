@@ -47,7 +47,7 @@ module RegisterBlock(
             end
         4'hC:
             begin
-                outSrc1Data = register[4'hE];
+                outSrc1Data = registers[4'hE];
                 outSrc2Data = 16'hXXXX;
                 outImmediate = inImmediate;
             end

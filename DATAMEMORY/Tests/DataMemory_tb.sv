@@ -2,26 +2,41 @@
 
 module DataMemory_tb();
     logic clk;
-    logic [15:0] ALUResult;
-    logic [3:0] writeBackALUResultDst;
-    logic writeBackEnable;
-    logic [3:0] operation;
 
-    logic [15:0] resultToWriteBack;
-    logic [3:0] dstToWriteBack;
-    logic enableToWriteBack;
+    logic [15:0] inALUDataResult;
+    logic [3:0] inWriteBackDataResultDst;
+    logic inWriteBackDataResultEnable;
+    logic [3:0] inOperation;
+    logic [15:0] inMemoryAddress;
+
+    logic outHoldSignalFromDataMemory;
+
+    logic [15:0] outDataResult;
+    logic [3:0] outWriteBackDataResultDst;
+    logic outWriteBackDataResultEnable;
+
+    logic [15:0] forwardPathFromDataMemory;
+    logic [3:0] forwardPathFromDataMemorySrc;
 
     DataMemory dut(
         .clk(clk),
-        .ALUResult(ALUResult),
-        .writeBackALUResultDst(writeBackALUResultDst),
-        .writeBackEnable(writeBackEnable),
-        .operation(operation),
 
-        .resultToWriteBack(resultToWriteBack),
-        .dstToWriteBack(dstToWriteBack),
-        .enableToWriteBack(enableToWriteBack)
+        .inALUDataResult(inALUDataResult),
+        .inWriteBackDataResultDst(inWriteBackDataResultDst),
+        .inWriteBackDataResultEnable(inWriteBackDataResultEnable),
+        .inOperation(inOperation),
+        .inMemoryAddress(inMemoryAddress),
+
+        .outHoldSignalFromDataMemory(outHoldSignalFromDataMemory),
+        
+        .outDataResult(outDataResult),
+        .outWriteBackDataResultDst(outWriteBackDataResultDst),
+        .outWriteBackDataResultEnable(outWriteBackDataResultEnable),
+        
+        .forwardPathFromDataMemory(forwardPathFromDataMemory),
+        .forwardPathFromDataMemorySrc(forwardPathFromDataMemorySrc)
     );
+
 
     initial clk = 0;
     always #2 clk = ~clk;
@@ -31,11 +46,17 @@ module DataMemory_tb();
         $dumpfile("DataMemory.vcd");
         $dumpvars(0, DataMemory_tb);
         
-        ALUResult = 16'hABCD; writeBackALUResultDst = 4'h0; writeBackEnable = 1; operation = 4'h0;
-        #12;
+        inALUDataResult = 16'hFFFF; inWriteBackDataResultDst = 4'h0; inWriteBackDataResultEnable = 1'b1; inOperation = 4'h1;
+        #4;
 
-        ALUResult = 16'hFFFF; writeBackALUResultDst = 4'h1; writeBackEnable = 1; operation = 4'hE;
-        #8;
+        inALUDataResult = 16'hCCCC; inWriteBackDataResultDst = 4'hF; inWriteBackDataResultEnable = 1'b1; inOperation = 4'hD; inMemoryAddress = 16'hFFFF;  
+        #4;
+
+        inALUDataResult = 16'hAAAA; inWriteBackDataResultDst = 4'hX; inWriteBackDataResultEnable = 1'b0; inOperation = 4'hE; inMemoryAddress = 16'hFFFF;
+        #4;
+
+        inALUDataResult = 16'hXXXX; inOperation = 4'hF;
+        #4;
 
         $finish;
     end

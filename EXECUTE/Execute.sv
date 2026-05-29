@@ -92,7 +92,6 @@ module Execute(
         .forwardPathOutputDataMemorySrc(localForwardPathInputDataMemorySrc),
 
         .outInstructionAddress(localInstructionAddress),
-        .outStackPointerAddress(localStackPointerAddress),
 
         .outSrc1Address(localSrc1Address),
         .outSrc2Address(localSrc2Address)
@@ -126,7 +125,7 @@ module Execute(
 
         .outJMP(outJMP),
         .outAddressToRET(outAddressToRET),
-        .outAddressToRETSignal(outAddressToRETSignal)
+        .outAdressToRETSignal(outAddressToRETSignal)
 
     );
 

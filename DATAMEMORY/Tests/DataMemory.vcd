@@ -1,5 +1,5 @@
 $date
-	Sun May 03 20:29:36 2026
+	Fri May 29 19:52:15 2026
 $end
 $version
 	Icarus Verilog
@@ -8,102 +8,205 @@ $timescale
 	1ns
 $end
 $scope module DataMemory_tb $end
-$var wire 16 ! resultToWriteBack [15:0] $end
-$var wire 1 " enableToWriteBack $end
-$var wire 4 # dstToWriteBack [3:0] $end
-$var reg 16 $ ALUResult [15:0] $end
-$var reg 1 % clk $end
-$var reg 4 & operation [3:0] $end
-$var reg 4 ' writeBackALUResultDst [3:0] $end
-$var reg 1 ( writeBackEnable $end
+$var wire 1 ! outWriteBackDataResultEnable $end
+$var wire 4 " outWriteBackDataResultDst [3:0] $end
+$var wire 1 # outHoldSignalFromDataMemory $end
+$var wire 16 $ outDataResult [15:0] $end
+$var wire 4 % forwardPathFromDataMemorySrc [3:0] $end
+$var wire 16 & forwardPathFromDataMemory [15:0] $end
+$var reg 1 ' clk $end
+$var reg 16 ( inALUDataResult [15:0] $end
+$var reg 16 ) inMemoryAddress [15:0] $end
+$var reg 4 * inOperation [3:0] $end
+$var reg 4 + inWriteBackDataResultDst [3:0] $end
+$var reg 1 , inWriteBackDataResultEnable $end
 $scope module dut $end
-$var wire 16 ) ALUResult [15:0] $end
-$var wire 1 % clk $end
-$var wire 16 * dataMemoryResult [15:0] $end
-$var wire 4 + operation [3:0] $end
-$var wire 4 , writeBackALUResultDst [3:0] $end
-$var wire 1 ( writeBackEnable $end
-$var wire 1 " enableToWriteBack $end
-$var wire 4 - dstToWriteBack [3:0] $end
-$var reg 16 . resultToWriteBack [15:0] $end
-$scope module mem $end
+$var wire 1 ' clk $end
+$var wire 16 - forwardPathFromDataMemory [15:0] $end
+$var wire 4 . forwardPathFromDataMemorySrc [3:0] $end
+$var wire 16 / inALUDataResult [15:0] $end
+$var wire 16 0 inMemoryAddress [15:0] $end
+$var wire 4 1 inOperation [3:0] $end
+$var wire 4 2 inWriteBackDataResultDst [3:0] $end
+$var wire 1 , inWriteBackDataResultEnable $end
+$var wire 4 3 outWriteBackDataResultDst [3:0] $end
+$var wire 1 ! outWriteBackDataResultEnable $end
+$var wire 4 4 localWriteBackDataResultDst [3:0] $end
+$var wire 4 5 localOperation [3:0] $end
+$var wire 16 6 localMemoryAddress [15:0] $end
+$var wire 16 7 localDataMemoryResult [15:0] $end
+$var wire 16 8 localALUDataResult [15:0] $end
+$var reg 16 9 outDataResult [15:0] $end
+$var reg 1 # outHoldSignalFromDataMemory $end
+$scope module memory $end
+$var wire 1 ' clk $end
+$var wire 1 : inWriteToMemoryEnable $end
+$var wire 16 ; outDataMemoryResult [15:0] $end
+$var wire 16 < inMemoryAddress [15:0] $end
+$var wire 16 = inALUDataResult [15:0] $end
 $upscope $end
 $scope module pipelineRegister $end
-$var wire 16 / ALUResult [15:0] $end
-$var wire 1 % clk $end
-$var wire 4 0 operation [3:0] $end
-$var wire 4 1 writeBackDst [3:0] $end
-$var wire 1 ( writeBackEnable $end
-$var reg 4 2 dst [3:0] $end
-$var reg 1 " enableSignal $end
-$var reg 4 3 operationOut [3:0] $end
-$var reg 16 4 result [15:0] $end
+$var wire 1 ' clk $end
+$var wire 16 > inALUDataResult [15:0] $end
+$var wire 16 ? inMemoryAddress [15:0] $end
+$var wire 4 @ inOperation [3:0] $end
+$var wire 4 A inWriteBackDataResultDst [3:0] $end
+$var wire 1 , inWriteBackDataResultEnable $end
+$var reg 16 B outALUDataResult [15:0] $end
+$var reg 16 C outMemoryAddress [15:0] $end
+$var reg 4 D outOperation [3:0] $end
+$var reg 4 E outWriteBackDataResultDst [3:0] $end
+$var reg 1 ! outWriteBackDataResultEnable $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
+bx E
+bx D
+bx C
+bx B
+b0 A
+b1 @
+bx ?
+b1111111111111111 >
+bx =
+bx <
+bx ;
+1:
+bx 9
+bx 8
+bx 7
+bx 6
+bx 5
 bx 4
 bx 3
-bx 2
-b0 1
-b0 0
-b1010101111001101 /
-b1010101111001101 .
+b0 2
+b1 1
+bx 0
+b1111111111111111 /
+bx .
 bx -
-b0 ,
+1,
 b0 +
-b1111111111111111 *
-b1010101111001101 )
-1(
-b0 '
-b0 &
-0%
-b1010101111001101 $
-bx #
-x"
-b1010101111001101 !
+b1 *
+bx )
+b1111111111111111 (
+0'
+bx &
+bx %
+bx $
+0#
+bx "
+x!
 $end
 #2
-b0 3
-1"
-b0 #
-b0 -
-b0 2
-b1010101111001101 4
-1%
-#4
-0%
-#6
-1%
-#8
-0%
-#10
-1%
-#12
-b1111111111111111 !
-b1111111111111111 .
-0%
-b1110 &
-b1110 +
-b1110 0
-b1 '
-b1 ,
-b1 1
 b1111111111111111 $
+b1111111111111111 9
+b1 5
+b1 D
+1!
+b0 "
+b0 3
+b0 %
+b0 .
+b0 4
+b0 E
+b1111111111111111 &
+b1111111111111111 -
+b1111111111111111 8
+b1111111111111111 =
+b1111111111111111 B
+1'
+#4
+0'
 b1111111111111111 )
-b1111111111111111 /
+b1111111111111111 0
+b1111111111111111 ?
+b1101 *
+b1101 1
+b1101 @
+b1111 +
+b1111 2
+b1111 A
+b1100110011001100 (
+b1100110011001100 /
+b1100110011001100 >
+#6
+bx $
+bx 9
+b1111111111111111 6
+b1111111111111111 <
+b1111111111111111 C
+b1101 5
+b1101 D
+b1111 "
+b1111 3
+b1111 %
+b1111 .
+b1111 4
+b1111 E
+b1100110011001100 &
+b1100110011001100 -
+b1100110011001100 8
+b1100110011001100 =
+b1100110011001100 B
+1'
+#8
+0'
+b1110 *
+b1110 1
+b1110 @
+0,
+bx +
+bx 2
+bx A
+b1010101010101010 (
+b1010101010101010 /
+b1010101010101010 >
+#10
+1#
+b1100110011001100 $
+b1100110011001100 9
+b1110 5
+b1110 D
+0!
+bx "
+bx 3
+bx %
+bx .
+bx 4
+bx E
+b1010101010101010 &
+b1010101010101010 -
+b1010101010101010 8
+b1010101010101010 =
+b1010101010101010 B
+b1100110011001100 7
+b1100110011001100 ;
+1'
+#12
+0'
+b1111 *
+b1111 1
+b1111 @
+bx (
+bx /
+bx >
 #14
-b1110 3
-b1 #
-b1 -
-b1 2
-b1111111111111111 4
-1%
+0#
+bx $
+bx 9
+b1010101010101010 7
+b1010101010101010 ;
+b1111 5
+b1111 D
+bx &
+bx -
+bx 8
+bx =
+bx B
+1'
 #16
-0%
-#18
-1%
-#20
-0%
+0'

@@ -13,6 +13,6 @@ module BZ16(
     CONST16 constFixed(inData, localExpandedAddress);
     ADD16 addFixed(inOldAddress, localExpandedAddress, 1'b0, outNewAddress, );
 
-    assign branchSuccess = ~|(inRegisterData)
+    assign branchSuccess = ~|(inRegisterData);
 
 endmodule

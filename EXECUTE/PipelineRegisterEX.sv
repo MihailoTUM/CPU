@@ -49,7 +49,6 @@ module PipelineRegisterEX(
     logic [7:0] localImmediate;
 
     logic [15:0] localInstructionAddress;
-    logic [15:0] localStackPointerAddress;
 
     logic [15:0] localForwardPathInputExecute;
     logic [3:0] localForwardPathInputExecuteSrc;
@@ -78,7 +77,6 @@ module PipelineRegisterEX(
                 localForwardPathInputDataMemorySrc <= localForwardPathInputDataMemorySrc;
 
                 localInstructionAddress <= localInstructionAddress;
-                localStackPointerAddress <= localStackPointerAddress;
 
                 localInputSrc1Address <= localInputSrc1Address;
                 localInputSrc2Address <= localInputSrc2Address;
@@ -108,7 +106,6 @@ module PipelineRegisterEX(
                 localForwardPathInputDataMemorySrc <= forwardPathInputDataMemorySrc;
                 
                 localInstructionAddress <= inInstructionAddress;
-                localStackPointerAddress <= inStackPointerAddress;
 
                 localInputSrc1Address <= inSrc1Address;
                 localInputSrc2Address <= inSrc2Address;
@@ -128,7 +125,6 @@ module PipelineRegisterEX(
     assign forwardPathOutputDataMemorySrc = localForwardPathInputDataMemorySrc;
 
     assign outInstructionAddress = localInstructionAddress;
-    assign outStackPointerAddress = localStackPointerAddress;
 
     assign outSrc1Address = localInputSrc1Address;
     assign outSrc2Address = localInputSrc2Address;
