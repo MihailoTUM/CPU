@@ -6,15 +6,17 @@ module ALU(
 
     // data inputs
     input logic [3:0] inOperation,
+
     input logic [15:0] inData1,
     input logic [15:0] inData2,
+
+    input logic [3:0] inData1Address,
+    input logic [3:0] inData2Address,
+
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
 
     // forward path
-    input logic [3:0] srcRegister1,
-    input logic [3:0] srcRegister2,
-
     input logic [15:0] forwardPathInputExecute,
     input logic [3:0] forwardPathInputExecuteSrc,
 
@@ -22,13 +24,16 @@ module ALU(
     input logic [3:0] forwardPathInputDataMemorySrc,
 
     // data outputs
-    output logic [15:0] outResult,
-    output logic outEnableWrite,
+    output logic [15:0] outDataResult,
+    output logic [15:0] outMemoryAddress,
     output logic [3:0] outOperation,
-    output logic controlHold,
+
+    output logic outEnableWrite,
+    output logic outControlHold,
 
     // control outputs
-    output logic outJMP,
+    output logic outJMPSignal,
+
     output logic outAdressToRETSignal,
     output logic [15:0] outAddressToRET
 );
@@ -43,17 +48,18 @@ module ALU(
         .divFinished(localDivFinished),
 
         .inOperation(inOperation),
+
         .inData1(inData1),
         .inData2(inData2),
+
+        .inData1Address(inData1Address),
+        .inData2Address(inData2Address),
 
         .forwardPathInputExecute(forwardPathInputExecute),
         .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
 
         .forwardPathInputDataMemory(forwardPathInputDataMemory),
         .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
-
-        .srcRegister1(srcRegister1),
-        .srcRegister2(srcRegister2),
         
         .controlSignals(localControlSignals),
         .outData1(localOutData1),
@@ -65,8 +71,10 @@ module ALU(
         .hold(localControlSignals[2]),
         
         .inOperation(inOperation),
+
         .inData1(localOutData1),
         .inData2(localOutData2),
+
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
 
@@ -74,8 +82,9 @@ module ALU(
         .outEnableWrite(outEnableWrite),
         .JMPSignalToControl(outJMP),
 
-        .ALUOutput(outResult),
-        .outOperation(outOperation),
+        .outDataResult(outResult),
+        .outMemoryAddress(),
+
         .outAddressToRET(outAddressToRET),
         .outAddressToRETSignal(outAdressToRETSignal)
     );

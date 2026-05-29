@@ -8,10 +8,13 @@ module Execute(
     // data inputs
     input logic [3:0] inOperation,
     input logic [3:0] inDstAddress,
-    input logic [3:0] inSrc1Address,
-    input logic [3:0] inSrc2Address,
-    input logic [15:0] inSrc1,
-    input logic [15:0] inSrc2,
+
+    input logic [15:0] inData1,
+    input logic [15:0] inData2,
+
+    input logic [3:0] inData1Address,
+    input logic [3:0] inData2Address,
+
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
 
@@ -37,13 +40,18 @@ module Execute(
     output logic [15:0] outAddressToRET,
     output logic outAddressToRETSignal
 );
-    // forwarding path
-    // output of the ALU is input for the execution state
 
     logic [3:0] localOperation;
-    logic [15:0] localSrc1Data;
-    logic [15:0] localSrc2Data;
+    logic [3:0] localDstAddress;
+
+    logic [15:0] localData1;
+    logic [15:0] localData2;
+
+    logic [3:0] localData1Address;
+    logic [3:0] localData2Address;
+
     logic [7:0] localImmediate;
+    logic [15:0] localInstructionAddress;
 
     logic [15:0] localForwardPathInputExecute;
     logic [3:0] localForwardPathInputExecuteSrc;
@@ -51,39 +59,41 @@ module Execute(
     logic [15:0] localForwardPathInputDataMemory;
     logic [3:0] localForwardPathInputDataMemorySrc;  
 
-    logic [3:0] localSrc1Address;
-    logic [3:0] localSrc2Address;
 
-    logic [15:0] localInstructionAddress;
-
-    logic [3:0] localWriteBackDst;
- 
     PipelineRegisterEX register(
-        // inputs
         .clk(clk),
         .hold(hold),
         .reset(reset),
 
         .inOperation(inOperation),
         .inDstAddress(inDstAddress),
-        .inSrc1Address(inSrc1Address),
-        .inSrc2Address(inSrc2Address),
 
-        .inSrc1(inSrc1),
-        .inSrc2(inSrc2),
+        .inData1(inData1),
+        .inData2(inData2),
+        
+        .inData1Address(inData1Address),
+        .inData2Address(inData2Address),
+
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
 
         .forwardPathInputExecute(forwardPathInputExecute),
         .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
+
         .forwardPathInputDataMemory(forwardPathInputDataMemory),
         .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
 
         .outOperation(localOperation),
-        .outDstAddress(localWriteBackDst),
-        .outSrc1Data(localSrc1Data),
-        .outSrc2Data(localSrc2Data),
+        .outDstAddress(localDstAddress),
+
+        .outData1(localData1),
+        .outData2(localData2),
+
+        .outData1Address(localData1Address),
+        .outData2Address(localData2Address),
+
         .outImmediate(localImmediate),
+        .outInstructionAddress(localInstructionAddress),
 
         .forwardPathOutputExecute(localForwardPathInputExecute),
         .forwardPathOutputExecuteSrc(localForwardPathInputExecuteSrc),
@@ -91,10 +101,6 @@ module Execute(
         .forwardPathOutputDataMemory(localForwardPathInputDataMemory),
         .forwardPathOutputDataMemorySrc(localForwardPathInputDataMemorySrc),
 
-        .outInstructionAddress(localInstructionAddress),
-
-        .outSrc1Address(localSrc1Address),
-        .outSrc2Address(localSrc2Address)
     );
 
     logic [15:0] localResult;
@@ -104,13 +110,15 @@ module Execute(
         .clk(clk),
 
         .inOperation(localOperation),
-        .inData1(localSrc1Data),
-        .inData2(localSrc2Data),
+
+        .inData1(localData1),
+        .inData2(localData2),
+
+        .inData1Address(localData1Address),
+        .inData2Address(localData2Address),
+
         .inImmediate(localImmediate),
         .inInstructionAddress(localInstructionAddress),
-
-        .srcRegister1(localSrc1Address),
-        .srcRegister2(localSrc2Address),
 
         .forwardPathInputExecute(localForwardPathInputExecute),
         .forwardPathInputExecuteSrc(localForwardPathInputExecuteSrc),

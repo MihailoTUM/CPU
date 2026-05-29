@@ -35,6 +35,11 @@ module RegisterBlock(
     always_comb 
     begin
         case(inOperation)
+        4'h9:
+            begin
+                outSrc1Data = registers[inDstAddress];
+                outImmediate = outImmediate;
+            end
         4'hA:
             begin
                 outSrc1Data = registers[inDstAddress];
@@ -60,7 +65,7 @@ module RegisterBlock(
         4'hE: 
             begin
                 // 
-                outSrc1Data = registers[inWriteBackDst];
+                outSrc1Data = registers[inDstAddress];
                 // register for base address
                 outSrc2Data = registers[inSrc1Address];
                 outImmediate = inImmediate;

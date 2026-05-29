@@ -1,14 +1,13 @@
 
 
 module JMP16(
-    input logic [7:0] inData,
-    input logic [15:0] inOldAddress,
+    input logic [15:0] inInstructionAddress,
+    input logic [7:0] inOffset,
 
-    output logic [15:0] outNewAddress
+    output logic [15:0] outInstructionAddress
 );
-    logic [15:0] localExpandedAddress;
+    logic [15:0] localAddress;
 
-    CONST16 constFixed(inData, localExpandedAddress);
-    ADD16 addFixed(inOldAddress, localExpandedAddress, 1'b0, outNewAddress, );
-
+    CONST16 constFixed(inOffset, localAddress);
+    ADD16 addFixed(inInstructionAddress, localAddress, 1'b0, outInstructionAddress, );
 endmodule

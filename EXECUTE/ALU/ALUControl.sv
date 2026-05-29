@@ -10,15 +10,15 @@ module ALUControl(
     input logic [15:0] inData1,
     input logic [15:0] inData2,
 
+    input logic [3:0] inData1Address,
+    input logic [3:0] inData2Address,
+
     // forward path
     input logic [15:0] forwardPathInputExecute,
     input logic [3:0] forwardPathInputExecuteSrc,
 
     input logic [15:0] forwardPathInputDataMemory,
     input logic [3:0] forwardPathInputDataMemorySrc,
-
-    input logic [3:0] srcRegister1,
-    input logic [3:0] srcRegister2,
 
     // data outputs
     output logic [3:0] controlSignals,
@@ -27,18 +27,17 @@ module ALUControl(
 );  
     logic multiCycle;
 
-    // 4-to-1 multiplexer
     logic data1FPathExecute;
     logic data1FPathDataMemory;
 
     logic data2FPathExecute;
     logic data2FPathDataMemory;
 
-    assign data1FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister1);
-    assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister1);
+    assign data1FPathExecute = ~|(forwardPathInputExecuteSrc ^ inData1Address);
+    assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ inData1Address);
 
-    assign data2FPathExecute = ~|(forwardPathInputExecuteSrc ^ srcRegister2);
-    assign data2FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ srcRegister2);
+    assign data2FPathExecute = ~|(forwardPathInputExecuteSrc ^ inData2Address);
+    assign data2FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ inData2Address);
 
     assign outData1 = data1FPathExecute ? forwardPathInputExecute: data1FPathDataMemory ? forwardPathInputDataMemory: inData1;
     assign outData2 = data2FPathExecute ? forwardPathInputExecute: data2FPathDataMemory ? forwardPathInputDataMemory: inData2;
@@ -69,12 +68,6 @@ module ALUControl(
         endcase
     end
 
-    /*
-        controlSignals
-        0: reset,
-        1: hold
-    */
-
     always_comb
     begin
         case(state)
@@ -85,7 +78,6 @@ module ALUControl(
         endcase
     end
 
-    
     always_ff @(posedge clk)
     begin
         state <= nextState;
