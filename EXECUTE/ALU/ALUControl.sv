@@ -1,11 +1,6 @@
 
 
 module ALUControl(
-    // control inputs
-    input logic clk,
-    input logic divFinished,
-
-    // data inputs
     input logic [3:0] inOperation,
     input logic [15:0] inData1,
     input logic [15:0] inData2,
@@ -13,74 +8,67 @@ module ALUControl(
     input logic [3:0] inData1Address,
     input logic [3:0] inData2Address,
 
-    // forward path
-    input logic [15:0] forwardPathInputExecute,
-    input logic [3:0] forwardPathInputExecuteSrc,
+    input logic [15:0] inExecuteOutputData,
+    input logic [3:0] inExecuteOutputDataSrc,
 
-    input logic [15:0] forwardPathInputDataMemory,
-    input logic [3:0] forwardPathInputDataMemorySrc,
+    input logic [15:0] inDataMemoryOutputData,
+    input logic [3:0] inDataMemoryOutputDataSrc,
 
-    // data outputs
-    output logic [3:0] controlSignals,
     output logic [15:0] outData1,
-    output logic [15:0] outData2
-);  
-    logic multiCycle;
+    output logic [15:0] outData2,
 
+    output logic outSignalForDiv,
+    output logic outWriteToRegisterEnable,
+    output logic outWriteToMemoryEnable
+);
+
+    assign outSignalForDiv = (inOperation == 4'h4);
+
+    always_comb
+        begin
+            case(inOperation)
+                4'h8: 
+                    begin
+                        outWriteToRegisterEnable = 0;
+                        outWriteToMemoryEnable = 0;
+                    end
+
+                4'h9:
+                    begin
+                        outWriteToRegisterEnable = 0;
+                        outWriteToMemoryEnable = 0;
+                    end
+                4'hD:
+                    begin
+                        outWriteToMemoryEnable = 0;
+                    end
+                4'hE:
+                    begin
+                        outWriteToRegisterEnable = 0;
+                    end
+
+            default: 
+                begin
+                    outWriteToRegisterEnable = 1;
+                    outWriteToMemoryEnable = 1;
+                end
+            endcase
+        end
+
+    
     logic data1FPathExecute;
     logic data1FPathDataMemory;
 
     logic data2FPathExecute;
     logic data2FPathDataMemory;
 
-    assign data1FPathExecute = ~|(forwardPathInputExecuteSrc ^ inData1Address);
-    assign data1FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ inData1Address);
+    assign data1FPathExecute = ~|(inExecuteOutputDataSrc ^ inData1Address);
+    assign data1FPathDataMemory = ~|(inDataMemoryOutputDataSrc ^ inData1Address);
 
-    assign data2FPathExecute = ~|(forwardPathInputExecuteSrc ^ inData2Address);
-    assign data2FPathDataMemory = ~|(forwardPathInputDataMemorySrc ^ inData2Address);
+    assign data2FPathExecute = ~|(inExecuteOutputDataSrc ^ inData2Address);
+    assign data2FPathDataMemory = ~|(inDataMemoryOutputDataSrc ^ inData2Address);
 
-    assign outData1 = data1FPathExecute ? forwardPathInputExecute: data1FPathDataMemory ? forwardPathInputDataMemory: inData1;
-    assign outData2 = data2FPathExecute ? forwardPathInputExecute: data2FPathDataMemory ? forwardPathInputDataMemory: inData2;
-
-
-    always_comb
-    begin 
-        case(inOperation)
-            4'h4: multiCycle = 1;
-
-            default: multiCycle = 0;
-        endcase
-    end
-
-    typedef enum logic [1:0] { reset1, reset2, loop, finished } statetype;
-    statetype state, nextState;
-
-    always_comb 
-    begin 
-        case(state)
-        finished:   if(multiCycle) nextState = reset1;
-                    else nextState = finished;
-        reset1:     nextState = reset2;
-        reset2:     nextState = loop;
-        loop:       if(divFinished) nextState = finished;
-                    else nextState = loop;
-        default: nextState = finished;
-        endcase
-    end
-
-    always_comb
-    begin
-        case(state)
-        finished: controlSignals = { 4'b0000 };
-        reset1: controlSignals = { 1'b1, 1'b1, 2'b00 };
-        reset2: controlSignals = { 1'b0, 1'b1, 2'b00 };
-        loop: controlSignals = { 4'b0100 };
-        endcase
-    end
-
-    always_ff @(posedge clk)
-    begin
-        state <= nextState;
-    end
+    assign outData1 = data1FPathExecute ? inExecuteOutputData: data1FPathDataMemory ? inDataMemoryOutputData: inData1;
+    assign outData2 = data2FPathExecute ? inExecuteOutputData: data2FPathDataMemory ? inDataMemoryOutputData: inData2;
 
 endmodule

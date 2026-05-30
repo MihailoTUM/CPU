@@ -2,8 +2,11 @@
 module MUL16(
     input logic [15:0] a,
     input logic [15:0] b,
-    output logic [31:0] result
+    
+    output logic [15:0] higherOut,
+    output logic [15:0] lowerOut
 );
+    logic [31:0] result;
 
     // 16 partials a 16-bit width
     logic [15:0] partials [15:0];
@@ -65,4 +68,6 @@ module MUL16(
     ADD32 add13(sum[12], pSums[14], 1'b0, sum[13], );
     ADD32 add14(sum[13], pSums[15], 1'b0, result, );
 
+    assign higherOut = result[31:16];
+    assign lowerOut = result[15:0];
 endmodule

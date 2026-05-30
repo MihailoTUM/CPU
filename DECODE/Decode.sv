@@ -15,8 +15,8 @@ module Decode(
     input logic inEnableWrite,
 
     // for CALL/RET
-    input logic [15:0] inAddressToRET,
-    input logic inAddressToRETSignal,
+    input logic [15:0] inDataResultSkippy,
+    input logic inDataResultSkippySignal,
 
     // data outputs
     output logic [3:0] outOperation,
@@ -63,8 +63,8 @@ module Decode(
         .inImmediate(localImmediate),
         .inEnableWrite(inEnableWrite),
 
-        .inAddressToRET(inAddressToRET),
-        .inAddressToRETSignal(inAddressToRETSignal),
+        .inDataResultSkippy(inDataResultSkippy),
+        .inDataResultSkippySignal(inDataResultSkippySignal),
 
         .outSrc1Data(outSrc1Data),
         .outSrc2Data(outSrc2Data),

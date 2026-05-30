@@ -1,11 +1,8 @@
 
 module Execute(
-    // control inputs
     input logic clk,
-    input logic hold,
     input logic reset,
     
-    // data inputs
     input logic [3:0] inOperation,
     input logic [3:0] inDstAddress,
 
@@ -18,27 +15,27 @@ module Execute(
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
 
-    // forward path from Execute stage
-    input logic [15:0] forwardPathInputExecute,
-    input logic [3:0] forwardPathInputExecuteSrc,
+    input logic [15:0] inExecuteOutputData,
+    input logic [3:0] inExecuteOutputDataSrc,
 
-    // forward path from DataMemory stage
-    input logic [15:0] forwardPathInputDataMemory,
-    input logic [3:0] forwardPathInputDataMemorySrc,
+    input logic [15:0] inDataMemoryOutputData,
+    input logic [3:0] inDataMemoryOutputDataSrc,
 
-    // data outputs
-    output logic [15:0] outResult,
-    output logic [3:0] outWriteBackDst,
-    output logic outEnableWrite,
+    output logic outSignalDIV,
+    output logic outWriteToRegisterEnable,
+    output logic outWriteToMemoryEnable,
+    output logic outJMPSignal,
+    output logic outWriteReturnAddressToRegisterSignal,
+
+    output logic [15:0] outDataResult,
+    output logic [15:0] outMemoryAddress,
+    output logic [15:0] outFlagRegister,
+
+    output logic [3:0] outDstAddress,
     output logic [3:0] outOperation,
-    output logic controlHold,
-    output logic controlJump,
-    output logic [15:0] forwardPathOutput,
-    output logic [3:0] forwardPathSrcOutput,
 
-    output logic outJMP,
-    output logic [15:0] outAddressToRET,
-    output logic outAddressToRETSignal
+    output logic [15:0] outExecuteOutputData,
+    output logic [3:0] outExecuteOutputDataSrc
 );
 
     logic [3:0] localOperation;
@@ -46,100 +43,81 @@ module Execute(
 
     logic [15:0] localData1;
     logic [15:0] localData2;
-
     logic [3:0] localData1Address;
     logic [3:0] localData2Address;
-
     logic [7:0] localImmediate;
     logic [15:0] localInstructionAddress;
-
-    logic [15:0] localForwardPathInputExecute;
-    logic [3:0] localForwardPathInputExecuteSrc;
-
-    logic [15:0] localForwardPathInputDataMemory;
-    logic [3:0] localForwardPathInputDataMemorySrc;  
-
+  
+    logic [15:0] localExecuteOutputData;
+    logic [3:0] localExecuteOutputDataSrc;
+    logic [15:0] localDataMemoryOutputData;
+    logic [3:0] localDataMemoryOutputDataSrc;
 
     PipelineRegisterEX register(
         .clk(clk),
-        .hold(hold),
         .reset(reset),
 
         .inOperation(inOperation),
         .inDstAddress(inDstAddress),
-
         .inData1(inData1),
         .inData2(inData2),
-        
         .inData1Address(inData1Address),
         .inData2Address(inData2Address),
-
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
 
-        .forwardPathInputExecute(forwardPathInputExecute),
-        .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
-
-        .forwardPathInputDataMemory(forwardPathInputDataMemory),
-        .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
+        .inExecuteOutputData(inExecuteOutputData),
+        .inExecuteOutputDataSrc(inExecuteOutputDataSrc),
+        .inDataMemoryOutputData(inDataMemoryOutputData),
+        .inDataMemoryOutputDataSrc(inDataMemoryOutputDataSrc),
 
         .outOperation(localOperation),
         .outDstAddress(localDstAddress),
-
         .outData1(localData1),
         .outData2(localData2),
-
         .outData1Address(localData1Address),
         .outData2Address(localData2Address),
-
         .outImmediate(localImmediate),
         .outInstructionAddress(localInstructionAddress),
 
-        .forwardPathOutputExecute(localForwardPathInputExecute),
-        .forwardPathOutputExecuteSrc(localForwardPathInputExecuteSrc),
-
-        .forwardPathOutputDataMemory(localForwardPathInputDataMemory),
-        .forwardPathOutputDataMemorySrc(localForwardPathInputDataMemorySrc),
-
+        .outExecuteOutputData(localExecuteOutputData),
+        .outExecuteOutputDataSrc(localExecuteOutputDataSrc),
+        .outDataMemoryOutputData(localDataMemoryOutputData),
+        .outDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc)
     );
 
-    logic [15:0] localResult;
+    logic [15:0] localDataResult;
 
     ALU alu(
-        // inputs
-        .clk(clk),
-
         .inOperation(localOperation),
 
         .inData1(localData1),
         .inData2(localData2),
-
         .inData1Address(localData1Address),
         .inData2Address(localData2Address),
-
         .inImmediate(localImmediate),
         .inInstructionAddress(localInstructionAddress),
 
-        .forwardPathInputExecute(localForwardPathInputExecute),
-        .forwardPathInputExecuteSrc(localForwardPathInputExecuteSrc),
+        .inExecuteOutputData(localExecuteOutputData),
+        .inExecuteOutputDataSrc(localExecuteOutputDataSrc),
+        .inDataMemoryOutputData(localDataMemoryOutputData),
+        .inDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc),
 
-        .forwardPathInputDataMemory(localForwardPathInputDataMemory),
-        .forwardPathInputDataMemorySrc(localForwardPathInputDataMemorySrc),
+        .outSignalDIV(outSignalDIV),
+        .outWriteToRegisterEnable(outWriteToRegisterEnable),
+        .outWriteToMemoryEnable(outWriteToMemoryEnable),
+        .outJMPSignal(outJMPSignal),
+        .outWriteReturnAddressToRegisterSignal(outWriteReturnAddressToRegisterSignal),
 
-        .outResult(localResult),
-        .outEnableWrite(outEnableWrite),
-        .outOperation(outOperation),
-        .controlHold(controlHold),
-
-        .outJMP(outJMP),
-        .outAddressToRET(outAddressToRET),
-        .outAdressToRETSignal(outAddressToRETSignal)
-
+        .outDataResult(localDataResult),
+        .outMemoryAddress(outMemoryAddress),
+        .outFlagRegister(outFlagRegister)
     );
 
-    assign forwardPathOutput = localResult;
-    assign forwardPathSrcOutput = localWriteBackDst;
-    assign outResult = localResult;
-    assign outWriteBackDst = localWriteBackDst;
+    assign outDataResult = localDataResult;
+    assign outExecuteOutputData = localDataResult;
+    assign outOperation = localOperation;
+    assign outExecuteOutputDataSrc = localDstAddress;
+    assign outDstAddress = localDstAddress;
 
 endmodule

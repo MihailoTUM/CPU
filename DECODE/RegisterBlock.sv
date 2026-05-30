@@ -14,8 +14,8 @@ module RegisterBlock(
     input logic [7:0] inImmediate,
     input logic inEnableWrite,
 
-    input logic [15:0] inAddressToRET,
-    input logic inAddressToRETSignal,
+    input logic [15:0] inDataResultSkippy,
+    input logic inDataResultSkippySignal,
 
     // data outputs
     output logic [15:0] outSrc1Data,
@@ -29,7 +29,7 @@ module RegisterBlock(
     begin
         if(inEnableWrite) registers[inWriteBackDst] <= inDataToStore;
 
-        if(inAddressToRETSignal) registers[4'hE] <= inAddressToRET;
+        if(inDataResultSkippySignal) registers[4'hE] <= inDataResultSkippy;
     end
 
     always_comb 

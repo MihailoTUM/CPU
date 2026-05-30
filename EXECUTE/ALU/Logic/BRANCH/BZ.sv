@@ -1,18 +1,13 @@
 
 
 module BZ16(
-    input logic [15:0] inInstructionAddress,
-    input logic [7:0] inOffset,
     input logic [15:0] inData,
+    input logic [7:0] inOffset,
 
     output logic [15:0] outInstructionAddress,
     output logic outBranchSuccess
 );
-    logic [15:0] localAddress;
-
-    CONST16 constFixed(inOffset, localAddress);
-    ADD16 addFixed(inInstructionAddress, localAddress, 1'b0, outInstructionAddress, );
+    CONST16U constFixed(inOffset, outInstructionAddress);
 
     assign outBranchSuccess = ~|(inData);
-
 endmodule

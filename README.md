@@ -17,9 +17,9 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 0010 (2) -> SUB
 - 0011 (3) -> MUL
 - 0100 (4) -> DIV
-- 0101 (5) -> AND
-- 0110 (6) -> OR
-- 0111 (7) -> XOR
+- 0101 (5) ->
+- 0110 (6) ->
+- 0111 (7) -> 
 - 1000 (8) -> JMP
 - 1001 (9) -> BZ
 - 1010 (A) -> ADDI

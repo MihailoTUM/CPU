@@ -1,132 +1,107 @@
 
 
 module ALUUnit(
-    // control inputs
-    input logic clk,
-    input logic hold,
-
-    // data inputs
     input logic [3:0] inOperation,
-
     input logic [15:0] inData1,
     input logic [15:0] inData2,
-
+    
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
 
-    // control outputs
-    output logic divFinished,
-    output logic outEnableWrite,
-    output logic JMPSignalToControl,
-
-    // data outputs
     output logic [15:0] outDataResult,
     output logic [15:0] outMemoryAddress,
+    output logic [15:0] outFlagRegister,
 
-    // output logic outAddressToRETSignal
-    // output logic [15:0] outAddressToRET,
-);
-    logic [15:0] constFixedOutput;
-    logic [15:0] addFixedOutput;
-    logic addFixedCarryOut;
-    logic [15:0] subFixedOutput;
-    logic subFixedCarryOut;
-    logic [31:0] mulFixedOutput;
-    logic [15:0] divFixedOutput;
-    logic [15:0] divFixedRemainder;
-    logic [15:0] addIFixedOutput;
+    output logic outJMPSignal,
+    output logic outWriteReturnAddressToRegisterSignal
+    );
 
-    logic [15:0] localJMPAddress;
-    logic [15:0] localBranchAddress;
-    logic localBranchSuccess;
+    logic [15:0] constOut;
+    CONST16 const16(inImmediate, constOut);
 
-    logic [15:0] outLoadAddress;
+    logic [15:0] addOut;
+    logic addCarry;
+    ADD16 add16(inData1, inData2, 1'b0, addOut, addCarry);
 
-    logic [15:0] outStoreAddress;
-    logic [15:0] outStoreData;
+    logic [15:0] subOut;
+    SUB16 sub16(inData1, inData1, subOut);
 
-    // logic [15:0] localAddressToGO;
-    // logic [15:0] localAddressToRET;
+    logic [15:0] mulOut;
+    MUL16 mul16(inData1, inData2, , mulOut);
 
-    // logic [15:0] localRETAddress;
+    logic [15:0] addIOut;
+    logic addICarry;
+    ADDI16 addI16(inData1, inImmediate, addIOut, addICarry);
 
-    CONST16 constFixed(inImmediate, constFixedOutput);
-    ADD16 addFixed(inData1, inData2, 1'b0, addFixedOutput, addFixedCarryOut);
-    ADD16 subFixed(inData1, ~inData2, 1'b1, subFixedOutput, subFixedCarryOut);
-    MUL16 mulFixed(inData1, inData2, mulFixedOutput);
-    DIV16 divFixed(clk, hold, inData1, inData2, divFixedOutput, divFixedRemainder, divFinished);
-    ADDI16 addIFixed(inData1, inImmediate, addIFixedOutput);
+    logic [15:0] jmpAddress;
+    JMP16 jmp16(inInstructionAddress, inImmediate, jmpAddress);
 
-    JMP16 jumpFixed(inInstructionAddress, inImmediate, localJMPAddress);
-    BZ16 bzFixed(inInstructionAddress, inImmediate, inData1, localBranchAddress, localBranchSuccess);
+    logic [15:0] branchAddress;
+    logic branchSuccess;
+    BZ16 bz16(inData1, inImmediate, branchAddress, branchSuccess);
 
-    LOAD16 load(inData1, inImmediate[3:0], outLoadAddress);
-    STORE16 store(inData2, inImmediate[3:0], inData1, outStoreAddress, outStoreData);
+    logic [15:0] loadAddress;
+    LOAD16 load16(inData1, inImmediate[3:0], loadAddress);
 
-    // CALL call(inImmediate, inInstructionAddress, localAddressToGO, localAddressToRET);
-    // RET ret(inData1, localRETAddress);
+    logic [15:0] storeAddress;
+    logic [15:0] storeData;
+    STORE16 store16(inData2, inImmediate[3:0], inData1, storeAddress, storeData);
 
-    // assign outAddressTORET = localAddressToRET;
+    logic [15:0] callAdress;
+    logic [15:0] returnAdress;
+    CALL call(inInstructionAddress, inImmediate, callAdress, returnAdress);
 
+    logic [15:0] returnAdress2;
+    RET ret(inData1, returnAdress2);
 
-
-    always_comb 
-        begin   
-            case(inOperation)
-                4'h0: outDataResult = constFixedOutput;
-                4'h1: outDataResult = addFixedOutput;
-                4'h2: outDataResult = subFixedOutput;
-                4'h3: outDataResult = mulFixedOutput[15:0];
-                4'h4: outDataResult = divFixedOutput;
-
-                4'hA: outDataResult = addIFixedOutput;
-
-                // 4'hB: outDataResult = localAddressToGO;
-                // 4'hC: outDataResult = localRETAddress;
-
-                4'hE: outDataResult = outStoreData;
-                4'hF: outDataResult = 16'hXXXX;
-
-                default: outDataResult = 16'hABCD;
-            endcase
-        end
-
-    always_comb 
+    always_comb
         begin
             case(inOperation)
-                4'h8: outMemoryAddress = localJMPAddress;
-                4'h9: outMemoryAddress = localBranchAddress;
+                4'h0: outDataResult = constOut;
+                4'h1: outDataResult = addOut;
+                4'h2: outDataResult = subOut;
+                4'h3: outDataResult = mulOut;
 
-                4'hD: outMemoryAddress = outLoadAddress;
-                4'hE: outMemoryAddress = outStoreAddress;
+                4'hA: outDataResult = addIOut;
+                4'hB: outDataResult = returnAdress;
 
+                4'hE: outDataResult = storeData;
+
+                default: outDataResult = 16'hXXXX;
             endcase
         end
 
+    always_comb
+        begin
+            case(inOperation)
+                4'h8: outMemoryAddress = jmpAddress;
+                4'h9: outMemoryAddress = branchAddress;
 
-    // assign outAddressToRETSignal = inOperation[3] & ~(inOperation[2]) & inOperation[1] & inOperation[0];
+                4'hB: outMemoryAddress = callAdress;
+                4'hC: outMemoryAddress = returnAdress2;
+                4'hD: outMemoryAddress = loadAddress;
+                4'hE: outMemoryAddress = storeAddress;
+
+                default: outMemoryAddress = 16'hXXXX;
+            endcase
+        end
 
     always_comb
-    begin
-        case(inOperation)
-            4'h8: outEnableWrite = 0;
-            4'hF: outEnableWrite = 0;
+        begin
+            case(inOperation)
+                4'h8: outJMPSignal = 1;
+                4'h9:   if(branchSuccess) outJMPSignal = 1;
+                        else outJMPSignal = 0;
+                
+                4'hB: outWriteReturnAddressToRegisterSignal = 1;
+                4'hC: outJMPSignal = 1;
 
-            default: outEnableWrite = 1;
-        endcase
-    end
-
-    always_comb
-    begin
-        case(inOperation)
-            4'h8: JMPSignalToControl = 1;
-            4'h9: 
-                begin
-                    if(branchSuccess) JMPSignalToControl = 1;
-                    else JMPSignalToControl = 0;
-                end
-            default: JMPSignalToControl = 0;
-        endcase
-    end
+                default:
+                    begin
+                         outJMPSignal = 0;
+                         outWriteReturnAddressToRegisterSignal = 0;
+                    end
+            endcase
+        end
 
 endmodule

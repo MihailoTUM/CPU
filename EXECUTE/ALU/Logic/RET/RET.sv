@@ -1,10 +1,11 @@
 
 
 module RET(
-    input logic [15:0] inAddresstoRET,
-    output logic [15:0] outAddressTORET
+    input logic [15:0] inReturnAddress,
+
+    output logic [15:0] outReturnAddress
 );
 
-    assign outAddressTORET = inAddresstoRET;
+    assign outReturnAddress = inReturnAddress;
 
 endmodule

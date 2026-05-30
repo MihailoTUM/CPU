@@ -1,12 +1,9 @@
 
 
 module PipelineRegisterEX(
-    // control inputs
     input logic clk,
-    input logic hold,
     input logic reset,
 
-    // data inputs
     input logic [3:0] inOperation,
     input logic [3:0] inDstAddress,
 
@@ -19,13 +16,12 @@ module PipelineRegisterEX(
     input logic [7:0] inImmediate,
     input logic [15:0] inInstructionAddress,
 
-    input logic [15:0] forwardPathInputExecute,
-    input logic [3:0] forwardPathInputExecuteSrc,
+    input logic [15:0] inExecuteOutputData,
+    input logic [3:0] inExecuteOutputDataSrc,
 
-    input logic [15:0] forwardPathInputDataMemory,
-    input logic [3:0] forwardPathInputDataMemorySrc,
+    input logic [15:0] inDataMemoryOutputData,
+    input logic [3:0] inDataMemoryOutputDataSrc,
 
-    // data outputs
     output logic [3:0] outOperation,
     output logic [3:0] outDstAddress,
 
@@ -38,22 +34,21 @@ module PipelineRegisterEX(
     output logic [7:0] outImmediate,
     output logic [15:0] outInstructionAddress,
 
-    output logic [15:0] forwardPathOutputExecute,
-    output logic [3:0] forwardPathOutputExecuteSrc,
+    output logic [15:0] outExecuteOutputData,
+    output logic [3:0] outExecuteOutputDataSrc,
 
-    output logic [15:0] forwardPathOutputDataMemory,
-    output logic [3:0] forwardPathOutputDataMemorySrc,
-
+    output logic [15:0] outDataMemoryOutputData,
+    output logic [3:0] outDataMemoryOutputDataSrc
 );
     always_ff @(posedge clk)
     begin
         if(reset)
             begin
-                forwardPathOutputExecute <= 16'h0000;
-                forwardPathOutputExecuteSrc <= 4'hF;
+                outExecuteOutputData <= 16'h0000;
+                outExecuteOutputDataSrc <= 4'hF;
 
-                forwardPathOutputDataMemory <= 16'h0000;
-                forwardPathOutputDataMemorySrc <= 4'hF;
+                outDataMemoryOutputData <= 16'h0000;
+                outDataMemoryOutputDataSrc <= 4'hF;
             end
         else
             begin
@@ -64,16 +59,16 @@ module PipelineRegisterEX(
                 outData2 <= inData2;
 
                 outData1Address <= inData1Address;
-                outData2Address <= inData2Adresss;
+                outData2Address <= inData2Address;
                 
                 outImmediate <= inImmediate;
                 outInstructionAddress <= inInstructionAddress;
 
-                forwardPathOutputExecute <= forwardPathInputExecute;
-                forwardPathOutputExecuteSrc <= forwardPathInputExecuteSrc;
+                outExecuteOutputData <= inExecuteOutputData;
+                outExecuteOutputDataSrc <= inExecuteOutputDataSrc;
 
-                forwardPathInputDataMemory <= forwardPathInputDataMemory;
-                forwardPathInputDataMemorySrc <= forwardPathInputDataMemorySrc;
+                outDataMemoryOutputData <= inDataMemoryOutputData;
+                outDataMemoryOutputDataSrc <= inDataMemoryOutputDataSrc;
             end
     end
 endmodule

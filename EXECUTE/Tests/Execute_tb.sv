@@ -1,71 +1,67 @@
 `timescale 1ns/1ns
 
 module Execute_tb();
-    // control inputs
     logic clk;
-    logic hold;
     logic reset;
 
-    // data inputs
     logic [3:0] inOperation;
     logic [3:0] inDstAddress;
-    logic [3:0] inSrc1Address;
-    logic [3:0] inSrc2Address;
-    logic [15:0] inSrc1;
-    logic [15:0] inSrc2;
+    logic [15:0] inData1;
+    logic [15:0] inData2;
+    logic [3:0] inData1Address;
+    logic [3:0] inData2Address;
     logic [7:0] inImmediate;
     logic [15:0] inInstructionAddress;
-    logic [15:0] inStackPointerAddress;
 
-    logic [15:0] forwardPathInputExecute;
-    logic [3:0] forwardPathInputExecuteSrc;
+    logic [15:0] inExecuteOutputData;
+    logic [3:0] inExecuteOutputDataSrc;
 
-    logic [15:0] forwardPathInputDataMemory;
-    logic [3:0] forwardPathInputDataMemorySrc;
+    logic [15:0] inDataMemoryOutputData;
+    logic [3:0] inDataMemoryOutputDataSrc;
 
-    // data outputs
-    logic [15:0] outResult;
-    logic [3:0] outWriteBackDst;
-    logic enableWrite;
+    logic outSignalDIV;
+    logic outWriteToRegisterEnable;
+    logic outWriteToMemoryEnable;
+
+    logic [15:0] outDataResult;
+    logic [15:0] outMemoryAddress;
+    logic [15:0] outFlagRegister;
+
+    logic [3:0] outDstAddress;
     logic [3:0] outOperation;
-    logic controlHold;
-    logic controlJump;
-    logic [15:0] forwardPathOutput;
-    logic [3:0] forwardPathSrcOutput;
 
-    logic outJMP;
+    logic [15:0] outExecuteOutputData;
+    logic [3:0] outExecuteOutputDataSrc;
 
     Execute dut(
         .clk(clk),
-        .hold(hold),
         .reset(reset),
 
         .inOperation(inOperation),
         .inDstAddress(inDstAddress),
-        .inSrc1Address(inSrc1Address),
-        .inSrc2Address(inSrc2Address),
-        .inSrc1(inSrc1),
-        .inSrc2(inSrc2),
+        .inData1(inData1),
+        .inData2(inData2),
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
-        .inStackPointerAddress(inStackPointerAddress),
 
-        .forwardPathInputExecute(forwardPathInputExecute),
-        .forwardPathInputExecuteSrc(forwardPathInputExecuteSrc),
+        .inExecuteOutputData(inExecuteOutputData),
+        .inExecuteOutputDataSrc(inExecuteOutputDataSrc),
+        .inDataMemoryOutputData(inDataMemoryOutputData),
+        .inDataMemoryOutputDataSrc(inDataMemoryOutputDataSrc),
 
-        .forwardPathInputDataMemory(forwardPathInputDataMemory),
-        .forwardPathInputDataMemorySrc(forwardPathInputDataMemorySrc),
+        .outSignalDIV(outSignalDIV),
+        .outWriteToRegisterEnable(outWriteToRegisterEnable),
+        .outWriteToMemoryEnable(outWriteToMemoryEnable),
 
-        .outResult(outResult),
-        .outWriteBackDst(outWriteBackDst),
-        .outEnableWrite(outEnableWrite),
+        .outDataResult(outDataResult),
+        .outMemoryAddress(outMemoryAddress),
+        .outFlagRegister(outFlagRegister),
+
+        .outDstAddress(outDstAddress),
         .outOperation(outOperation),
-        .controlHold(controlHold),
-        .controlJump(controlJump),
-        .forwardPathOutput(forwardPathOutput),
-        .forwardPathSrcOutput(forwardPathSrcOutput),
 
-        .outJMP(outJMP)
+        .outExecuteOutputData(outExecuteOutputData),
+        .outExecuteOutputDataSrc(outExecuteOutputDataSrc)
     );
 
 
@@ -77,25 +73,35 @@ module Execute_tb();
         $dumpfile("Execute.vcd");
         $dumpvars(0, Execute_tb);
 
-        // testing reset capabilities
         reset = 1;
         #4;
 
         reset = 0;
 
-
-        inOperation = 4'h0; inDstAddress = 4'h0; inSrc1Address = 4'h0; inSrc2Address = 4'h1; inSrc1 = 16'hXXXX; inSrc2 = 16'hXXXX; inImmediate = 8'h0F; inInstructionAddress = 16'h0000; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
+        inOperation = 4'h0; inDstAddress = 4'h0; inImmediate = 8'h02; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
         #4;
 
-        inOperation = 4'h1; inDstAddress = 4'h1; inSrc1Address = 4'h1; inSrc2Address = 4'h2; inSrc1 = 16'h0002; inSrc2 = 16'h0004; inImmediate = 8'hXX; inInstructionAddress = 16'h0000; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
+        inOperation = 4'h0; inDstAddress = 4'h1; inImmediate = 8'h04; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
         #4;
 
-        inOperation = 4'h8; inDstAddress = 4'hF; inSrc1Address = 4'h0; inSrc2Address = 4'h3; inSrc1 = 16'h0000; inSrc2 = 16'h0000; inImmediate = 8'h02; inInstructionAddress = 16'h0008; inStackPointerAddress = 16'h0000; forwardPathInputExecute = 16'hXXXX; forwardPathInputExecuteSrc = 4'hF; forwardPathInputDataMemory = 16'hXXXX; forwardPathInputDataMemorySrc = 4'hF;
+        inOperation = 4'h1; inDstAddress = 4'h2; inData1 = 16'h0002; inData2 = 16'h0004; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
         #4;
 
-        // testing hold capabilites
+        inOperation = 4'h3; inDstAddress = 4'h3; inData1 = 16'h0004; inData2 = 16'h0004; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
+        #4;
 
-        #8;
+        inOperation = 4'h8; inImmediate = 8'hFF; inInstructionAddress = 16'h000A; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
+        #4;
+
+        inOperation = 4'h9; inImmediate = 8'hFF; inInstructionAddress = 16'h000A; inData1 = 16'h0000; inExecuteOutputData = 16'hXXXX; inExecuteOutputDataSrc = 4'hF; inDataMemoryOutputData = 16'hXXXX; inDataMemoryOutputDataSrc = 4'hF;
+        #4;
+
+        inOperation = 4'hA; inImmediate = 8'h01; inData1 = 16'h0000; inData1Address = 4'h9; 
+        #4;
+
+        // finish the remaining instructions
+
+        #2;
         $finish;
     end
 

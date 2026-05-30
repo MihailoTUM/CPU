@@ -1,16 +1,17 @@
 
 
 module ADD16(
-    input logic [15:0] a,
-    input logic [15:0] b,
-    input logic cin,
-    output logic [15:0] s,
-    output logic cout
+    input logic [15:0] inData1,
+    input logic [15:0] inData2,
+    input logic inCarry,
+
+    output logic [15:0] outResult,
+    output logic outCarry
 );
     logic carry[2:0];
 
-    ADD4 b0(a[3:0], b[3:0], cin, s[3:0], carry[0]);
-    ADD4 b1(a[7:4], b[7:4], carry[0], s[7:4], carry[1]);
-    ADD4 b2(a[11:8], b[11:8], carry[1], s[11:8], carry[2]);
-    ADD4 b3(a[15:12], b[15:12], carry[2], s[15:12], cout);
+    ADD4 add0(inData1[3:0], inData2[3:0], inCarry, outResult[3:0], carry[0]);
+    ADD4 add1(inData1[7:4], inData2[7:4], carry[0], outResult[7:4], carry[1]);
+    ADD4 add2(inData1[11:8], inData2[11:8], carry[1], outResult[11:8], carry[2]);
+    ADD4 add3(inData1[15:12], inData2[15:12], carry[2], outResult[15:12], outCarry);
 endmodule
