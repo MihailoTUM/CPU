@@ -1,24 +1,19 @@
 
 module DataMemory(
-    // control inputs
     input logic clk,
 
-    // data inputs
     input logic [15:0] inALUDataResult,
     input logic [3:0] inWriteBackDataResultDst,
     input logic inWriteBackDataResultEnable,
     input logic [3:0] inOperation,
     input logic [15:0] inMemoryAddress,
 
-    // control outputs
     output logic outHoldSignalFromDataMemory,
 
-    // data outputs
     output logic [15:0] outDataResult,
     output logic [3:0] outWriteBackDataResultDst,
     output logic outWriteBackDataResultEnable,
 
-    // forward path
     output logic [15:0] forwardPathFromDataMemory,
     output logic [3:0] forwardPathFromDataMemorySrc
 );

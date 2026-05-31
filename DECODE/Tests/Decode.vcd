@@ -1,99 +1,91 @@
 $date
-	Mon May 18 18:10:13 2026
+	Sun May 31 11:27:54 2026
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	1s
+	1ns
 $end
 $scope module Decode_tb $end
-$var wire 16 ! outSrc2Data [15:0] $end
-$var wire 4 " outSrc2Address [3:0] $end
-$var wire 16 # outSrc1Data [15:0] $end
-$var wire 4 $ outSrc1Address [3:0] $end
-$var wire 4 % outOperation [3:0] $end
-$var wire 16 & outInstructionAddress [15:0] $end
-$var wire 8 ' outImmediate [7:0] $end
-$var wire 4 ( outDstAddress [3:0] $end
+$var wire 4 ! outOperation [3:0] $end
+$var wire 16 " outInstructionAddress [15:0] $end
+$var wire 8 # outImmediate [7:0] $end
+$var wire 4 $ outDstAddress [3:0] $end
+$var wire 4 % outData2Address [3:0] $end
+$var wire 16 & outData2 [15:0] $end
+$var wire 4 ' outData1Address [3:0] $end
+$var wire 16 ( outData1 [15:0] $end
 $var reg 1 ) clk $end
-$var reg 1 * hold $end
-$var reg 16 + inDataToStore [15:0] $end
-$var reg 1 , inEnableWrite $end
+$var reg 16 * inDataResultSkippy [15:0] $end
+$var reg 1 + inDataResultSkippySignal $end
+$var reg 16 , inDataToStore [15:0] $end
 $var reg 16 - inInstruction [15:0] $end
 $var reg 16 . inInstructionAddress [15:0] $end
-$var reg 4 / inWriteBackDst [3:0] $end
+$var reg 4 / inWriteBackDstAddress [3:0] $end
+$var reg 1 0 inWriteToRegisterEnable $end
 $scope module dut $end
 $var wire 1 ) clk $end
-$var wire 1 * hold $end
-$var wire 16 0 inDataToStore [15:0] $end
-$var wire 1 , inEnableWrite $end
-$var wire 16 1 inInstruction [15:0] $end
-$var wire 16 2 inInstructionAddress [15:0] $end
-$var wire 4 3 inWriteBackDst [3:0] $end
-$var wire 4 4 outDstAddress [3:0] $end
-$var wire 4 5 outOperation [3:0] $end
-$var wire 4 6 outSrc1Address [3:0] $end
-$var wire 4 7 outSrc2Address [3:0] $end
-$var wire 16 8 outSrc2Data [15:0] $end
-$var wire 16 9 outSrc1Data [15:0] $end
+$var wire 16 1 inDataResultSkippy [15:0] $end
+$var wire 1 + inDataResultSkippySignal $end
+$var wire 16 2 inDataToStore [15:0] $end
+$var wire 16 3 inInstruction [15:0] $end
+$var wire 16 4 inInstructionAddress [15:0] $end
+$var wire 4 5 inWriteBackDstAddress [3:0] $end
+$var wire 1 0 inWriteToRegisterEnable $end
+$var wire 4 6 outData1Address [3:0] $end
+$var wire 4 7 outData2Address [3:0] $end
+$var wire 4 8 outDstAddress [3:0] $end
+$var wire 4 9 outOperation [3:0] $end
 $var wire 16 : outInstructionAddress [15:0] $end
 $var wire 8 ; outImmediate [7:0] $end
-$var wire 4 < localSrc2Address [3:0] $end
-$var wire 4 = localSrc1Address [3:0] $end
+$var wire 16 < outData2 [15:0] $end
+$var wire 16 = outData1 [15:0] $end
 $var wire 4 > localOperation [3:0] $end
 $var wire 8 ? localImmediate [7:0] $end
 $var wire 4 @ localDstAddress [3:0] $end
+$var wire 4 A localData2Address [3:0] $end
+$var wire 4 B localData1Address [3:0] $end
 $scope module pipelineRegister $end
 $var wire 1 ) clk $end
-$var wire 1 A flush $end
-$var wire 1 * hold $end
-$var wire 16 B inInstruction [15:0] $end
-$var wire 16 C inInstructionAddress [15:0] $end
-$var wire 4 D outDstAddress [3:0] $end
-$var wire 8 E outImmediate [7:0] $end
-$var wire 16 F outInstructionAddress [15:0] $end
-$var wire 4 G outOperation [3:0] $end
-$var wire 4 H outSrc1Address [3:0] $end
-$var wire 4 I outSrc2Address [3:0] $end
-$var reg 4 J localDstAddress [3:0] $end
-$var reg 8 K localImmediate [7:0] $end
-$var reg 16 L localInstructionAddress [15:0] $end
-$var reg 4 M localOperation [3:0] $end
-$var reg 4 N localSrc1Address [3:0] $end
-$var reg 4 O localSrc2Address [3:0] $end
+$var wire 16 C inInstruction [15:0] $end
+$var wire 16 D inInstructionAddress [15:0] $end
+$var reg 4 E outData1Address [3:0] $end
+$var reg 4 F outData2Address [3:0] $end
+$var reg 4 G outDstAddress [3:0] $end
+$var reg 8 H outImmediate [7:0] $end
+$var reg 16 I outInstructionAddress [15:0] $end
+$var reg 4 J outOperation [3:0] $end
 $upscope $end
 $scope module registerBlock $end
 $var wire 1 ) clk $end
-$var wire 16 P inDataToStore [15:0] $end
-$var wire 4 Q inDstAddress [3:0] $end
-$var wire 1 , inEnableWrite $end
-$var wire 8 R inImmediate [7:0] $end
-$var wire 4 S inOperation [3:0] $end
-$var wire 4 T inSrc1Address [3:0] $end
-$var wire 4 U inSrc2Address [3:0] $end
-$var wire 4 V inWriteBackDst [3:0] $end
-$var reg 8 W outImmediate [7:0] $end
-$var reg 16 X outSrc1Data [15:0] $end
-$var reg 16 Y outSrc2Data [15:0] $end
+$var wire 4 K inData1Address [3:0] $end
+$var wire 4 L inData2Address [3:0] $end
+$var wire 16 M inDataResultSkippy [15:0] $end
+$var wire 1 + inDataResultSkippySignal $end
+$var wire 16 N inDataToStore [15:0] $end
+$var wire 4 O inDstAddress [3:0] $end
+$var wire 8 P inImmediate [7:0] $end
+$var wire 4 Q inOperation [3:0] $end
+$var wire 4 R inWriteBackDstAddress [3:0] $end
+$var wire 1 0 inWriteToRegisterEnable $end
+$var reg 16 S outData1 [15:0] $end
+$var reg 16 T outData2 [15:0] $end
+$var reg 8 U outImmediate [7:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-bx Y
-bx X
-bx W
-b1111 V
 bx U
 bx T
 bx S
-bx R
+b0 R
 bx Q
-b1111111111111111 P
+bx P
 bx O
-bx N
+b1010 N
 bx M
 bx L
 bx K
@@ -104,9 +96,9 @@ bx G
 bx F
 bx E
 bx D
-bx C
-b1000 B
-zA
+b1010 C
+bx B
+bx A
 bx @
 bx ?
 bx >
@@ -118,18 +110,18 @@ bx 9
 bx 8
 bx 7
 bx 6
-bx 5
+b0 5
 bx 4
-b1111 3
-bx 2
-b1000 1
-b1111111111111111 0
-b1111 /
+b1010 3
+b1010 2
+bx 1
+10
+b0 /
 bx .
-b1000 -
-1,
-b1111111111111111 +
-x*
+b1010 -
+b1010 ,
+x+
+bx *
 0)
 bx (
 bx '
@@ -141,153 +133,162 @@ bx "
 bx !
 $end
 #2
-b1000 '
-b1000 ;
-b1000 W
-b1000 ?
-b1000 E
-b1000 R
-b1000 K
-b1000 "
-b1000 7
-b1000 <
-b1000 I
-b1000 O
-b1000 U
-b0 $
+b1010 #
+b1010 ;
+b1010 U
+b1010 &
+b1010 <
+b1010 T
+b1010 (
+b1010 =
+b1010 S
+b1010 ?
+b1010 H
+b1010 P
+b1010 %
+b1010 7
+b1010 A
+b1010 F
+b1010 L
+b0 '
 b0 6
-b0 =
-b0 H
-b0 N
-b0 T
-b0 (
-b0 4
+b0 B
+b0 E
+b0 K
+b0 $
+b0 8
 b0 @
-b0 D
+b0 G
+b0 O
+b0 !
+b0 9
+b0 >
 b0 J
 b0 Q
-b0 %
-b0 5
-b0 >
-b0 G
-b0 M
-b0 S
 1)
 #4
 0)
-bx /
-bx 3
-bx V
-bx +
-bx 0
-bx P
-b1101000111110010 -
-b1101000111110010 1
-b1101000111110010 B
+b1 /
+b1 5
+b1 R
+b1011 ,
+b1011 2
+b1011 N
+b100001010 -
+b100001010 3
+b100001010 C
 #6
-b11110010 '
-b11110010 ;
-b11110010 W
-b1111111111111111 #
-b1111111111111111 9
-b1111111111111111 X
-b11110010 ?
-b11110010 E
-b11110010 R
-b11110010 K
-b10 "
-b10 7
-b10 <
-b10 I
-b10 O
-b10 U
-b1111 $
-b1111 6
-b1111 =
-b1111 H
-b1111 N
-b1111 T
-b1 (
-b1 4
+b1 $
+b1 8
 b1 @
-b1 D
-b1 J
-b1 Q
-b1101 %
-b1101 5
-b1101 >
-b1101 G
-b1101 M
-b1101 S
+b1 G
+b1 O
 1)
 #8
 0)
-b101 /
-b101 3
-b101 V
-b1010101111001101 +
-b1010101111001101 0
-b1010101111001101 P
-b1111000111110010 -
-b1111000111110010 1
-b1111000111110010 B
+b11 /
+b11 5
+b11 R
+b0 ,
+b0 2
+b0 N
+b1001000000001 -
+b1001000000001 3
+b1001000000001 C
 #10
-b1111 %
-b1111 5
-b1111 >
-b1111 G
-b1111 M
-b1111 S
+b1 #
+b1 ;
+b1 U
+b1 ?
+b1 H
+b1 P
+b1 %
+b1 7
+b1 A
+b1 F
+b1 L
+b10 $
+b10 8
+b10 @
+b10 G
+b10 O
+b1 !
+b1 9
+b1 >
+b1 J
+b1 Q
 1)
 #12
 0)
-bx /
-bx 3
-bx V
-bx +
-bx 0
-bx P
-b1010010100000010 -
-b1010010100000010 1
-b1010010100000010 B
+b1001001111111111 -
+b1001001111111111 3
+b1001001111111111 C
 #14
-b10 '
-b10 ;
-b10 W
-b1010101111001101 #
-b1010101111001101 9
-b1010101111001101 X
-b10 ?
-b10 E
-b10 R
-b10 K
-b0 $
-b0 6
+b0 (
 b0 =
-b0 H
-b0 N
-b0 T
-b101 (
-b101 4
-b101 @
-b101 D
-b101 J
-b101 Q
-b1010 %
-b1010 5
-b1010 >
-b1010 G
-b1010 M
-b1010 S
+b0 S
+b11111111 ?
+b11111111 H
+b11111111 P
+b1111 %
+b1111 7
+b1111 A
+b1111 F
+b1111 L
+b1111 '
+b1111 6
+b1111 B
+b1111 E
+b1111 K
+b11 $
+b11 8
+b11 @
+b11 G
+b11 O
+b1001 !
+b1001 9
+b1001 >
+b1001 J
+b1001 Q
 1)
 #16
 0)
-1*
+b1010000000000010 -
+b1010000000000010 3
+b1010000000000010 C
 #18
+b10 #
+b10 ;
+b10 U
+bx &
+bx <
+bx T
+b1010 (
+b1010 =
+b1010 S
+b10 ?
+b10 H
+b10 P
+b10 %
+b10 7
+b10 A
+b10 F
+b10 L
+b0 '
+b0 6
+b0 B
+b0 E
+b0 K
+b0 $
+b0 8
+b0 @
+b0 G
+b0 O
+b1010 !
+b1010 9
+b1010 >
+b1010 J
+b1010 Q
 1)
 #20
-0)
-#22
-1)
-#24
 0)

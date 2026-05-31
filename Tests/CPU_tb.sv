@@ -1,10 +1,10 @@
 `timescale 1ns/1ns
 
-module Pipeline_tb();
+module CPU_tb();
     logic clk;
     logic reset;
 
-    Pipeline dut(
+    CPU dut(
         .clk(clk),
         .reset(reset)
     );
@@ -14,14 +14,15 @@ module Pipeline_tb();
 
     initial
     begin
-        $dumpfile("Pipeline.vcd");
-        $dumpvars(0, Pipeline_tb);
+        $dumpfile("CPU.vcd");
+        $dumpvars(0, CPU_tb);
 
         reset = 1;
         #4;
+
         reset = 0;
 
-        #100;
+        #40;
         $finish;
     end
 endmodule

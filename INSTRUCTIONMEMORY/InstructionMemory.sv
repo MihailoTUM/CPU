@@ -1,5 +1,0 @@
-
-module InstructionMemory();
-
-
-endmodule

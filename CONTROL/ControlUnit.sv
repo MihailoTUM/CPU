@@ -1,23 +1,15 @@
 
 
 module ControlUnit(
-    // control inputs
     input logic clk,
     input logic reset,
-
-    // control inputs from ALU
-    input logic holdSignalFromALU,
-    input logic holdSignalFromDataMemory,
-
-    // data inputs
+    input logic inHoldSignalFromDataMemory,
     input logic [15:0] inNewInstructionAddress,
-    input logic changeToNewInstructionAddress,
+    input logic inChangeToNewInstructionAddress,
 
-    // control outputs
-    output logic holdSigFromControl,
-    output logic resetSigFromControl,
+    output logic outHoldSignalFromControl,
+    output logic outResetSignalFromControl,
 
-    // data output
     output logic [15:0] outInstructionAddress
 );
     logic [15:0] currentInstructionAddress;
@@ -54,21 +46,18 @@ module ControlUnit(
             reset_2: nextState = run_1;
 
             run_1: 
-                if(holdSignalFromALU) nextState = hold_1;
-                else if(holdSignalFromDataMemory) nextState = hold_1;
-                else if(changeToNewInstructionAddress) nextState = jump_1;
+                if(inHoldSignalFromDataMemory) nextState = hold_1;
+                else if(inChangeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
 
             jump_1:
-                if(holdSignalFromALU) nextState = hold_1;
-                else if(holdSignalFromDataMemory) nextState = hold_1;
-                else if(changeToNewInstructionAddress) nextState = jump_1;
+                if(inHoldSignalFromDataMemory) nextState = hold_1;
+                else if(inChangeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
 
             hold_1:
-                if(holdSignalFromALU) nextState = hold_1;
-                else if(holdSigFromControl) nextState = hold_1;
-                else if(changeToNewInstructionAddress) nextState = jump_1;
+                if(inHoldSignalFromDataMemory) nextState = hold_1;
+                else if(inChangeToNewInstructionAddress) nextState = jump_1;
                 else nextState = run_1;
         endcase
     end
@@ -78,23 +67,23 @@ module ControlUnit(
         case(currentState)
             reset_1: 
             begin
-                holdSigFromControl = 0;
-                resetSigFromControl = 1;
+                outHoldSignalFromControl = 0;
+                outResetSignalFromControl = 1;
             end
             reset_2:
             begin
-                holdSigFromControl = 0;
-                resetSigFromControl = 0;
+                outHoldSignalFromControl = 0;
+                outResetSignalFromControl = 0;
             end
             run_1:
             begin
-                holdSigFromControl = 0;
-                resetSigFromControl = 0;
+                outHoldSignalFromControl = 0;
+                outResetSignalFromControl = 0;
             end
             hold_1:
             begin
-                holdSigFromControl = 1;
-                resetSigFromControl = 0;
+                outHoldSignalFromControl = 1;
+                outResetSignalFromControl = 0;
             end
         endcase
     end

@@ -1,47 +1,47 @@
-
-
+`timescale 1ns/1ns
 
 module Decode_tb();
     logic clk;
-    logic hold;
 
     logic [15:0] inInstructionAddress;
     logic [15:0] inInstruction;
     logic [15:0] inDataToStore;
-    logic [3:0] inWriteBackDst;
-    logic inEnableWrite;
+    logic [3:0] inWriteBackDstAddress;
+    logic inWriteToRegisterEnable;
 
-    logic [3:0] outOperation;   
+    logic [15:0] inDataResultSkippy;
+    logic inDataResultSkippySignal;
+
+    logic [3:0] outOperation;
     logic [3:0] outDstAddress;
-    logic [3:0] outSrc1Address;
-    logic [3:0] outSrc2Address;
-    logic [15:0] outSrc1Data;
-    logic [15:0] outSrc2Data;
+    logic [15:0] outData1;
+    logic [15:0] outData2;
+    logic [3:0] outData1Address;
+    logic [3:0] outData2Address;
     logic [7:0] outImmediate;
-
     logic [15:0] outInstructionAddress;
-    
+
     Decode dut(
         .clk(clk),
-        .hold(hold),
 
         .inInstructionAddress(inInstructionAddress),
         .inInstruction(inInstruction),
         .inDataToStore(inDataToStore),
-        .inWriteBackDst(inWriteBackDst),
-        .inEnableWrite(inEnableWrite),
+        .inWriteBackDstAddress(inWriteBackDstAddress),
+        .inWriteToRegisterEnable(inWriteToRegisterEnable),
+
+        .inDataResultSkippy(inDataResultSkippy),
+        .inDataResultSkippySignal(inDataResultSkippySignal),
 
         .outOperation(outOperation),
         .outDstAddress(outDstAddress),
-        .outSrc1Address(outSrc1Address),
-        .outSrc2Address(outSrc2Address),
-        .outSrc1Data(outSrc1Data),
-        .outSrc2Data(outSrc2Data),
+        .outData1(outData1),
+        .outData2(outData2),
+        .outData1Address(outData1Address),
+        .outData2Address(outData2Address),
         .outImmediate(outImmediate),
-
         .outInstructionAddress(outInstructionAddress)
     );
-
 
     initial clk = 0;
     always #2 clk = ~clk;
@@ -51,24 +51,22 @@ module Decode_tb();
         $dumpfile("Decode.vcd");
         $dumpvars(0, Decode_tb);
 
-        /*  1.cycle
-
-        */
-        inInstruction = 16'h0008; inDataToStore = 16'hFFFF; inWriteBackDst = 4'hF; inEnableWrite = 1;
+        inInstruction = 16'h000A; inDataToStore = 16'h000A; inWriteBackDstAddress = 4'h0; inWriteToRegisterEnable = 1; 
         #4;
 
-        inInstruction = 16'hD1F2; inDataToStore = 16'hXXXX; inWriteBackDst = 4'hX; inEnableWrite = 1;
+        inInstruction = 16'h010A; inDataToStore = 16'h000B; inWriteBackDstAddress = 4'h1; inWriteToRegisterEnable = 1;
         #4;
 
-        inInstruction = 16'hF1F2; inDataToStore = 16'hABCD; inWriteBackDst = 4'h5; inEnableWrite = 1;
+        inInstruction = 16'h1201; inDataToStore = 16'h0000; inWriteBackDstAddress = 4'h3; inWriteToRegisterEnable = 1; 
         #4;
 
-        inInstruction = 16'hA502; inDataToStore = 16'hXXXX; inWriteBackDst = 4'hX; inEnableWrite = 1;
+        inInstruction = 16'h93FF; 
+        #4; 
+
+        inInstruction = 16'hA002;
         #4;
 
-        hold = 1;
-        #8;
-        
+
         $finish;
     end
 

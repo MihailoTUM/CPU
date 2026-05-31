@@ -53,8 +53,8 @@ module ALU(
 
     ALUUnit unit(
         .inOperation(inOperation),
-        .inData1(inData1),
-        .inData2(inData2),
+        .inData1(localData1),
+        .inData2(localData2),
 
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),

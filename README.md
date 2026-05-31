@@ -1,27 +1,26 @@
-This project is about building a simple CPU with SystemVerilog (HDL) that can be uploaded onto a FPGA.
+# CPU-project
 
-- SystemVerilog (HDL) for designing the hardware
-- FPGA boad: Terasic DE10-Lite
+In this project, I am trying to design a CPU in SystemVerilog completely from Scratch.
+The CPU is based on a custom instruction set, however, it is inspired by RISC-V.
+Below, you will find further information about the IS, datapaths and more.
+The final goal is to bring these designs onto a FPGA and test it on real silicon.
 
-### Design 1
-- CPU reads instructions sequentially from a ROM (FETCH)
-- register block where the data is comming from (DECODE)
-- ALU where the data is being processed (EXECUTE)
-- // so far there is no seperate data memory or writeable instruction memory
-- store ALU result into the register block (WRITE BACK)
+# Features
 
+Obviously designing a complete CPU would be insane. My goal with this project was to
+build a functioning fundamental pipeline similar to RISC-V, covering as much features and ideas as possible. Understanding how does information actually pass inside a CPU. What are the limitations in comparison to parallel yet less dynamic processors. Another simplification was that my FPGA board has a large SRAM, that my CPU does not have long cycles waiting for a potential DRAM to retrieve or store information.
 
 # Instruction Set
 - 0000 (0) -> CONST
 - 0001 (1) -> ADD
 - 0010 (2) -> SUB
-- 0011 (3) -> MUL
-- 0100 (4) -> DIV
+- 0011 (3) -> (MUL)
+- 0100 (4) -> (DIV)
 - 0101 (5) ->
 - 0110 (6) ->
 - 0111 (7) -> 
 - 1000 (8) -> JMP
-- 1001 (9) -> BZ
+- 1001 (9) -> BZ (BRANCH ZERO)
 - 1010 (A) -> ADDI
 - 1011 (B) -> CALL 
 - 1100 (C) -> RET
@@ -29,13 +28,37 @@ This project is about building a simple CPU with SystemVerilog (HDL) that can be
 - 1110 (E) -> STORE
 - 1111 (F) -> NOP 
 
-# special registers
-- r14: store address to RET after CALL
-- r15: stack pointer address
+# Register Assignment
+- R14: address to jump after CALL
+- R15: stack pointer address
 
+# Instruction Structure
+## CONST, ADDI
+- 4-BIT OPCODE, 4-BIT DST REGISTER, 8-BIT IMMEDIATE
 
-# instruction structure
-- 4-bits opcode, 4-bits register, 4-bits base address, 4-bits offset
+(for ADDI the DST REGISTER = SOURCE REGISTER)
 
-CALL
-- 4-bits opcode, 4-bits nothing, 8-bits address
+## ADD, SUB
+- 4-BIT OPCODE, 4-BIT DST REGISTER, 4-BIT SOURCE REGISTER_1, 4-BIT SOURCE REGISTER_2
+
+## JMP
+- 4-BIT OPCODE, 4-BIT EMPTY, 8-BIT ADDRESS
+
+(relative address)
+
+## BZ
+- 4-BIT OPCODE, 4-BIT REGISTER, 8-BIT ADDRESS
+
+(absolute ADDRESS)
+
+## CALL
+- 4-BIT OPCODE, 4-BIT EMPTY, 8-BIT ADDRESS
+
+(absolute ADDRESS)
+
+## LOAD, STORE
+- 4-BIT OPCODE, 4-BIT SOURCE/DST REGISTER, 4-BIT BASE ADDRESS REGISTER (F), 4-BIT OFFSET
+
+## NOP, RET
+- 4-BIT OPCODE, 12-BIT EMPTY
+

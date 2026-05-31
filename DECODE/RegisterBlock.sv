@@ -1,25 +1,22 @@
 
 
 module RegisterBlock(
-    // control inputs
     input logic clk,
 
-    // data inputs
     input logic [3:0] inOperation,
     input logic [15:0] inDataToStore,
     input logic [3:0] inDstAddress,
-    input logic [3:0] inWriteBackDst,
-    input logic [3:0] inSrc1Address,
-    input logic [3:0] inSrc2Address,
+    input logic [3:0] inWriteBackDstAddress,
+    input logic [3:0] inData1Address,
+    input logic [3:0] inData2Address,
     input logic [7:0] inImmediate,
-    input logic inEnableWrite,
+    input logic inWriteToRegisterEnable,
 
     input logic [15:0] inDataResultSkippy,
     input logic inDataResultSkippySignal,
 
-    // data outputs
-    output logic [15:0] outSrc1Data,
-    output logic [15:0] outSrc2Data,
+    output logic [15:0] outData1,
+    output logic [15:0] outData2,
     output logic [7:0] outImmediate
 );
 
@@ -27,7 +24,7 @@ module RegisterBlock(
 
     always_ff @(posedge clk)
     begin
-        if(inEnableWrite) registers[inWriteBackDst] <= inDataToStore;
+        if(inWriteToRegisterEnable) registers[inWriteBackDstAddress] <= inDataToStore;
 
         if(inDataResultSkippySignal) registers[4'hE] <= inDataResultSkippy;
     end
@@ -37,13 +34,13 @@ module RegisterBlock(
         case(inOperation)
         4'h9:
             begin
-                outSrc1Data = registers[inDstAddress];
-                outImmediate = outImmediate;
+                outData1 = registers[inDstAddress];
+                outImmediate = inImmediate;
             end
         4'hA:
             begin
-                outSrc1Data = registers[inDstAddress];
-                outSrc2Data = 16'hXXXX;
+                outData1 = registers[inDstAddress];
+                outData2 = 16'hXXXX;
                 outImmediate = inImmediate;
             end
         4'hB:
@@ -52,29 +49,29 @@ module RegisterBlock(
             end
         4'hC:
             begin
-                outSrc1Data = registers[4'hE];
-                outSrc2Data = 16'hXXXX;
+                outData1 = registers[4'hE];
+                outData2 = 16'hXXXX;
                 outImmediate = inImmediate;
             end
         4'hD:
             begin
-                outSrc1Data = registers[inSrc1Address];
-                outSrc2Data = 16'hXXXX;
+                outData1 = registers[inData1Address];
+                outData2 = 16'hXXXX;
                 outImmediate = inImmediate;
             end
         4'hE: 
             begin
                 // 
-                outSrc1Data = registers[inDstAddress];
+                outData1 = registers[inDstAddress];
                 // register for base address
-                outSrc2Data = registers[inSrc1Address];
+                outData2 = registers[inData1Address];
                 outImmediate = inImmediate;
             end
 
         default: 
             begin
-            outSrc1Data = registers[inSrc1Address];
-            outSrc2Data = registers[inSrc2Address];
+            outData1 = registers[inData1Address];
+            outData2 = registers[inData2Address];
             outImmediate = inImmediate;
             end
         endcase

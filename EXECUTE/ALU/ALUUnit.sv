@@ -26,9 +26,6 @@ module ALUUnit(
     logic [15:0] subOut;
     SUB16 sub16(inData1, inData1, subOut);
 
-    logic [15:0] mulOut;
-    MUL16 mul16(inData1, inData2, , mulOut);
-
     logic [15:0] addIOut;
     logic addICarry;
     ADDI16 addI16(inData1, inImmediate, addIOut, addICarry);
@@ -60,7 +57,6 @@ module ALUUnit(
                 4'h0: outDataResult = constOut;
                 4'h1: outDataResult = addOut;
                 4'h2: outDataResult = subOut;
-                4'h3: outDataResult = mulOut;
 
                 4'hA: outDataResult = addIOut;
                 4'hB: outDataResult = returnAdress;
