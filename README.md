@@ -10,6 +10,10 @@ The final goal is to bring these designs onto a FPGA and test it on real silicon
 Obviously designing a complete CPU would be insane. My goal with this project was to
 build a functioning fundamental pipeline similar to RISC-V, covering as much features and ideas as possible. Understanding how does information actually pass inside a CPU. What are the limitations in comparison to parallel yet less dynamic processors. Another simplification was that my FPGA board has a large SRAM, that my CPU does not have long cycles waiting for a potential DRAM to retrieve or store information.
 
+# Insights
+
+As you see by the size and choice of my instructions, the core idea of a CPU is not the computation itself but rather the organziation of instructions. It is about control flow. Other microprocessor such as GPUs, and custom hardware are responsbile for the computation-intensive tasks.
+
 # Instruction Set
 - 0000 (0) -> CONST
 - 0001 (1) -> ADD

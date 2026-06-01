@@ -5,7 +5,13 @@ module CPU(
 );
 
     logic [15:0] localInstructionAddress;
-    logic localEnableWriteToExecuteRegister;
+    logic globalReset;
+    logic globalHoldDecode;
+    logic globalFlushDecode;
+    logic globalHoldExecute;
+    logic globalFlushExecute;
+    logic globalHoldDataMemory;
+    logic globalFlushDataMemory;
 
     ControlUnit controlUnit(
         .clk(clk),
@@ -15,13 +21,13 @@ module CPU(
         .inNewInstructionAddress(localMemoryAddress),
         .inChangeToNewInstructionAddress(localOutJMPSignal),
 
-        .outReset(),
-        .outHoldDeocde(),
-        .outFlushDecode(),
-        .outHoldExecute(),
-        .outFlushExecute(),
-        .outHoldDataMemory(),
-        .outFlushDataMemory(),
+        .outReset(globalReset),
+        .outHoldDeocde(globalHoldDecode),
+        .outFlushDecode(globalFlushDecode),
+        .outHoldExecute(globalHoldExecute),
+        .outFlushExecute(globalFlushExecute),
+        .outHoldDataMemory(globalHoldDataMemory),
+        .outFlushDataMemory(globalFlushDataMemory),
 
         .outInstructionAddress(localInstructionAddress)
     );
@@ -45,6 +51,9 @@ module CPU(
 
     Decode decode(
         .clk(clk),
+        .reset(globalReset),
+        .hold(globalHoldDecode),
+        .flush(globalFlushDecode),
         
         .inInstructionAddress(localInstructionAddress),
         .inInstruction(localInstruction),
@@ -81,7 +90,8 @@ module CPU(
     Execute execute(
         .clk(clk),
         .reset(reset),
-        .inEnableToWriteToPipelineRegister(localEnableWriteToExecuteRegister),
+        .hold(globalHoldExecute),
+        .flush(globalFlushExecute),
 
         .inOperation(localOperation),
         .inDstAddress(localDstAddress),
@@ -125,7 +135,9 @@ module CPU(
 
     DataMemory dataMemory(
         .clk(clk),
-        .hold(localEnableWriteToExecuteRegister),
+        .reset(globalReset),
+        .hold(globalHoldDataMemory),
+        .flush(globalFlushDataMemory),
 
         .inALUDataResult(localDataResult),
         .inWriteBackDataResultDst(localExDstAddress),

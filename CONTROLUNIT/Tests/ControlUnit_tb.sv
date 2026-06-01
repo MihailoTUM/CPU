@@ -3,25 +3,40 @@
 module ControlUnit_tb();
     logic clk;
     logic reset;
-    logic holdSignalFromALU;
-    logic [15:0] inNewInstructionAddress;
-    logic changeToNewInstructionAddress;
 
-    logic holdSigFromControl;
-    logic resetSigFromControl;
+    logic inHoldFromExecute;
+    logic inHoldFromDataMemory;
+    logic inJMPSignal;
+
+    logic [15:0] inNewInstructionAddress;
+
+    logic outReset;
+    logic outHoldDecode;
+    logic outFlushDecode;
+    logic outHoldExecute;
+    logic outFlushExecute;
+    logic outHoldDataMemory;
+    logic outFlushDataMemory;
 
     logic [15:0] outInstructionAddress;
 
     ControlUnit dut(
         .clk(clk),
         .reset(reset),
-        .holdSignalFromALU(holdSignalFromALU),
-        .inNewInstructionAddress(inNewInstructionAddress),
-        .changeToNewInstructionAddress(changeToNewInstructionAddress),
 
-        .holdSigFromControl(holdSigFromControl),
-        .resetSigFromControl(resetSigFromControl),
-        .outInstructionAddress(outInstructionAddress)
+        .inHoldFromExecute(inHoldFromExecute),
+        .inHoldFromDataMemory(inHoldFromDataMemory),
+        .inJMPSignal(inJMPSignal),
+
+        .inNewInstructionAddress(inNewInstructionAddress),
+
+        .outReset(outReset),
+        .outHoldDecode(outHoldDecode),
+        .outFlushDecode(outFlushDecode),
+        .outHoldExecute(outHoldExecute),
+        .outFlushExecute(outFlushExecute),
+        .outHoldDataMemory(outHoldDataMemory),
+        .outFlushDataMemory(outFlushDataMemory)
     );
 
     initial clk = 0;
@@ -36,19 +51,15 @@ module ControlUnit_tb();
         #4;
 
         reset = 0;
-
         #4;
-        holdSignalFromALU = 1;
 
+        inJMPSignal = 1;
         #8;
-        holdSignalFromALU = 0;
-        changeToNewInstructionAddress = 1;
-        inNewInstructionAddress = 16'h0000;
-        #4;
 
-        changeToNewInstructionAddress = 0;
+        inJMPSignal = 0;
+        #2;
 
-        #4;
+        #6;
         $finish;
     end
 

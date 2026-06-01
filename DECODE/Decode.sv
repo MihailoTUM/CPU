@@ -2,6 +2,7 @@
 
 module Decode(
     input logic clk,
+    input logic reset,
     input logic hold,
     input logic flush,
 

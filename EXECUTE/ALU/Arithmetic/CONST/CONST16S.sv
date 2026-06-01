@@ -1,6 +1,6 @@
 
 
-module CONST16(
+module CONST16S(
     input logic [7:0] a,
     output logic [15:0] out
 );

@@ -23,19 +23,25 @@ module Execute(
     input logic [15:0] inDataMemoryOutputData,
     input logic [3:0] inDataMemoryOutputDataSrc,
 
-    output logic outSignalDIV,
-    output logic outWriteToRegisterEnable,
-    output logic outWriteToMemoryEnable,
+    // --> CONTROL control
+    output logic outHoldFromExecute,
     output logic outJMPSignal,
+
+    // --> DECODE control
     output logic outWriteReturnAddressToRegisterSignal,
 
+    // --> DATAMEMORY control
+    output logic outWriteToRegisterEnable,
+    output logic outWriteToMemoryEnable,
+
+    // --> DATAMEMORY data
     output logic [15:0] outDataResult,
     output logic [15:0] outMemoryAddress,
     output logic [15:0] outFlagRegister,
-
     output logic [3:0] outDstAddress,
     output logic [3:0] outOperation,
 
+    // --> EXECUTE data
     output logic [15:0] outExecuteOutputData,
     output logic [3:0] outExecuteOutputDataSrc
 );
@@ -108,7 +114,6 @@ module Execute(
         .inDataMemoryOutputData(localDataMemoryOutputData),
         .inDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc),
 
-        .outSignalDIV(outSignalDIV),
         .outWriteToRegisterEnable(outWriteToRegisterEnable),
         .outWriteToMemoryEnable(outWriteToMemoryEnable),
         .outJMPSignal(outJMPSignal),

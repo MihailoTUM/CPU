@@ -1,6 +1,7 @@
 
 module DataMemory(
     input logic clk,
+    input logic reset,
     input logic hold,
     input logic flush,
 
@@ -10,7 +11,7 @@ module DataMemory(
     input logic [3:0] inOperation,
     input logic [15:0] inMemoryAddress,
 
-    output logic outHoldSignalFromDataMemory,
+    output logic outHoldFromDataMemory,
 
     output logic [15:0] outDataResult,
     output logic [3:0] outWriteBackDataResultDst,
@@ -48,9 +49,9 @@ module DataMemory(
     always_comb
         begin
             case(localOperation)
-                4'hE: outHoldSignalFromDataMemory = 1;
+                4'hE: outHoldDataMemory = 1;
 
-                default: outHoldSignalFromDataMemory = 0;
+                default: outHoldDataMemory = 0;
             endcase
         end
 

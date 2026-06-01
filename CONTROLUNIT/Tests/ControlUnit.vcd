@@ -1,5 +1,5 @@
 $date
-	Sat May 16 15:10:02 2026
+	Tue Jun 02 00:07:23 2026
 $end
 $version
 	Icarus Verilog
@@ -8,101 +8,107 @@ $timescale
 	1ns
 $end
 $scope module ControlUnit_tb $end
-$var wire 1 ! resetSigFromControl $end
-$var wire 16 " outInstructionAddress [15:0] $end
-$var wire 1 # holdSigFromControl $end
-$var reg 1 $ changeToNewInstructionAddress $end
-$var reg 1 % clk $end
-$var reg 1 & holdSignalFromALU $end
-$var reg 16 ' inNewInstructionAddress [15:0] $end
-$var reg 1 ( reset $end
+$var wire 1 ! outReset $end
+$var wire 1 " outHoldExecute $end
+$var wire 1 # outHoldDecode $end
+$var wire 1 $ outHoldDataMemory $end
+$var wire 1 % outFlushExecute $end
+$var wire 1 & outFlushDecode $end
+$var wire 1 ' outFlushDataMemory $end
+$var reg 1 ( clk $end
+$var reg 1 ) inHoldFromDataMemory $end
+$var reg 1 * inHoldFromExecute $end
+$var reg 1 + inJMPSignal $end
+$var reg 16 , inNewInstructionAddress [15:0] $end
+$var reg 1 - reset $end
 $scope module dut $end
-$var wire 1 $ changeToNewInstructionAddress $end
-$var wire 1 % clk $end
-$var wire 1 & holdSignalFromALU $end
-$var wire 16 ) inNewInstructionAddress [15:0] $end
-$var wire 16 * outInstructionAddress [15:0] $end
-$var wire 1 ( reset $end
-$var reg 16 + currentInstructionAddress [15:0] $end
-$var reg 3 , currentState [2:0] $end
-$var reg 1 # holdSigFromControl $end
-$var reg 3 - nextState [2:0] $end
-$var reg 1 ! resetSigFromControl $end
+$var wire 1 ( clk $end
+$var wire 1 ) inHoldFromDataMemory $end
+$var wire 1 * inHoldFromExecute $end
+$var wire 1 + inJMPSignal $end
+$var wire 16 . inNewInstructionAddress [15:0] $end
+$var wire 1 - reset $end
+$var reg 3 / currentState [2:0] $end
+$var reg 3 0 nextState [2:0] $end
+$var reg 1 ' outFlushDataMemory $end
+$var reg 1 & outFlushDecode $end
+$var reg 1 % outFlushExecute $end
+$var reg 1 $ outHoldDataMemory $end
+$var reg 1 # outHoldDecode $end
+$var reg 1 " outHoldExecute $end
+$var reg 16 1 outInstructionAddress [15:0] $end
+$var reg 1 ! outReset $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-bx -
+bx 1
+bx 0
+bx /
+bx .
+1-
 bx ,
-bx +
-bx *
-bx )
-1(
-bx '
+x+
+x*
+x)
+0(
+x'
 x&
-0%
+x%
 x$
 x#
-bx "
+x"
 x!
 $end
 #2
-1!
-0#
-b1 -
-b0 ,
-b0 "
-b0 *
-b0 +
-1%
-#4
+0'
+0$
 0%
+0"
+0&
+0#
+1!
+b1 0
+b0 /
+b0 1
+1(
+#4
 0(
+0-
 #6
 0!
-b10 -
-b1 ,
-1%
+b10 0
+b1 /
+1(
 #8
-0%
-1&
+0(
+1+
 #10
-b11 -
-b10 "
-b10 *
-b10 +
-b10 ,
-1%
+b101 0
+b10 1
+b10 /
+1(
 #12
-0%
+0(
 #14
-1#
-b11 ,
+1'
 1%
+bx 1
+b101 /
+1(
 #16
-b100 -
-0%
-b0 '
-b0 )
-1$
-0&
+b10 0
+0(
+0+
 #18
-b10 -
-b0 "
-b0 *
-b0 +
-b100 ,
-1%
+0'
+0%
+b10 /
+1(
 #20
-0%
-0$
+0(
 #22
-0#
-b10 "
-b10 *
-b10 +
-b10 ,
-1%
+1(
 #24
-0%
+0(

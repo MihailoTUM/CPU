@@ -2,6 +2,7 @@
 
 module PipelineRegisterDM(
     input logic clk,
+    input logic reset,
     input logic hold,
     input logic flush,
 
@@ -29,6 +30,14 @@ module PipelineRegisterDM(
                     outMemoryAddress <= outMemoryAddress;
                 end
             else if(flush)
+                begin
+                    outALUDataResult <= 16'h0000;
+                    outWriteBackDataResultDst <= 4'hF;
+                    outWriteBackDataResultEnable <= 1'b0;
+                    outOperation <= 4'hF;
+                    outMemoryAddress = <= 16'h0000;
+                end
+            else if(reset)
                 begin
                     outALUDataResult <= 16'h0000;
                     outWriteBackDataResultDst <= 4'hF;

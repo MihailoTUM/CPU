@@ -16,7 +16,6 @@ module ALU(
     input logic [15:0] inDataMemoryOutputData,
     input logic [3:0] inDataMemoryOutputDataSrc,
 
-    output logic outSignalDIV,
     output logic outWriteToRegisterEnable,
     output logic outWriteToMemoryEnable,
     output logic outJMPSignal,

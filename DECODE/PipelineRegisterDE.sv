@@ -1,6 +1,7 @@
 
 module PipelineRegisterDE(
     input logic clk,
+    input logic reset,
     input logic hold,
     input logic flush,
 
@@ -26,6 +27,15 @@ module PipelineRegisterDE(
                     outImmediate <= outImmediate;
                 end
             else if(flush)
+                begin
+                    outInstructionAddress <= 4'h0000;
+                    outOperation = 4'hF;
+                    outDstAddress <= 4'h0;
+                    outData1Address <= 4'h0;
+                    outData2Address <= 4'h0;
+                    outImmediate = <= 8'h00;
+                end
+            else if(reset)
                 begin
                     outInstructionAddress <= 4'h0000;
                     outOperation = 4'hF;
