@@ -2,7 +2,9 @@
 module Execute(
     input logic clk,
     input logic reset,
-    
+    input logic hold,
+    input logic flush,
+
     input logic [3:0] inOperation,
     input logic [3:0] inDstAddress,
 
@@ -56,6 +58,9 @@ module Execute(
     PipelineRegisterEX register(
         .clk(clk),
         .reset(reset),
+        .hold(hold),
+        .flush(flush),
+        .inEnableToWriteToPipelineRegister(inEnableToWriteToPipelineRegister),
 
         .inOperation(inOperation),
         .inDstAddress(inDstAddress),

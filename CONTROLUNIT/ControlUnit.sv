@@ -3,12 +3,18 @@
 module ControlUnit(
     input logic clk,
     input logic reset,
-    input logic inHoldSignalFromDataMemory,
+    
+    input logic inHoldFromDataMemory,
     input logic [15:0] inNewInstructionAddress,
     input logic inChangeToNewInstructionAddress,
 
-    output logic outHoldSignalFromControl,
-    output logic outResetSignalFromControl,
+    output logic outReset,
+    output logic outHoldDecode,
+    output logic outFlushDecode,
+    output logic outHoldExecute,
+    output logic outFlushExecute,
+    output logic outHoldDataMemory,
+    output logic outFlushDataMemory,
 
     output logic [15:0] outInstructionAddress
 );
@@ -69,21 +75,29 @@ module ControlUnit(
             begin
                 outHoldSignalFromControl = 0;
                 outResetSignalFromControl = 1;
+                outEnableWriteToExecuteRegister = 1;
             end
             reset_2:
             begin
                 outHoldSignalFromControl = 0;
                 outResetSignalFromControl = 0;
+                outEnableWriteToExecuteRegister = 1;
             end
             run_1:
             begin
                 outHoldSignalFromControl = 0;
                 outResetSignalFromControl = 0;
+                outEnableWriteToExecuteRegister = 1;
             end
             hold_1:
             begin
                 outHoldSignalFromControl = 1;
                 outResetSignalFromControl = 0;
+                outEnableWriteToExecuteRegister = 1;
+            end
+            jump_1:
+            begin
+                outEnableWriteToExecuteRegister = 0;
             end
         endcase
     end

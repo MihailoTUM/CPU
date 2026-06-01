@@ -2,7 +2,8 @@
 
 module PipelineRegisterDM(
     input logic clk,
-    // input logic hold,
+    input logic hold,
+    input logic flush,
 
     input logic [15:0] inALUDataResult,
     input logic [3:0] inWriteBackDataResultDst,
@@ -19,11 +20,30 @@ module PipelineRegisterDM(
 
     always_ff @(posedge clk)
         begin
-            outALUDataResult <= inALUDataResult;
-            outWriteBackDataResultDst <= inWriteBackDataResultDst;
-            outWriteBackDataResultEnable <= inWriteBackDataResultEnable;
-            outOperation <= inOperation;
-            outMemoryAddress <= inMemoryAddress; 
+            if(hold)
+                begin 
+                    outALUDataResult <= outALUDataResult;
+                    outWriteBackDataResultDst <= outWriteBackDataResultDst;
+                    outWriteBackDataResultEnable <= outWriteBackDataResultEnable
+                    outOperation <= outOperation;
+                    outMemoryAddress <= outMemoryAddress;
+                end
+            else if(flush)
+                begin
+                    outALUDataResult <= 16'h0000;
+                    outWriteBackDataResultDst <= 4'hF;
+                    outWriteBackDataResultEnable <= 1'b0;
+                    outOperation <= 4'hF;
+                    outMemoryAddress = <= 16'h0000;
+                end
+            else 
+                begin
+                    outALUDataResult <= inALUDataResult;
+                    outWriteBackDataResultDst <= inWriteBackDataResultDst;
+                    outWriteBackDataResultEnable <= inWriteBackDataResultEnable;
+                    outOperation <= inOperation;
+                    outMemoryAddress <= inMemoryAddress; 
+                end
         end
 
 endmodule

@@ -1,4 +1,4 @@
-# CPU-project
+# 16-BIT CPU
 
 In this project, I am trying to design a CPU in SystemVerilog completely from Scratch.
 The CPU is based on a custom instruction set, however, it is inspired by RISC-V.

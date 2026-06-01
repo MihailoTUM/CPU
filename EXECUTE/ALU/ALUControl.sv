@@ -46,7 +46,10 @@ module ALUControl(
                     begin
                         outWriteToRegisterEnable = 0;
                     end
-
+                4'hF: 
+                    begin
+                        outWriteToRegisterEnable = 0;
+                    end
             default: 
                 begin
                     outWriteToRegisterEnable = 1;

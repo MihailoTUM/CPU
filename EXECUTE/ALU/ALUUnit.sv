@@ -63,7 +63,7 @@ module ALUUnit(
 
                 4'hE: outDataResult = storeData;
 
-                default: outDataResult = 16'hXXXX;
+                default: outDataResult = 16'h0000;
             endcase
         end
 
@@ -78,7 +78,7 @@ module ALUUnit(
                 4'hD: outMemoryAddress = loadAddress;
                 4'hE: outMemoryAddress = storeAddress;
 
-                default: outMemoryAddress = 16'hXXXX;
+                default: outMemoryAddress = 16'h0000;
             endcase
         end
 

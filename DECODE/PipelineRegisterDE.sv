@@ -1,6 +1,8 @@
 
 module PipelineRegisterDE(
     input logic clk,
+    input logic hold,
+    input logic flush,
 
     input logic [15:0] inInstructionAddress,
     input logic [15:0] inInstruction,
@@ -14,13 +16,32 @@ module PipelineRegisterDE(
 );
     always_ff @(posedge clk)
         begin 
-            begin 
-                outInstructionAddress <= inInstructionAddress;
-                outOperation <= inInstruction[15:12];
-                outDstAddress <= inInstruction[11:8];
-                outData1Address <= inInstruction[7:4];
-                outData2Address <= inInstruction[3:0];
-                outImmediate <= inInstruction[7:0];
-            end
+            if(hold)
+                begin
+                    outInstructionAddress <= outInstructionAddress;
+                    outOperation <= outOperation;
+                    outDstAddress <= outDstAddress;
+                    outData1Address <= outData1Address;
+                    outData2Address <= outData2Address;
+                    outImmediate <= outImmediate;
+                end
+            else if(flush)
+                begin
+                    outInstructionAddress <= 4'h0000;
+                    outOperation = 4'hF;
+                    outDstAddress <= 4'h0;
+                    outData1Address <= 4'h0;
+                    outData2Address <= 4'h0;
+                    outImmediate = <= 8'h00;
+                end
+            else
+                begin 
+                    outInstructionAddress <= inInstructionAddress;
+                    outOperation <= inInstruction[15:12];
+                    outDstAddress <= inInstruction[11:8];
+                    outData1Address <= inInstruction[7:4];
+                    outData2Address <= inInstruction[3:0];
+                    outImmediate <= inInstruction[7:0];
+                end
         end
 endmodule

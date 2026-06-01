@@ -2,6 +2,8 @@
 
 module Decode(
     input logic clk,
+    input logic hold,
+    input logic flush,
 
     input logic [15:0] inInstructionAddress,
     input logic [15:0] inInstruction,
@@ -30,6 +32,8 @@ module Decode(
 
     PipelineRegisterDE pipelineRegister(
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
         
         .inInstructionAddress(inInstructionAddress),
         .inInstruction(inInstruction),

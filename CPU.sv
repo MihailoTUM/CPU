@@ -5,16 +5,24 @@ module CPU(
 );
 
     logic [15:0] localInstructionAddress;
+    logic localEnableWriteToExecuteRegister;
 
-    ControlUnit control(
+    ControlUnit controlUnit(
         .clk(clk),
         .reset(reset),
-        .inHoldSignalFromDataMemory(localHoldSignalFromDataMemory),
+
+        .inHoldFromDataMemory(),
         .inNewInstructionAddress(localMemoryAddress),
         .inChangeToNewInstructionAddress(localOutJMPSignal),
 
-        .outHoldSignalFromControl(),
-        .outResetSignalFromControl(),
+        .outReset(),
+        .outHoldDeocde(),
+        .outFlushDecode(),
+        .outHoldExecute(),
+        .outFlushExecute(),
+        .outHoldDataMemory(),
+        .outFlushDataMemory(),
+
         .outInstructionAddress(localInstructionAddress)
     );
 
@@ -73,6 +81,7 @@ module CPU(
     Execute execute(
         .clk(clk),
         .reset(reset),
+        .inEnableToWriteToPipelineRegister(localEnableWriteToExecuteRegister),
 
         .inOperation(localOperation),
         .inDstAddress(localDstAddress),
@@ -116,6 +125,8 @@ module CPU(
 
     DataMemory dataMemory(
         .clk(clk),
+        .hold(localEnableWriteToExecuteRegister),
+
         .inALUDataResult(localDataResult),
         .inWriteBackDataResultDst(localExDstAddress),
         .inWriteBackDataResultEnable(localWriteToRegisterEnable),

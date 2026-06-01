@@ -1,6 +1,8 @@
 
 module DataMemory(
     input logic clk,
+    input logic hold,
+    input logic flush,
 
     input logic [15:0] inALUDataResult,
     input logic [3:0] inWriteBackDataResultDst,
@@ -27,6 +29,8 @@ module DataMemory(
 
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
+        .hold(hold),
+        .flush(flush),
 
         .inALUDataResult(inALUDataResult),
         .inWriteBackDataResultDst(inWriteBackDataResultDst),

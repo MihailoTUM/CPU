@@ -3,6 +3,8 @@
 module PipelineRegisterEX(
     input logic clk,
     input logic reset,
+    input logic hold,
+    input logic flush,
 
     input logic [3:0] inOperation,
     input logic [3:0] inDstAddress,
@@ -44,6 +46,46 @@ module PipelineRegisterEX(
     begin
         if(reset)
             begin
+                outExecuteOutputData <= 16'h0000;
+                outExecuteOutputDataSrc <= 4'hF;
+
+                outDataMemoryOutputData <= 16'h0000;
+                outDataMemoryOutputDataSrc <= 4'hF;
+            end
+        else if(hold)
+            begin
+                outOperation <= outOperation;
+                outDstAddress <= outDstAddress;
+
+                outData1 <= outData1;
+                outData2 <= outData2;
+
+                outData1Address <= outData1Address;
+                outData2Address <= outData2Address;
+                
+                outImmediate <= outImmediate;
+                outInstructionAddress <= outInstructionAddress;
+
+                outExecuteOutputData <= outExecuteOutputData;
+                outExecuteOutputDataSrc <= outExecuteOutputDataSrc;
+
+                outDataMemoryOutputData <= outDataMemoryOutputData;
+                outDataMemoryOutputDataSrc <= outDataMemoryOutputDataSrc;
+            end
+        else if(flush)
+            begin
+                outOperation <= 4'hF;
+                outDstAddress <= 4'h0;
+
+                outData1 <= 16'h0000;
+                outData2 <= 16'h0000;
+
+                outData1Address <= 4'h0;
+                outData2Address <= 4'h0;
+
+                outImmediate = 8'h0;
+                outInstructionAddress <= 16'h0000;
+
                 outExecuteOutputData <= 16'h0000;
                 outExecuteOutputDataSrc <= 4'hF;
 
