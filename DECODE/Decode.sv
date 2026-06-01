@@ -1,29 +1,30 @@
 
 
 module Decode(
-    input logic clk,
-    input logic reset,
-    input logic hold,
-    input logic flush,
+    input logic         clk,
+    input logic         reset,
+    input logic         hold,
+    input logic         flush,
 
-    input logic [15:0] inInstructionAddress,
-    input logic [15:0] inInstruction,
-    input logic [15:0] inDataToStore,
-    input logic [3:0] inWriteBackDstAddress,
-    input logic inWriteToRegisterEnable,
+    input logic [15:0]  inInstructionAddress,
+    input logic [15:0]  inInstruction,
+    input logic [15:0]  inDataToStore,
+    input logic [3:0]   inWriteBackDstAddress,
+    input logic         inWriteToRegisterEnable,
 
-    input logic [15:0] inDataResultSkippy,
-    input logic inDataResultSkippySignal,
+    input logic [15:0]  inDataResultSkippy,
+    input logic         inDataResultSkippySignal,
 
-    output logic [3:0] outOperation,
-    output logic [3:0] outDstAddress,
+    output logic [3:0]  outOperation,
+    output logic [3:0]  outDstAddress,
     output logic [15:0] outData1,
     output logic [15:0] outData2,
-    output logic [3:0] outData1Address,
-    output logic [3:0] outData2Address,
-    output logic [7:0] outImmediate,
-
+    output logic [3:0]  outData1Address,
+    output logic [3:0]  outData2Address,
+    output logic [7:0]  outImmediate,
     output logic [15:0] outInstructionAddress
+    output logic        outWriteToRegisterEnable,
+    output logic        outWriteToMemoryEnable
 );
     logic [3:0] localData1Address;
     logic [3:0] localData2Address;
@@ -64,7 +65,9 @@ module Decode(
 
         .outData1(outData1),
         .outData2(outData2),
-        .outImmediate(outImmediate)
+        .outImmediate(outImmediate),
+        .outWriteToRegisterEnable(outWriteToRegisterEnable),
+        .outWriteToMemoryEnable(outWriteToMemoryEnable)
     );
 
     assign outData1Address = localData1Address;

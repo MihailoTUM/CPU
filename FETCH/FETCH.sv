@@ -1,7 +1,7 @@
 
 
 module Fetch(
-    input logic [15:0] inAddress,
+    input logic [15:0]  inAddress,
         
     output logic [15:0] outInstruction
 );

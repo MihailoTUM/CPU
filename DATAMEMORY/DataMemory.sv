@@ -1,72 +1,66 @@
-
+9
 module DataMemory(
-    input logic clk,
-    input logic reset,
-    input logic hold,
-    input logic flush,
+    input logic         clk,
+    input logic         reset,
+    input logic         hold,
+    input logic         flush,
 
-    input logic [15:0] inALUDataResult,
-    input logic [3:0] inWriteBackDataResultDst,
-    input logic inWriteBackDataResultEnable,
-    input logic [3:0] inOperation,
-    input logic [15:0] inMemoryAddress,
+    input logic [15:0]  inDataResult,
+    input logic [3:0]   inWriteBackDataResultDst,
+    input logic         inWriteBackDataResultEnable,
+    input logic [3:0]   inOperation,
+    input logic [15:0]  inMemoryAddress,
+    input logic         inWriteToMemoryEnable,
 
-    output logic outHoldFromDataMemory,
+    output logic        outHoldFromDataMemory,
 
     output logic [15:0] outDataResult,
-    output logic [3:0] outWriteBackDataResultDst,
-    output logic outWriteBackDataResultEnable,
+    output logic [3:0]  outWriteBackDataResultDst,
+    output logic        outWriteBackDataResultEnable,
 
     output logic [15:0] forwardPathFromDataMemory,
-    output logic [3:0] forwardPathFromDataMemorySrc
-);
-    logic [15:0] localALUDataResult;
-    logic [3:0] localOperation;
-    logic [15:0] localMemoryAddress;
-    logic [3:0] localWriteBackDataResultDst;
+    output logic [3:0]  forwardPathFromDataMemorySrc
+);  
+    logic [15:0]        localDataResult;
+    logic [3:0]         localOperation;
+    logic [15:0]        localMemoryAddress;
+    logic [3:0]         localWriteBackDataResultDst;
 
-    logic [15:0] localDataMemoryResult;
+    logic [15:0]        localDataMemoryResult;
+    logic               localWriteToMemoryEnable;
 
+
+    assign localWriteToMemoryEnable = (localOperation == 4'hE);
 
     PipelineRegisterDM pipelineRegister(
         .clk(clk),
+        .reset(reset),
         .hold(hold),
         .flush(flush),
 
-        .inALUDataResult(inALUDataResult),
+        .inDataResult(inDataResult),
         .inWriteBackDataResultDst(inWriteBackDataResultDst),
         .inWriteBackDataResultEnable(inWriteBackDataResultEnable),
         .inOperation(inOperation),
         .inMemoryAddress(inMemoryAddress),
 
-        .outALUDataResult(localALUDataResult),
+        .outDataResult(localDataResult),
         .outWriteBackDataResultDst(localWriteBackDataResultDst),
         .outWriteBackDataResultEnable(outWriteBackDataResultEnable),
         .outOperation(localOperation),
         .outMemoryAddress(localMemoryAddress)
     );
 
-    always_comb
-        begin
-            case(localOperation)
-                4'hE: outHoldDataMemory = 1;
-
-                default: outHoldDataMemory = 0;
-            endcase
-        end
-
-    assign forwardPathFromDataMemory = localALUDataResult;
+    assign forwardPathFromDataMemory = localDataResult;
     assign forwardPathFromDataMemorySrc = localWriteBackDataResultDst;
     assign outWriteBackDataResultDst = localWriteBackDataResultDst;
 
-    logic localWriteToMemoryEnable;
-    assign localWriteToMemoryEnable = (localOperation == 4'hE);
 
     Memory memory(
         .clk(clk),
         .inWriteToMemoryEnable(localWriteToMemoryEnable),
 
-        .inALUDataResult(localALUDataResult),
+        .inALUDataResult(localDataResult),
         .inMemoryAddress(localMemoryAddress),
 
         .outDataMemoryResult(localDataMemoryResult)
@@ -78,7 +72,7 @@ module DataMemory(
         case(localOperation)
         4'hD: outDataResult = localDataMemoryResult;
         4'hE: outDataResult = localDataMemoryResult;
-        default: outDataResult = localALUDataResult;
+        default: outDataResult = localDataResult;
         endcase
     end
 

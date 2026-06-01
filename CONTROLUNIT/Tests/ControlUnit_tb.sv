@@ -52,12 +52,25 @@ module ControlUnit_tb();
 
         reset = 0;
         #4;
+        // testing
+
 
         inJMPSignal = 1;
         #8;
 
         inJMPSignal = 0;
         #2;
+
+        inHoldFromExecute = 1;
+        #4;
+        
+        inHoldFromExecute = 0;
+        #4;
+
+        inHoldFromDataMemory = 1;
+        #4;
+
+        inHoldFromDataMemory = 0;
 
         #6;
         $finish;

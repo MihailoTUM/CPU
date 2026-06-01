@@ -9,7 +9,7 @@ module ADDI16(
 );
     logic [15:0] localExtendedInput;
 
-    CONST16 const16(offset, localExtendedInput);
+    CONST16S const16(offset, localExtendedInput);
     ADD16 add16(inData, localExtendedInput, 1'b0, outData, outCarry);
 
 endmodule

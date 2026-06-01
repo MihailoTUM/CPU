@@ -16,8 +16,6 @@ module ALU(
     input logic [15:0] inDataMemoryOutputData,
     input logic [3:0] inDataMemoryOutputDataSrc,
 
-    output logic outWriteToRegisterEnable,
-    output logic outWriteToMemoryEnable,
     output logic outJMPSignal,
     output logic outWriteReturnAddressToRegisterSignal,
 
@@ -43,11 +41,7 @@ module ALU(
         .inDataMemoryOutputDataSrc(inDataMemoryOutputDataSrc),
 
         .outData1(localData1),
-        .outData2(localData2),
-
-        .outSignalForDiv(outSignalDIV),
-        .outWriteToRegisterEnable(outWriteToRegisterEnable),
-        .outWriteToMemoryEnable(outWriteToMemoryEnable)
+        .outData2(localData2)
     );
 
     ALUUnit unit(

@@ -1,22 +1,22 @@
 
 
 module ControlUnit(
-    input logic clk,
-    input logic reset,
+    input logic         clk,
+    input logic         reset,
 
-    input logic inHoldFromExecute,
-    input logic inHoldFromDataMemory,
-    input logic inJMPSignal,
+    input logic         inHoldFromExecute,
+    input logic         inHoldFromDataMemory,
+    input logic         inJMPSignal,
 
-    input logic [15:0] inNewInstructionAddress,
+    input logic [15:0]  inNewInstructionAddress,
 
-    output logic outReset,
-    output logic outHoldDecode,
-    output logic outFlushDecode,
-    output logic outHoldExecute,
-    output logic outFlushExecute,
-    output logic outHoldDataMemory,
-    output logic outFlushDataMemory,
+    output logic        outReset,
+    output logic        outHoldDecode,
+    output logic        outFlushDecode,
+    output logic        outHoldExecute,
+    output logic        outFlushExecute,
+    output logic        outHoldDataMemory,
+    output logic        outFlushDataMemory,
 
     output logic [15:0] outInstructionAddress
 );
