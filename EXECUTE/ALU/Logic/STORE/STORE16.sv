@@ -10,7 +10,7 @@ module STORE16(
 );
     logic [15:0] localExpandedAddress;
 
-    CONST16_4 const_4(inOffsetAddress, localExpandedAddress);
+    CONST16S_4 const_4(inOffsetAddress, localExpandedAddress);
     ADD16 add(inBaseAddress, localExpandedAddress, 1'b0, outNewAddress, );
 
     assign outData = inData;

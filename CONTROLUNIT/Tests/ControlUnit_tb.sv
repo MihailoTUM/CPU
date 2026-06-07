@@ -36,7 +36,9 @@ module ControlUnit_tb();
         .outHoldExecute(outHoldExecute),
         .outFlushExecute(outFlushExecute),
         .outHoldDataMemory(outHoldDataMemory),
-        .outFlushDataMemory(outFlushDataMemory)
+        .outFlushDataMemory(outFlushDataMemory),
+        
+        .outInstructionAddress(outInstructionAddress)
     );
 
     initial clk = 0;
@@ -56,6 +58,7 @@ module ControlUnit_tb();
 
 
         inJMPSignal = 1;
+        inNewInstructionAddress = 16'h00FF;
         #8;
 
         inJMPSignal = 0;

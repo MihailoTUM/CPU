@@ -66,3 +66,11 @@ As you see by the size and choice of my instructions, the core idea of a CPU is 
 ## NOP, RET
 - 4-BIT OPCODE, 12-BIT EMPTY
 
+## How to run the CPU in simulation mode yourself
+1.) Compile: iverilog -g2012 -o output CPU_tb.sv ../CPU.sv ../ControlUnit/ControlUnit.sv ../Fetch/Fetch.sv ../Fetch/InstructionMemory.sv ../Decode/Decode.sv ../Decode/PipelineRegisterDE.sv ../Decode/RegisterBlock.sv ../Execute/Execute.sv ../Execute/PipelineRegisterEX.sv ../Execute/ALU/ALU.sv ../Execute/ALU/ALUControl.sv ../Execute/ALU/ALUUnit.sv ../Execute/ALU/Arithmetic/CONST/CONST16S.sv ../Execute/ALU/Arithmetic/CONST/CONST16U.sv ../Execute/ALU/Arithmetic/CONST/CONST16S_4.sv ../Execute/ALU/Arithmetic/ADD/ADD4.sv ../Execute/ALU/Arithmetic/ADD/ADD16.sv ../Execute/ALU/Arithmetic/SUB/SUB16.sv ../Execute/ALU/Arithmetic/ADD/ADDI16.sv ../Execute/ALU/Logic/JMP/JMP16.sv ../Execute/ALU/Logic/BRANCH/BZ.sv ../Execute/ALU/Logic/LOAD/LOAD16.sv ../Execute/ALU/Logic/STORE/STORE16.sv ../Execute/ALU/Logic/CALL/CALL.sv ../Execute/ALU/Logic/RET/RET.sv ../DataMemory/DataMemory.sv ../DataMemory/PipelineRegisterDM.sv ../DataMemory/Memory.sv
+
+2.) vvp output
+
+3.) gtkwave CPU.vcd
+
+4.) have fun reading the waveforms

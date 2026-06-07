@@ -22,7 +22,7 @@ module CPU_tb();
 
         reset = 0;
 
-        #40;
+        #60;
         $finish;
     end
 endmodule

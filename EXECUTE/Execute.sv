@@ -95,7 +95,10 @@ module Execute(
         .outExecuteOutputData(localExecuteOutputData),
         .outExecuteOutputDataSrc(localExecuteOutputDataSrc),
         .outDataMemoryOutputData(localDataMemoryOutputData),
-        .outDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc)
+        .outDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc),
+
+        .outWriteToRegisterEnable(outWriteToRegisterEnable),
+        .outWriteToMemoryEnable(outWriteToMemoryEnable)
     );
 
     logic [15:0] localDataResult;

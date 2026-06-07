@@ -4,7 +4,7 @@ module CPU(
     input logic reset
 );
 
-    logic [15:0] localInstructionAddress;
+    logic [15:0] localOutControlUnitInstructionAddress;
     logic globalReset;
     logic globalHoldDecode;
     logic globalFlushDecode;
@@ -17,37 +17,41 @@ module CPU(
         .clk(clk),
         .reset(reset),
 
+        .inHoldFromExecute(localOutHoldFromExecute),
         .inHoldFromDataMemory(),
-        .inNewInstructionAddress(localMemoryAddress),
-        .inChangeToNewInstructionAddress(localOutJMPSignal),
+        .inJMPSignal(localOutJMPSignal),
+
+        .inNewInstructionAddress(localExecuteOutMemoryAddress),
 
         .outReset(globalReset),
-        .outHoldDeocde(globalHoldDecode),
+        .outHoldDecode(globalHoldDecode),
         .outFlushDecode(globalFlushDecode),
         .outHoldExecute(globalHoldExecute),
         .outFlushExecute(globalFlushExecute),
         .outHoldDataMemory(globalHoldDataMemory),
         .outFlushDataMemory(globalFlushDataMemory),
 
-        .outInstructionAddress(localInstructionAddress)
+        .outInstructionAddress(localOutControlUnitInstructionAddress)
     );
 
-    logic [15:0] localInstruction;
+    logic [15:0] localOutFetchInstruction;
 
     Fetch fetch(
-        .inAddress(localInstructionAddress),
+        .inAddress(localOutControlUnitInstructionAddress),
 
-        .outInstruction(localInstruction)
+        .outInstruction(localOutFetchInstruction)
     );
 
-    logic [3:0] localOperation;
-    logic [3:0] localDstAddress;
-    logic [15:0] localData1;
-    logic [15:0] localData2;
-    logic [3:0] localData1Address;
-    logic [3:0] localData2Address;
-    logic [7:0] localImmediate;
-    logic [15:0] localDEInstructionAddress;
+    logic [3:0] localOutDecodeOperation;
+    logic [3:0] localOutDecodeDstAddress;
+    logic [15:0] localOutDecodeData1;
+    logic [15:0] localOutDecodeData2;
+    logic [3:0] localOutDecodeData1Address;
+    logic [3:0] localOutDecodeData2Address;
+    logic [7:0] localOutDecodeImmediate;
+    logic [15:0] localOUtDecodeInstructionAddress;
+    logic localOutWriteToRegisterEnable;
+    logic localOutWriteToMemoryEnable;
 
     Decode decode(
         .clk(clk),
@@ -55,80 +59,88 @@ module CPU(
         .hold(globalHoldDecode),
         .flush(globalFlushDecode),
         
-        .inInstructionAddress(localInstructionAddress),
-        .inInstruction(localInstruction),
-        .inDataToStore(localDMDataResult),
-        .inWriteBackDstAddress(localDMWriteBackDataResultDst),
-        .inWriteToRegisterEnable(localDMWriteBackDataResultEnable),
+        .inInstructionAddress(localOutControlUnitInstructionAddress),
+        .inInstruction(localOutFetchInstruction),
+        .inDataToStore(localDataMemoryOutResultData),
+        .inWriteBackDstAddress(localDataMemoryOutWriteBackDataResultDst),
+        .inWriteToRegisterEnable(localDataMemoryOutWriteBackDataResultEnable),
 
-        .inDataResultSkippy(localDataResult),
-        .inDataResultSkippySignal(outWriteReturnAddressToRegisterSignal),
+        .inDataResultSkippy(localExecuteOutDataResult),
+        .inDataResultSkippySignal(localOutWriteReturnAddressToRegisterSignal),
 
-        .outOperation(localOperation),
-        .outDstAddress(localDstAddress),
-        .outData1(localData1),
-        .outData2(localData2),
-        .outData1Address(localData1Address),
-        .outData2Address(localData2Address),
-        .outImmediate(localImmediate),
-        .outInstructionAddress(localDEInstructionAddress)
+        .outOperation(localOutDecodeOperation),
+        .outDstAddress(localOutDecodeDstAddress),
+        .outData1(localOutDecodeData1),
+        .outData2(localOutDecodeData2),
+        .outData1Address(localOutDecodeData1Address),
+        .outData2Address(localOutDecodeData2Address),
+        .outImmediate(localOutDecodeImmediate),
+        .outInstructionAddress(localOUtDecodeInstructionAddress),
+
+        .outWriteToRegisterEnable(localOutWriteToRegisterEnable),
+        .outWriteToMemoryEnable(localOutWriteToMemoryEnable)
     );
 
-    logic [15:0] localDataResult;
-    logic [15:0] localMemoryAddress;
-    logic localWriteToRegisterEnable;
-    logic localWriteToMemoryEnable;
+    logic [15:0] localOutExecuteOuputData;
+    logic [3:0] localOutExecuteOuputDataSrc;
+
+    logic localOutHoldFromExecute;
     logic localOutJMPSignal;
+    logic localOutWriteReturnAddressToRegisterSignal;
+    logic localOutExecuteWriteToRegisterEnable;
+    logic localOutExecuteWriteToMemoryEnable;
 
-    logic [15:0] localExecuteOutputData;
-    logic [3:0] localExecuteOutputDataSrc;
-    logic outWriteReturnAddressToRegisterSignal;
-
-    logic [3:0] localExDstAddress;
-    logic [3:0] localExOutOperation;
-
+    logic [15:0] localExecuteOutDataResult;
+    logic [15:0] localExecuteOutMemoryAddress;
+    logic [15:0] localExecuteOutFlagRegister;
+    logic [3:0] localExecuteOutDstAddress;
+    logic [3:0] localExecuteOutOperation;
+    
     Execute execute(
         .clk(clk),
         .reset(reset),
         .hold(globalHoldExecute),
         .flush(globalFlushExecute),
 
-        .inOperation(localOperation),
-        .inDstAddress(localDstAddress),
-        .inData1(localData1),
-        .inData2(localData2),
-        .inData1Address(localData1Address),
-        .inData2Address(localData2Address),
-        .inImmediate(localImmediate),
-        .inInstructionAddress(localDEInstructionAddress),
+        .inOperation(localOutDecodeOperation),
+        .inDstAddress(localOutDecodeDstAddress),
+        .inData1(localOutDecodeData1),
+        .inData2(localOutDecodeData2),
+        .inData1Address(localOutDecodeData1Address),
+        .inData2Address(localOutDecodeData2Address),
+        .inImmediate(localOutDecodeImmediate),
+        .inInstructionAddress(localOUtDecodeInstructionAddress),
 
-        .inExecuteOutputData(localExecuteOutputData),
-        .inExecuteOutputDataSrc(localExecuteOutputDataSrc),
+        .inExecuteOutputData(localOutExecuteOuputData),
+        .inExecuteOutputDataSrc(localOutExecuteOuputDataSrc),
+        .inDataMemoryOutputData(localDataMemoryOutResultData),
+        .inDataMemoryOutputDataSrc(localDataMemoryOutWriteBackDataResultDst),
 
-        .inDataMemoryOutputData(localForwardPathFromDataMemory),
-        .inDataMemoryOutputDataSrc(localForwardPathFromDataMemorySrc),
+        .inWriteToRegisterEnable(localOutWriteToRegisterEnable),
+        .inWriteToMemoryEnable(localOutWriteToMemoryEnable),
 
-        .outSignalDIV(),
-        .outWriteToRegisterEnable(localWriteToRegisterEnable),
-        .outWriteToMemoryEnable(localWriteToMemoryEnable),
+        .outHoldFromExecute(localOutHoldFromExecute),
         .outJMPSignal(localOutJMPSignal),
-        .outWriteReturnAddressToRegisterSignal(outWriteReturnAddressToRegisterSignal),
 
-        .outDataResult(localDataResult),
-        .outMemoryAddress(localMemoryAddress),
-        .outFlagRegister(),
+        .outWriteReturnAddressToRegisterSignal(localOutWriteReturnAddressToRegisterSignal),
+        
+        .outWriteToRegisterEnable(localOutExecuteWriteToRegisterEnable),
+        .outWriteToMemoryEnable(localOutExecuteWriteToMemoryEnable),
 
-        .outDstAddress(localExDstAddress),
-        .outOperation(localExOutOperation),
+        .outDataResult(localExecuteOutDataResult),
+        .outMemoryAddress(localExecuteOutMemoryAddress),
+        .outFlagRegister(localExecuteOutFlagRegister),
+        .outDstAddress(localExecuteOutDstAddress),
+        .outOperation(localExecuteOutOperation),
 
-        .outExecuteOutputData(localExecuteOutputData),
-        .outExecuteOutputDataSrc(localExecuteOutputDataSrc)
+        .outExecuteOutputData(localOutExecuteOuputData),
+        .outExecuteOutputDataSrc(localOutExecuteOuputDataSrc)
     );
 
-    logic [15:0] localDMDataResult;
-    logic [3:0] localDMWriteBackDataResultDst;
-    logic localDMWriteBackDataResultEnable;
-    logic localHoldSignalFromDataMemory;
+    logic [15:0] localDataMemoryOutResultData;
+    logic [3:0] localDataMemoryOutWriteBackDataResultDst;
+    logic localDataMemoryOutWriteBackDataResultEnable;
+    logic localOutHoldFromDataMemory;
 
     logic [15:0] localForwardPathFromDataMemory;
     logic [3:0] localForwardPathFromDataMemorySrc;
@@ -139,17 +151,18 @@ module CPU(
         .hold(globalHoldDataMemory),
         .flush(globalFlushDataMemory),
 
-        .inALUDataResult(localDataResult),
-        .inWriteBackDataResultDst(localExDstAddress),
-        .inWriteBackDataResultEnable(localWriteToRegisterEnable),
-        .inOperation(localExOutOperation),
-        .inMemoryAddress(localMemoryAddress),
+        .inDataResult(localExecuteOutDataResult),
+        .inWriteBackDataResultDst(localExecuteOutDstAddress),
+        .inWriteBackDataResultEnable(localOutExecuteWriteToRegisterEnable),
+        .inOperation(localExecuteOutOperation),
+        .inMemoryAddress(localExecuteOutMemoryAddress),
+        .inWriteToMemoryEnable(localOutExecuteWriteToMemoryEnable),
 
-        .outHoldSignalFromDataMemory(localHoldSignalFromDataMemory),
+        .outHoldFromDataMemory(localOutHoldFromDataMemory),
 
-        .outDataResult(localDMDataResult),
-        .outWriteBackDataResultDst(localDMWriteBackDataResultDst),
-        .outWriteBackDataResultEnable(localDMWriteBackDataResultEnable),
+        .outDataResult(localDataMemoryOutResultData),
+        .outWriteBackDataResultDst(localDataMemoryOutWriteBackDataResultDst),
+        .outWriteBackDataResultEnable(localDataMemoryOutWriteBackDataResultEnable),
 
         .forwardPathFromDataMemory(localForwardPathFromDataMemory),
         .forwardPathFromDataMemorySrc(localForwardPathFromDataMemorySrc)

@@ -25,7 +25,7 @@ module PipelineRegisterDM(
                 begin 
                     outDataResult <= outDataResult;
                     outWriteBackDataResultDst <= outWriteBackDataResultDst;
-                    outWriteBackDataResultEnable <= outWriteBackDataResultEnable
+                    outWriteBackDataResultEnable <= outWriteBackDataResultEnable;
                     outOperation <= outOperation;
                     outMemoryAddress <= outMemoryAddress;
                 end
@@ -35,7 +35,7 @@ module PipelineRegisterDM(
                     outWriteBackDataResultDst <= 4'hF;
                     outWriteBackDataResultEnable <= 1'b0;
                     outOperation <= 4'hF;
-                    outMemoryAddress = <= 16'h0000;
+                    outMemoryAddress <= 16'h0000;
                 end
             else if(reset)
                 begin
@@ -43,11 +43,11 @@ module PipelineRegisterDM(
                     outWriteBackDataResultDst <= 4'hF;
                     outWriteBackDataResultEnable <= 1'b0;
                     outOperation <= 4'hF;
-                    outMemoryAddress = <= 16'h0000;
+                    outMemoryAddress <= 16'h0000;
                 end
             else 
                 begin
-                    outDataResult <= inALUDataResult;
+                    outDataResult <= inDataResult;
                     outWriteBackDataResultDst <= inWriteBackDataResultDst;
                     outWriteBackDataResultEnable <= inWriteBackDataResultEnable;
                     outOperation <= inOperation;

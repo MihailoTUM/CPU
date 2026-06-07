@@ -17,7 +17,7 @@ module ALUUnit(
     );
 
     logic [15:0] constOut;
-    CONST16 const16(inImmediate, constOut);
+    CONST16S const16(inImmediate, constOut);
 
     logic [15:0] addOut;
     logic addCarry;

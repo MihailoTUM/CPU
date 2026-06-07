@@ -18,8 +18,11 @@ module RegisterBlock(
     output logic [15:0] outData1,
     output logic [15:0] outData2,
     output logic [7:0]  outImmediate,
-    output logic outWriteToRegisterEnable,
-    output logic outWriteToMemoryEnable
+    output logic        outWriteToRegisterEnable,
+    output logic        outWriteToMemoryEnable,
+    output logic [3:0]  outDstAddress,
+    output logic        outDeactivateExecutePath,
+    output logic        outDeactivateExecutePath
 );
 
     logic [15:0] registers [15:0];
@@ -34,12 +37,22 @@ module RegisterBlock(
     always_comb 
     begin
         case(inOperation)
+        4'h8:
+            begin
+                outData1 = registers[inData1Address];
+                outData2 = registers[inData2Address];
+                outImmediate = inImmediate;
+                outWriteToRegisterEnable = 0;
+                outWriteToMemoryEnable = 0;
+                outDstAddress = 4'hF;
+            end
         4'h9:
             begin
                 outData1 = registers[inDstAddress];
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
             end
         4'hA:
             begin
@@ -48,12 +61,14 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
             end
         4'hB:
             begin
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
             end
         4'hC:
             begin
@@ -62,6 +77,7 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
             end
         4'hD:
             begin
@@ -70,6 +86,7 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
             end
         4'hE: 
             begin
@@ -78,8 +95,18 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 1;
+                outDstAddress = inDstAddress;
             end
-
+        
+        4'hF:
+            begin
+                outData1 = registers[inData1Address];
+                outData2 = registers[inData2Address];
+                outImmediate = inImmediate;
+                outWriteToRegisterEnable = 0;
+                outWriteToMemoryEnable = 0;
+                outDstAddress = inDstAddress;
+            end
         default: 
             begin
                 outData1 = registers[inData1Address];
@@ -87,6 +114,7 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 1;
+                outDstAddress = inDstAddress;
             end
         endcase
     end

@@ -8,6 +8,6 @@ module JMP16(
 );
     logic [15:0] localAddress;
 
-    CONST16 constFixed(inOffset, localAddress);
+    CONST16S constFixed(inOffset, localAddress);
     ADD16 addFixed(inInstructionAddress, localAddress, 1'b0, outInstructionAddress, );
 endmodule

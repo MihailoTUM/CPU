@@ -22,7 +22,7 @@ module Decode(
     output logic [3:0]  outData1Address,
     output logic [3:0]  outData2Address,
     output logic [7:0]  outImmediate,
-    output logic [15:0] outInstructionAddress
+    output logic [15:0] outInstructionAddress,
     output logic        outWriteToRegisterEnable,
     output logic        outWriteToMemoryEnable
 );
@@ -67,12 +67,12 @@ module Decode(
         .outData2(outData2),
         .outImmediate(outImmediate),
         .outWriteToRegisterEnable(outWriteToRegisterEnable),
-        .outWriteToMemoryEnable(outWriteToMemoryEnable)
+        .outWriteToMemoryEnable(outWriteToMemoryEnable),
+        .outDstAddress(outDstAddress)
     );
 
     assign outData1Address = localData1Address;
     assign outData2Address = localData2Address;
     assign outOperation = localOperation;
-    assign outDstAddress = localDstAddress;
 
 endmodule
