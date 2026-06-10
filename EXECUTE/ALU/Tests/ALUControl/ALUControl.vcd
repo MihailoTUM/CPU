@@ -1,5 +1,5 @@
 $date
-	Sun Jun 07 18:23:29 2026
+	Sun Jun 07 19:20:39 2026
 $end
 $version
 	Icarus Verilog
@@ -37,10 +37,14 @@ $var wire 4 7 inExecuteOutputDataSrc [3:0] $end
 $var wire 4 8 inOperation [3:0] $end
 $var wire 16 9 outData2 [15:0] $end
 $var wire 16 : outData1 [15:0] $end
-$var wire 1 ; isMemory2 $end
-$var wire 1 < isMemory1 $end
-$var wire 1 = isExecute2 $end
-$var wire 1 > isExecute1 $end
+$var wire 16 ; memoryOut2 [15:0] $end
+$var wire 16 < memoryOut1 [15:0] $end
+$var wire 1 = isMemory2 $end
+$var wire 1 > isMemory1 $end
+$var wire 1 ? isExecute2 $end
+$var wire 1 @ isExecute1 $end
+$var wire 16 A executeOut2 [15:0] $end
+$var wire 16 B executeOut1 [15:0] $end
 $var reg 1 " outWriteToMemoryEnable $end
 $var reg 1 ! outWriteToRegisterEnable $end
 $upscope $end
@@ -48,10 +52,14 @@ $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-1>
-0=
-0<
-1;
+b1010101111001101 B
+b10 A
+1@
+0?
+0>
+1=
+b1 <
+b1001000110100 ;
 b1010101111001101 :
 b1001000110100 9
 bx 8
@@ -82,27 +90,27 @@ $end
 #8
 b1 $
 b1 :
-b10 #
-b10 9
+b1 B
 1+
 #16
+b10 #
+b10 9
 b1010101111001101 $
 b1010101111001101 :
-b1001000110100 #
-b1001000110100 9
+b10 ;
+b1010101111001101 B
 1,
 0+
 #24
 b1 $
 b1 :
-b10 #
-b10 9
+b1 B
 1+
 #32
-b1010101111001101 $
-b1010101111001101 :
-b1001000110100 #
-b1001000110100 9
+b10 ;
+b1 B
+0=
+0@
 0,
 0+
 b11 *

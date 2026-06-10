@@ -12,6 +12,10 @@ module PipelineRegisterEX(
     input logic [15:0]  inData2, 
     input logic [3:0]   inData1Address,
     input logic [3:0]   inData2Address,
+
+    input logic         inDeactivateExecutePath,
+    input logic         inDeactivateMemoryPath,
+
     input logic [7:0]   inImmediate,
     input logic [15:0]  inInstructionAddress,
 
@@ -29,6 +33,10 @@ module PipelineRegisterEX(
     output logic [15:0] outData2,
     output logic [3:0]  outData1Address,
     output logic [3:0]  outData2Address,
+
+    output logic        outDeactivateExecutePath,
+    output logic        outDeactivateMemoryPath,
+
     output logic [7:0]  outImmediate,
     output logic [15:0] outInstructionAddress,
 
@@ -60,6 +68,9 @@ module PipelineRegisterEX(
                 outData2 <= outData2;
                 outData1Address <= outData1Address;
                 outData2Address <= outData2Address;
+
+                outDeactivateExecutePath <= outDeactivateExecutePath;
+                outDeactivateMemoryPath <= outDeactivateMemoryPath;
             
                 outImmediate <= outImmediate;
                 outInstructionAddress <= outInstructionAddress;
@@ -83,6 +94,9 @@ module PipelineRegisterEX(
                 outImmediate = 8'h0;
                 outInstructionAddress <= 16'h0000;
 
+                outDeactivateExecutePath <= 1'b0;
+                outDeactivateMemoryPath <= 1'b0;
+
                 outExecuteOutputData <= 16'h0000;
                 outExecuteOutputDataSrc <= 4'hF;
                 outDataMemoryOutputData <= 16'h0000;
@@ -101,6 +115,9 @@ module PipelineRegisterEX(
                 outData2Address <= inData2Address;
                 outImmediate <= inImmediate;
                 outInstructionAddress <= inInstructionAddress;
+
+                outDeactivateExecutePath <= inDeactivateExecutePath;
+                outDeactivateMemoryPath <= inDeactivateMemoryPath;
 
                 outExecuteOutputData <= inExecuteOutputData;
                 outExecuteOutputDataSrc <= inExecuteOutputDataSrc;

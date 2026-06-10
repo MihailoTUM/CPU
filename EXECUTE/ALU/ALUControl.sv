@@ -61,13 +61,27 @@ module ALUControl(
     logic isExecute2;
     logic isMemory2;
 
-    assign isExecute1 = ~(inData1Address ^ inExecuteOutputDataSrc);
-    assign isMemory1 = ~(inData1Address ^ inDataMemoryOutputDataSrc);
+    assign isExecute1 = ~|(inData1Address ^ inExecuteOutputDataSrc);
+    assign isMemory1 = ~|(inData1Address ^ inDataMemoryOutputDataSrc);
 
-    assign isExecute2 = ~(inData2Address ^ inExecuteOutputDataSrc);
-    assign isMemory2 = ~(inData2Address ^ inDataMemoryOutputDataSrc);
+    assign isExecute2 = ~|(inData2Address ^ inExecuteOutputDataSrc);
+    assign isMemory2 = ~|(inData2Address ^ inDataMemoryOutputDataSrc);
 
-    assign outData1 = inDeactivateExecutePath ? ;
-    assign outData2 = ;
-    
+    logic [15:0] executeOut1;
+    logic [15:0] memoryOut1;
+    assign executeOut1 = inDeactivateExecutePath ? inData1 : isExecute1 ? inExecuteOutputData :inData1;
+    assign memoryOut1 = inDeactivateMemoryPath ? inData1: isMemory1 ? inDataMemoryOutputData : inData1;
+
+    assign outData1 = isExecute1 ? executeOut1 : isMemory1 ? memoryOut1 : inData1;
+
+    logic [15:0] executeOut2;
+    logic [15:0] memoryOut2;
+    assign executeOut2 = inDeactivateExecutePath ? inData2 : isExecute2 ? inExecuteOutputData : inData2;
+    assign memoryOut2 = inDeactivateMemoryPath ? inData2: isMemory2 ? inDataMemoryOutputData : inData2;
+
+    assign outData2 = isExecute2 ? executeOut2 : isMemory2 ? memoryOut2: inData2;
+
+
+
+        
 endmodule

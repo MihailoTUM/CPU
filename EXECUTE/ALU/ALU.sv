@@ -1,23 +1,25 @@
 
 module ALU(
-    input logic [3:0] inOperation,
-    input logic [15:0] inData1,
-    input logic [15:0] inData2,
+    input logic [3:0]   inOperation,
+    input logic [15:0]  inData1,
+    input logic [15:0]  inData2,
 
-    input logic [3:0] inData1Address,
-    input logic [3:0] inData2Address,
+    input logic [3:0]   inData1Address,
+    input logic [3:0]   inData2Address,
 
-    input logic [7:0] inImmediate,
-    input logic [15:0] inInstructionAddress,
+    input logic         inDeactivateExecutePath,
+    input logic         inDeactivateMemoryPath,
 
-    input logic [15:0] inExecuteOutputData,
-    input logic [3:0] inExecuteOutputDataSrc,
+    input logic [7:0]   inImmediate,
+    input logic [15:0]  inInstructionAddress,
 
-    input logic [15:0] inDataMemoryOutputData,
-    input logic [3:0] inDataMemoryOutputDataSrc,
+    input logic [15:0]  inExecuteOutputData,
+    input logic [3:0]   inExecuteOutputDataSrc,
+    input logic [15:0]  inDataMemoryOutputData,
+    input logic [3:0]   inDataMemoryOutputDataSrc,
 
-    output logic outJMPSignal,
-    output logic outWriteReturnAddressToRegisterSignal,
+    output logic        outJMPSignal,
+    output logic        outWriteReturnAddressToRegisterSignal,
 
     output logic [15:0] outDataResult,
     output logic [15:0] outMemoryAddress,
@@ -34,9 +36,10 @@ module ALU(
         .inData1Address(inData1Address),
         .inData2Address(inData2Address),
 
+        .inDeactivateExecutePath(inDeactivateExecutePath),
+        .inDeactivateMemoryPath(inDeactivateMemoryPath),
         .inExecuteOutputData(inExecuteOutputData),
         .inExecuteOutputDataSrc(inExecuteOutputDataSrc),
-
         .inDataMemoryOutputData(inDataMemoryOutputData),
         .inDataMemoryOutputDataSrc(inDataMemoryOutputDataSrc),
 

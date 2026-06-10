@@ -110,6 +110,10 @@ module Execute(
         .inData2(localData2),
         .inData1Address(localData1Address),
         .inData2Address(localData2Address),
+
+        .inDeactivateExecutePath(),
+        .inDeactivateMemoryPath(),
+
         .inImmediate(localImmediate),
         .inInstructionAddress(localInstructionAddress),
 
