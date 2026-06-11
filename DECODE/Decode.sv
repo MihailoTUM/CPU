@@ -25,6 +25,7 @@ module Decode(
     output logic [15:0] outInstructionAddress,
     output logic        outWriteToRegisterEnable,
     output logic        outWriteToMemoryEnable
+
 );
     logic [3:0] localData1Address;
     logic [3:0] localData2Address;

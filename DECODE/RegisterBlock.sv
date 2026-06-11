@@ -20,9 +20,7 @@ module RegisterBlock(
     output logic [7:0]  outImmediate,
     output logic        outWriteToRegisterEnable,
     output logic        outWriteToMemoryEnable,
-    output logic [3:0]  outDstAddress,
-    output logic        outDeactivateExecutePath,
-    output logic        outDeactivateExecutePath
+    output logic [3:0]  outDstAddress
 );
 
     logic [15:0] registers [15:0];
@@ -105,7 +103,7 @@ module RegisterBlock(
                 outImmediate = inImmediate;
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
-                outDstAddress = inDstAddress;
+                outDstAddress = 4'hF;
             end
         default: 
             begin

@@ -18,6 +18,9 @@ module ControlUnit(
     output logic        outHoldDataMemory,
     output logic        outFlushDataMemory,
 
+    output logic        outDeactivateExecutePath,
+    output logic        outDeactivateMemoryPath,
+
     output logic [15:0] outInstructionAddress
 );
     typedef enum logic [2:0] { 
@@ -94,6 +97,9 @@ module ControlUnit(
                     outFlushExecute = 0;
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
             reset_2:
                 begin
@@ -104,6 +110,9 @@ module ControlUnit(
                     outFlushExecute = 0;
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
             run:
                 begin
@@ -114,6 +123,9 @@ module ControlUnit(
                     outFlushExecute = 0;
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
             hold_dataMemory:
                 begin
@@ -124,6 +136,9 @@ module ControlUnit(
                     outFlushDecode = 0;
                     outHoldDataMemory = 1;
                     outFlushDataMemory = 0;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
             hold_execute:
                 begin
@@ -134,6 +149,9 @@ module ControlUnit(
                     outFlushExecute = 0;
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
             jump:
                 begin
@@ -144,6 +162,9 @@ module ControlUnit(
                     outFlushExecute = 1;
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 1;
+
+                    outDeactivateExecutePath = 0;
+                    outDeactivateMemoryPath = 0;
                 end
         endcase
     end

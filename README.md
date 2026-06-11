@@ -74,3 +74,6 @@ As you see by the size and choice of my instructions, the core idea of a CPU is 
 3.) gtkwave CPU.vcd
 
 4.) have fun reading the waveforms
+
+## Testing
+Currently, the pipeline is being tested. 

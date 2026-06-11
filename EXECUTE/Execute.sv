@@ -22,6 +22,9 @@ module Execute(
     input logic         inWriteToRegisterEnable,
     input logic         inWriteToMemoryEnable,
 
+    input logic         inDeactivateExecutePath,
+    input logic         inDeactivateMemoryPath,
+
     // --> CONTROL control
     output logic        outHoldFromExecute,
     output logic        outJMPSignal,
@@ -60,6 +63,9 @@ module Execute(
     logic [15:0]        localDataMemoryOutputData;
     logic [3:0]         localDataMemoryOutputDataSrc;
 
+    logic               localDeactivateExecutePath;
+    logic               localDeactivateMemoryPath;
+
     PipelineRegisterEX register(
         .clk(clk),
         .reset(reset),
@@ -72,6 +78,10 @@ module Execute(
         .inData2(inData2),
         .inData1Address(inData1Address),
         .inData2Address(inData2Address),
+
+        .inDeactivateExecutePath(inDeactivateExecutePath),
+        .inDeactivateMemoryPath(inDeactivateMemoryPath),
+
         .inImmediate(inImmediate),
         .inInstructionAddress(inInstructionAddress),
 
@@ -98,7 +108,10 @@ module Execute(
         .outDataMemoryOutputDataSrc(localDataMemoryOutputDataSrc),
 
         .outWriteToRegisterEnable(outWriteToRegisterEnable),
-        .outWriteToMemoryEnable(outWriteToMemoryEnable)
+        .outWriteToMemoryEnable(outWriteToMemoryEnable),
+
+        .outDeactivateExecutePath(localDeactivateExecutePath),
+        .outDeactivateMemoryPath(localDeactivateMemoryPath)
     );
 
     logic [15:0] localDataResult;
@@ -111,8 +124,8 @@ module Execute(
         .inData1Address(localData1Address),
         .inData2Address(localData2Address),
 
-        .inDeactivateExecutePath(),
-        .inDeactivateMemoryPath(),
+        .inDeactivateExecutePath(localDeactivateExecutePath),
+        .inDeactivateMemoryPath(localDeactivateMemoryPath),
 
         .inImmediate(localImmediate),
         .inInstructionAddress(localInstructionAddress),

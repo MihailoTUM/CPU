@@ -86,7 +86,7 @@ module PipelineRegisterEX(
         else if(flush)
             begin
                 outOperation <= 4'hF;
-                outDstAddress <= 4'h0;
+                outDstAddress <= 4'hF;
                 outData1 <= 16'h0000;
                 outData2 <= 16'h0000;
                 outData1Address <= 4'h0;
