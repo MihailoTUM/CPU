@@ -34,9 +34,6 @@ ControlUnit controlUnit(
     .outHoldDataMemory(localHoldDataMemory),
     .outFlushDataMemory(localFlushDataMemory),
 
-    .outDeactivateExecutePath(ControlDeactivateExecute),
-    .outDeactivateMemoryPath(ControlDeactivateMemory),
-
     .outInstructionAddress(localInstructionAddress)
 );
 
@@ -59,6 +56,9 @@ logic [15:0] DecodeInstructionAddress;
 logic DecodeWriteToRegisterEnable;
 logic DecodeWriteToMemoryEnable;
 
+logic DecodeDeactivateExecutePath;
+logic DecodeDeactivateMemoryPath;
+
 Decode decode(
     .clk(clk),
     .reset(localReset),
@@ -73,6 +73,9 @@ Decode decode(
 
     .inDataResultSkippy(ExecuteDataResult),
     .inDataResultSkippySignal(ExecuteWriteReturnAddressToRegisterSignal),
+
+    .outDeactivateExecutePath(DecodeDeactivateExecutePath),
+    .outDeactivateMemoryPath(DecodeDeactivateMemoryPath),
 
     .outOperation(DecodeOperation),
     .outDstAddress(DecodeDstAddress),
@@ -123,8 +126,8 @@ Execute execute(
     .inWriteToRegisterEnable(DecodeWriteToRegisterEnable),
     .inWriteToMemoryEnable(DecodeWriteToMemoryEnable),
 
-    .inDeactivateExecutePath(ControlDeactivateExecute),
-    .inDeactivateMemoryPath(ControlDeactivateMemory),
+    .inDeactivateExecutePath(DecodeDeactivateExecutePath),
+    .inDeactivateMemoryPath(DecodeDeactivateMemoryPath),
 
     .outHoldFromExecute(ExecuteHoldFromExecute),
     .outJMPSignal(ExecuteJMPSignal),

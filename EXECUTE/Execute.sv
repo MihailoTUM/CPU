@@ -1,10 +1,16 @@
 
 module Execute(
+    // control inputs
     input logic         clk,
     input logic         reset,
     input logic         hold,
     input logic         flush,
+    input logic         inWriteToRegisterEnable,
+    input logic         inWriteToMemoryEnable,
+    input logic         inDeactivateExecutePath,
+    input logic         inDeactivateMemoryPath,
 
+    // data inputs
     input logic [3:0]   inOperation,
     input logic [3:0]   inDstAddress,
     input logic [15:0]  inData1,
@@ -13,37 +19,24 @@ module Execute(
     input logic [3:0]   inData2Address,
     input logic [7:0]   inImmediate,
     input logic [15:0]  inInstructionAddress,
-
     input logic [15:0]  inExecuteOutputData,
     input logic [3:0]   inExecuteOutputDataSrc,
     input logic [15:0]  inDataMemoryOutputData,
     input logic [3:0]   inDataMemoryOutputDataSrc,
 
-    input logic         inWriteToRegisterEnable,
-    input logic         inWriteToMemoryEnable,
-
-    input logic         inDeactivateExecutePath,
-    input logic         inDeactivateMemoryPath,
-
-    // --> CONTROL control
+    // control outputs
     output logic        outHoldFromExecute,
     output logic        outJMPSignal,
-
-    // --> DECODE control
     output logic        outWriteReturnAddressToRegisterSignal,
-
-    // --> DATAMEMORY control
     output logic        outWriteToRegisterEnable,
     output logic        outWriteToMemoryEnable,
 
-    // --> DATAMEMORY data
+    // data outputs
     output logic [15:0] outDataResult,
     output logic [15:0] outMemoryAddress,
     output logic [15:0] outFlagRegister,
     output logic [3:0]  outDstAddress,
     output logic [3:0]  outOperation,
-
-    // --> EXECUTE data
     output logic [15:0] outExecuteOutputData,
     output logic [3:0]  outExecuteOutputDataSrc
 );

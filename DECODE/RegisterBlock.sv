@@ -1,8 +1,12 @@
 
 
 module RegisterBlock(
+    // control inputs
     input logic         clk,
+    input logic         inDataResultSkippySignal,
+    input logic         inWriteToRegisterEnable,
 
+    // data inputs
     input logic [3:0]   inOperation,
     input logic [15:0]  inDataToStore,
     input logic [3:0]   inDstAddress,
@@ -10,16 +14,18 @@ module RegisterBlock(
     input logic [3:0]   inData1Address,
     input logic [3:0]   inData2Address,
     input logic [7:0]   inImmediate,
-    input logic         inWriteToRegisterEnable,
-
     input logic [15:0]  inDataResultSkippy,
-    input logic         inDataResultSkippySignal,
 
+    // control outputs
+    output logic        outWriteToRegisterEnable,
+    output logic        outWriteToMemoryEnable,
+    output logic        outDeactivateExecutePath,
+    output logic        outDeactivateMemoryPath,
+
+    // data outputs
     output logic [15:0] outData1,
     output logic [15:0] outData2,
     output logic [7:0]  outImmediate,
-    output logic        outWriteToRegisterEnable,
-    output logic        outWriteToMemoryEnable,
     output logic [3:0]  outDstAddress
 );
 
@@ -43,6 +49,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = 4'hF;
+                outDeactivateExecutePath = 1;
+                outDeactivateMemoryPath = 1;
             end
         4'h9:
             begin
@@ -51,6 +59,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 1;
+                outDeactivateMemoryPath = 1;
             end
         4'hA:
             begin
@@ -60,6 +70,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         4'hB:
             begin
@@ -67,6 +79,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         4'hC:
             begin
@@ -76,6 +90,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         4'hD:
             begin
@@ -85,6 +101,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         4'hE: 
             begin
@@ -94,6 +112,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 1;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         
         4'hF:
@@ -104,6 +124,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 0;
                 outWriteToMemoryEnable = 0;
                 outDstAddress = 4'hF;
+                outDeactivateExecutePath = 1;
+                outDeactivateMemoryPath = 1;
             end
         default: 
             begin
@@ -113,6 +135,8 @@ module RegisterBlock(
                 outWriteToRegisterEnable = 1;
                 outWriteToMemoryEnable = 1;
                 outDstAddress = inDstAddress;
+                outDeactivateExecutePath = 0;
+                outDeactivateMemoryPath = 0;
             end
         endcase
     end

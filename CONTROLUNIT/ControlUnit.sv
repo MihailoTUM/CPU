@@ -18,9 +18,6 @@ module ControlUnit(
     output logic        outHoldDataMemory,
     output logic        outFlushDataMemory,
 
-    output logic        outDeactivateExecutePath,
-    output logic        outDeactivateMemoryPath,
-
     output logic [15:0] outInstructionAddress
 );
     typedef enum logic [2:0] { 
@@ -98,8 +95,6 @@ module ControlUnit(
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
             reset_2:
                 begin
@@ -111,8 +106,6 @@ module ControlUnit(
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
             run:
                 begin
@@ -124,8 +117,6 @@ module ControlUnit(
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
             hold_dataMemory:
                 begin
@@ -137,8 +128,6 @@ module ControlUnit(
                     outHoldDataMemory = 1;
                     outFlushDataMemory = 0;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
             hold_execute:
                 begin
@@ -150,8 +139,6 @@ module ControlUnit(
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 0;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
             jump:
                 begin
@@ -163,8 +150,6 @@ module ControlUnit(
                     outHoldDataMemory = 0;
                     outFlushDataMemory = 1;
 
-                    outDeactivateExecutePath = 0;
-                    outDeactivateMemoryPath = 0;
                 end
         endcase
     end

@@ -1,19 +1,19 @@
 
 module PipelineRegisterDE(
-    input logic clk,
-    input logic reset,
-    input logic hold,
-    input logic flush,
+    input logic         clk,
+    input logic         reset,
+    input logic         hold,
+    input logic         flush,
 
-    input logic [15:0] inInstructionAddress,
-    input logic [15:0] inInstruction,
+    input logic [15:0]  inInstructionAddress,
+    input logic [15:0]  inInstruction,
 
     output logic [15:0] outInstructionAddress,
-    output logic [3:0] outOperation,
-    output logic [3:0] outDstAddress,
-    output logic [3:0] outData1Address,
-    output logic [3:0] outData2Address,
-    output logic [7:0] outImmediate
+    output logic [3:0]  outOperation,
+    output logic [3:0]  outDstAddress,
+    output logic [3:0]  outData1Address,
+    output logic [3:0]  outData2Address,
+    output logic [7:0]  outImmediate
 );
     always_ff @(posedge clk)
         begin 

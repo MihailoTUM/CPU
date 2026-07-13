@@ -1,20 +1,28 @@
 
 
 module Decode(
+    // control inputs
     input logic         clk,
     input logic         reset,
     input logic         hold,
     input logic         flush,
+    input logic         inDataResultSkippySignal,
+    input logic         inWriteToRegisterEnable,
 
+    // data inputs
     input logic [15:0]  inInstructionAddress,
     input logic [15:0]  inInstruction,
     input logic [15:0]  inDataToStore,
     input logic [3:0]   inWriteBackDstAddress,
-    input logic         inWriteToRegisterEnable,
-
     input logic [15:0]  inDataResultSkippy,
-    input logic         inDataResultSkippySignal,
 
+    // control outputs
+    output logic        outWriteToRegisterEnable,
+    output logic        outWriteToMemoryEnable,
+    output logic        outDeactivateExecutePath,
+    output logic        outDeactivateMemoryPath,
+
+    // data outputs
     output logic [3:0]  outOperation,
     output logic [3:0]  outDstAddress,
     output logic [15:0] outData1,
@@ -22,10 +30,7 @@ module Decode(
     output logic [3:0]  outData1Address,
     output logic [3:0]  outData2Address,
     output logic [7:0]  outImmediate,
-    output logic [15:0] outInstructionAddress,
-    output logic        outWriteToRegisterEnable,
-    output logic        outWriteToMemoryEnable
-
+    output logic [15:0] outInstructionAddress
 );
     logic [3:0] localData1Address;
     logic [3:0] localData2Address;
@@ -63,6 +68,9 @@ module Decode(
 
         .inDataResultSkippy(inDataResultSkippy),
         .inDataResultSkippySignal(inDataResultSkippySignal),
+
+        .outDeactivateExecutePath(outDeactivateExecutePath),
+        .outDeactivateMemoryPath(outDeactivateMemoryPath),
 
         .outData1(outData1),
         .outData2(outData2),
